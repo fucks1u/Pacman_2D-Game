@@ -33,7 +33,7 @@ public class Main extends JFrame implements KeyListener {
 
         setTitle("Game");
         setVisible(true);
-        setSize(800, 800);
+        setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFocusable(true);
