@@ -1,9 +1,14 @@
-package src.main.mvc.model.character;
+package main.mvc.model.character;
 
 import java.awt.Point;
 
 public abstract class CharacterModel {
   private Point position;
+
+  public CharacterModel(Point position) {
+    this.position = position;
+  }
+
 
   public Point getPosition() {
     return this.position;

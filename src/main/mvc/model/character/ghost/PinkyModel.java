@@ -1,11 +1,13 @@
-package src.main.mvc.model.character.ghost;
+package main.mvc.model.character.ghost;
 
-import src.main.mvc.model.character.GhostModel;
-import src.main.mvc.model.character.PacmanModel;
+import java.awt.Point;
+
+import main.mvc.model.character.GhostModel;
+import main.mvc.model.character.PacmanModel;
 
 public class PinkyModel extends GhostModel {
-  public PinkyModel() {
-    super("Pinky");
+  public PinkyModel(Point position) {
+    super("Pinky", position);
   }
 
   @Override

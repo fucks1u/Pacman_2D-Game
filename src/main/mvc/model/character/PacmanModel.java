@@ -1,9 +1,12 @@
-package src.main.mvc.model.character;
+package main.mvc.model.character;
+
+import java.awt.Point;
 
 public class PacmanModel extends CharacterModel {
   private int lives;
 
-  public PacmanModel() {
+  public PacmanModel(Point position) {
+    super(position);
     this.lives = 0;
   }
 

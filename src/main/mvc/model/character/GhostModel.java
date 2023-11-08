@@ -1,10 +1,13 @@
-package src.main.mvc.model.character;
+package main.mvc.model.character;
+
+import java.awt.Point;
 
 public abstract class GhostModel extends CharacterModel {
   public static boolean vulnerable = false;
   private String name;
 
-  public GhostModel(String name) {
+  public GhostModel(String name, Point position) {
+    super(position);
     this.name = name;
   }
 
