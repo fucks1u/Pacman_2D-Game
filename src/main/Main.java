@@ -1,4 +1,4 @@
-package src.main.mvc;
+package src.main;
 
 public class Main {
   
