@@ -10,7 +10,7 @@ import javax.swing.JLabel;
  */
 public class SubtitleMenuPanel extends JPanel {
     /**
-     * Constructor of the SubtitleMenuPanel class
+     * Constructor of the SubtitleMenuPanel class.
      */
     public SubtitleMenuPanel() {
         JLabel label = new JLabel("EPITECH SPECIAL EDITION");

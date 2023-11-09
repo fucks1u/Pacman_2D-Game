@@ -12,9 +12,9 @@ import java.awt.GridLayout;
  */
 public class ButtonsMenuPanel extends JPanel {
     /**
-     * Constructor of the ButtonsMenuPanel class
-     * It creates the buttons and add them to the panel
-     * It also sets the background color of the panel
+     * Constructor of the ButtonsMenuPanel class.
+     * It creates the buttons and add them to the panel.
+     * It also sets the background color of the panel.
      * The action listener of each button is manage by the JFrame parent.
      */
     public ButtonsMenuPanel() {

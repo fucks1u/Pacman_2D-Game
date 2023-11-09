@@ -35,10 +35,8 @@ public class MenuFrame extends JFrame implements ActionListener {
         super("Pacman Game");
         displayMenu();
         setLocation((
-                Toolkit.getDefaultToolkit().getScreenSize().width
-                        -getSize().width)/2,
-                (Toolkit.getDefaultToolkit().getScreenSize().height
-                        -getSize().height) / 2);
+                Toolkit.getDefaultToolkit().getScreenSize().width -getSize().width)/2,
+                (Toolkit.getDefaultToolkit().getScreenSize().height -getSize().height) / 2);
     }
 
     /**
@@ -47,16 +45,16 @@ public class MenuFrame extends JFrame implements ActionListener {
      * The interface when you launch the game.
      */
     public void displayMenu() {
-        //create JPanel to add all the components
+        //create JPanel to add all the components.
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        //JPanel for the title -> "PAC-MAN"
+        //JPanel for the title -> "PAC-MAN".
         JPanel paneltitle = new TitleMenuPanel();
         paneltitle.setPreferredSize(new Dimension(800, 180));
 
-        //JPanel for the subtitle -> "EPITECH SPECIAL EDITION"
+        //JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
         JPanel subtitlepanel = new SubtitleMenuPanel();
         subtitlepanel.setPreferredSize(new Dimension(600, 50));
 

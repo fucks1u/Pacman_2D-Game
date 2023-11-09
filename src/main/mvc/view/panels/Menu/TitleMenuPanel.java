@@ -15,8 +15,8 @@ import java.awt.FontFormatException;
 
 public class TitleMenuPanel extends JPanel {
     /**
-     * Constructor of the TitleMenuPanel class
-     * It contains a JLabel with the title of the game
+     * Constructor of the TitleMenuPanel class.
+     * It contains a JLabel with the title of the game.
      */
     public TitleMenuPanel() {
         Font customFont = loadCustomFont();
@@ -36,7 +36,7 @@ public class TitleMenuPanel extends JPanel {
     /**
      * This method loads the custom font.
      *
-     * @return Return the custom font for PACMAN
+     * @return Return the custom font for PACMAN.
      */
     private Font loadCustomFont() {
         Font customFontPacman = null;
