@@ -1,9 +1,12 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.view.panels.Game.GamePanel;
+import src.main.mvc.view.panels.Game.HudPanel;
 import src.main.mvc.view.panels.Menu.ButtonsMenuPanel;
 import src.main.mvc.view.panels.Menu.CreditMenuPanel;
 import src.main.mvc.view.panels.Menu.SubtitleMenuPanel;
 import src.main.mvc.view.panels.Menu.TitleMenuPanel;
+import src.main.mvc.view.panels.Score.ScorePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +22,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     public MenuFrame() {
         super("Pacman Game");
         displayMenu();
+        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }
 
     public void displayMenu(){
@@ -62,16 +66,11 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public void displayGame(){
         //create JPanel to add all the components
-        JPanel mainpanel = new JPanel();
-        mainpanel.setLayout(new FlowLayout());
+        JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        //JPanel for the title -> "PAC-MAN"
-        JPanel panelTitle = new TitleMenuPanel();
-        panelTitle.setPreferredSize(new Dimension(800, 180));
-
-
-        mainpanel.add(panelTitle);
+        mainpanel.add(new GamePanel());
+        mainpanel.add(new HudPanel());
 
         add(mainpanel);
         setSize(800, 800);
@@ -82,7 +81,17 @@ public class MenuFrame extends JFrame implements ActionListener {
     }
 
     public void displayScore(){
+        JPanel mainpanel = new JPanel(new FlowLayout());
+        ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
+        mainpanel.add(new ScorePanel());
+
+        add(mainpanel);
+        setSize(800, 800);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        setFocusable(true);
     }
 
     @Override
