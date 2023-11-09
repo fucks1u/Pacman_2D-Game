@@ -1,4 +1,4 @@
-package src.main.mvc.view.frames;
+package main.mvc.view.frames;
 
 import javax.swing.*;
 
@@ -7,7 +7,7 @@ public class MenuFrame extends JFrame {
     public MenuFrame() {
         super("Pacman");
 
-        add(new src.main.mvc.view.panels.TitleMenuPanel());
+        add(new main.mvc.view.panels.TitleMenuPanel());
 
         setSize(800, 800);
         setResizable(false);
