@@ -25,6 +25,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }
 
+    /**
+     * This method displays the menu of the game.
+     * It contains the title and the subtitle of the game and buttons.
+     * The interface when you launch the game.
+     */
     public void displayMenu(){
         //create JPanel to add all the components
         JPanel mainpanel = new JPanel();
@@ -32,29 +37,29 @@ public class MenuFrame extends JFrame implements ActionListener {
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
         //JPanel for the title -> "PAC-MAN"
-        JPanel panelTitle = new TitleMenuPanel();
-        panelTitle.setPreferredSize(new Dimension(800, 180));
+        JPanel paneltitle = new TitleMenuPanel();
+        paneltitle.setPreferredSize(new Dimension(800, 180));
 
         //JPanel for the subtitle -> "EPITECH SPECIAL EDITION"
-        JPanel SubtitlePanel = new SubtitleMenuPanel();
-        SubtitlePanel.setPreferredSize(new Dimension(600, 50));
+        JPanel subtitlepanel = new SubtitleMenuPanel();
+        subtitlepanel.setPreferredSize(new Dimension(600, 50));
 
-        JPanel ButtonsPanel = new ButtonsMenuPanel();
-        ButtonsPanel.setPreferredSize(new Dimension(400,350));
-        ButtonsPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        for(Component c : ButtonsPanel.getComponents()) {
+        JPanel buttonspanel = new ButtonsMenuPanel();
+        buttonspanel.setPreferredSize(new Dimension(400,350));
+        buttonspanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        for(Component c : buttonspanel.getComponents()) {
             ((JButton) c).addActionListener(this);
         }
 
-        JPanel CreditPanel = new CreditMenuPanel();
-        CreditPanel.setPreferredSize(new Dimension(800, 185));
-        CreditPanel.setBorder(BorderFactory.createEmptyBorder(160, 420, 0, 0));
+        JPanel creditpanel = new CreditMenuPanel();
+        creditpanel.setPreferredSize(new Dimension(800, 185));
+        creditpanel.setBorder(BorderFactory.createEmptyBorder(160, 420, 0, 0));
 
-        mainpanel.add(panelTitle);
-        mainpanel.add(SubtitlePanel);
+        mainpanel.add(paneltitle);
+        mainpanel.add(subtitlepanel);
         mainpanel.setBackground(Color.BLACK);
-        mainpanel.add(ButtonsPanel);
-        mainpanel.add(CreditPanel);
+        mainpanel.add(buttonspanel);
+        mainpanel.add(creditpanel);
 
         add(mainpanel);
         setSize(800, 800);
@@ -64,6 +69,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         setFocusable(true);
     }
 
+    /**
+     * This method displays the game.
+     * It contains the game and the HUD.
+     * The interface when you click on the "Play" button.
+     */
     public void displayGame(){
         //create JPanel to add all the components
         JPanel mainpanel = new JPanel(new FlowLayout());
@@ -80,6 +90,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         setFocusable(true);
     }
 
+    /**
+     * This method displays the interface for the scoreboard.
+     * It displays the scoreboard.
+     * The interface when you click on the "Score" button.
+     */
     public void displayScore(){
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
@@ -94,6 +109,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         setFocusable(true);
     }
 
+    /**
+     * This method is used to know which button is clicked.
+     * It is used to know which action to do.
+     * @param actionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String key = actionEvent.getActionCommand();
