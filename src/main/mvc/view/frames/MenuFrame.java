@@ -28,9 +28,14 @@ public class MenuFrame extends JFrame {
         //JPanel for the subtitle -> "EPITECH SPECIAL EDITION"
         JPanel SubtitlePanel = new SubtitleMenuPanel();
         SubtitlePanel.setPreferredSize(new Dimension(600, 50));
-        mainpanel.add(SubtitlePanel);
 
+        mainpanel.add(SubtitlePanel);
         mainpanel.setBackground(Color.BLACK);
+
+        JPanel ButtonsPanel = new ButtonsMenuPanel();
+        ButtonsPanel.setPreferredSize(new Dimension(400,350));
+        ButtonsPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        mainpanel.add(ButtonsPanel);
 
         add(mainpanel);
         setSize(800, 800);
