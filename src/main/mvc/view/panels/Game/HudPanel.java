@@ -1,7 +1,8 @@
 package src.main.mvc.view.panels.Game;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JPanel;
 
 public class HudPanel extends JPanel {
     public HudPanel(){

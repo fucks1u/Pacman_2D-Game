@@ -1,7 +1,9 @@
 package src.main.mvc.view.panels.Menu;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.Font;
+import javax.swing.JLabel;
 
 /**
  * This class is a JPanel that contains the subtitle of the game.

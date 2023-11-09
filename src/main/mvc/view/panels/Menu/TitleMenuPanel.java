@@ -1,8 +1,13 @@
 package src.main.mvc.view.panels.Menu;
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 import java.io.File;
 import java.io.IOException;
+import java.awt.FontFormatException;
 
 /**
  * This class is a JPanel that contains the title of the game.
