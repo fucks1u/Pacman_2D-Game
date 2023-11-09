@@ -14,6 +14,10 @@ import java.awt.FontFormatException;
  */
 
 public class TitleMenuPanel extends JPanel {
+    /**
+     * Constructor of the TitleMenuPanel class
+     * It contains a JLabel with the title of the game
+     */
     public TitleMenuPanel() {
         Font customFont = loadCustomFont();
         JLabel label = new JLabel("PAC-MAN");

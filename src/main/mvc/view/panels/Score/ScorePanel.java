@@ -5,11 +5,11 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 /**
- * This class is a JPanel to show the ScoreBoard of all registered users
+ * This class is a JPanel to show the ScoreBoard of all registered users.
  */
 public class ScorePanel extends JPanel {
     /**
-     * Constructor of the ScorePanel class
+     * Constructor of the ScorePanel class.
      */
     public ScorePanel() {
         this.setBackground(Color.BLUE);

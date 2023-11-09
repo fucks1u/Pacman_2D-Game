@@ -34,8 +34,11 @@ public class MenuFrame extends JFrame implements ActionListener {
     public MenuFrame() {
         super("Pacman Game");
         displayMenu();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2,
-                (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        setLocation((
+                Toolkit.getDefaultToolkit().getScreenSize().width
+                        -getSize().width)/2,
+                (Toolkit.getDefaultToolkit().getScreenSize().height
+                        -getSize().height) / 2);
     }
 
     /**
@@ -125,8 +128,6 @@ public class MenuFrame extends JFrame implements ActionListener {
     /**
      * This method is used to know which button is clicked.
      * It is used to know which action to do.
-     *
-     * @param actionEvent
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -143,6 +144,8 @@ public class MenuFrame extends JFrame implements ActionListener {
                 break;
             case "Quit":
                 System.exit(0);
+                break;
+            default:
                 break;
         }
     }
