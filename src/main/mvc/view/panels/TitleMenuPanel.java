@@ -1,9 +1,12 @@
 package src.main.mvc.view.panels;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+
+/**
+ * This class is a JPanel that contains the title of the game.
+ */
 
 public class TitleMenuPanel extends JPanel {
     public TitleMenuPanel() {
@@ -21,6 +24,10 @@ public class TitleMenuPanel extends JPanel {
         this.add(label);
     }
 
+    /**
+     * This method loads the custom font.
+     * @return Return the custom font for PACMAN
+     */
     private Font loadCustomFont() {
         Font customFontPacman = null;
         try {
