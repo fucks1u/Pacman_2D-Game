@@ -7,11 +7,12 @@ import java.io.IOException;
 public class TitleMenuPanel extends JPanel {
     public TitleMenuPanel() {
         Font customFont = loadCustomFont();
-        // Créez un JLabel avec le texte souhaité et la police personnalisée
-        JLabel label = new JLabel("PACMAN");
+        JLabel label = new JLabel("PAC-MAN");
+        label.setForeground(Color.YELLOW);
+        this.setBackground(Color.RED);
+
         label.setFont(customFont.deriveFont(100f));
 
-        // Ajoutez le JLabel à votre JPanel
         this.add(label);
     }
 
@@ -24,7 +25,6 @@ public class TitleMenuPanel extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        // Ajoutez la police au système de police
         return customFontPacman;
     }
 }

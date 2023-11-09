@@ -1,12 +1,10 @@
 package src.main.mvc.view.frames;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+
 
 public class MenuFrame extends JFrame {
-    public MenuFrame() throws IOException, FontFormatException {
+    public MenuFrame() {
         super("Pacman");
 
         add(new src.main.mvc.view.panels.TitleMenuPanel());
