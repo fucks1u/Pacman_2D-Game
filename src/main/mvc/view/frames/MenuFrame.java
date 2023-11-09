@@ -6,19 +6,23 @@ import src.main.mvc.view.panels.Menu.ButtonsMenuPanel;
 import src.main.mvc.view.panels.Menu.CreditMenuPanel;
 import src.main.mvc.view.panels.Menu.SubtitleMenuPanel;
 import src.main.mvc.view.panels.Menu.TitleMenuPanel;
+import src.main.mvc.view.panels.Score.ButtonNewPlayer;
+import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * This class is a JFrame that contains the menu of the game.
@@ -89,7 +93,6 @@ public class MenuFrame extends JFrame implements ActionListener {
      * The interface when you click on the "Play" button.
      */
     public void displayGame() {
-        //create JPanel to add all the components
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
@@ -110,12 +113,32 @@ public class MenuFrame extends JFrame implements ActionListener {
      * The interface when you click on the "Score" button.
      */
     public void displayScore() {
-        JPanel mainpanel = new JPanel(new FlowLayout());
-        ((FlowLayout) mainpanel.getLayout()).setVgap(0);
+        JPanel mainpanel = new JPanel();
+        mainpanel.setLayout(new BoxLayout(mainpanel, BoxLayout.Y_AXIS));
+        mainpanel.setBorder(null);
 
         mainpanel.add(new ScorePanel());
+        LeaderboardPanel leaderboardPanel = new LeaderboardPanel();
+        mainpanel.add(leaderboardPanel);
 
-        add(mainpanel);
+        JScrollPane scroll = new JScrollPane(leaderboardPanel);
+        ButtonNewPlayer buttonnewplayer = new ButtonNewPlayer();
+        for (Component c : buttonnewplayer.getComponents()) {
+            ((JButton) c).addActionListener(this);
+        }
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(mainpanel, BorderLayout.NORTH);
+        getContentPane().add(scroll, BorderLayout.CENTER);
+        getContentPane().add(buttonnewplayer, BorderLayout.SOUTH);
+
+        mainpanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+        scroll.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+        scroll.getVerticalScrollBar().setUnitIncrement(12);
+        buttonnewplayer.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK));
+
+        pack();
+
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -123,6 +146,30 @@ public class MenuFrame extends JFrame implements ActionListener {
         setFocusable(true);
     }
 
+    /**
+     * This method adds a player to the leaderboard.
+     * It writes in the file leaderboard.txt the name given in parameter.
+     * @param name
+     */
+    public void addPlayer(String name){
+        File file = new File("src/main/resources/leaderboard.txt");
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = reader.readLine();
+
+                if (line != null) {
+                    System.out.println("pas vide");
+                } else {
+                    System.out.println("vide.");
+                }
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        } else {
+            System.out.println("pas de fichier");
+        }
+    }
     /**
      * This method is used to know which button is clicked.
      * It is used to know which action to do.
@@ -132,6 +179,16 @@ public class MenuFrame extends JFrame implements ActionListener {
         String key = actionEvent.getActionCommand();
 
         switch (key) {
+            case "New Player":
+                String nom = JOptionPane.showInputDialog(this,"Enter your name :");
+                this.addPlayer(nom);
+                //TODO: add player to leaderboard file
+                //TODO: display new leaderboard
+                break;
+            case "Back":
+                this.getContentPane().removeAll();
+                this.displayMenu();
+                break;
             case "Play":
                 this.getContentPane().removeAll();
                 this.displayGame();
