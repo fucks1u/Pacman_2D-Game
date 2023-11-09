@@ -6,7 +6,7 @@
 
 ## Commit Convention  
 
-[Angular conventionnal commit](https://www.conventionalcommits.org/en/v1.0.0-beta.4/#summary)
+[Angular conventionnal commit](https://github.com/angular/angular/blob/68a6a07/CONTRIBUTING.md#commit)
 
 ## Installation
 
