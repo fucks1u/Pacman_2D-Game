@@ -31,6 +31,7 @@ public class TitleMenuPanel extends JPanel {
 
     /**
      * This method loads the custom font.
+     *
      * @return Return the custom font for PACMAN
      */
     private Font loadCustomFont() {

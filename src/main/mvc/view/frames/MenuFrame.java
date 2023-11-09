@@ -29,7 +29,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     public MenuFrame() {
         super("Pacman Game");
         displayMenu();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }
 
     /**
@@ -37,7 +37,7 @@ public class MenuFrame extends JFrame implements ActionListener {
      * It contains the title and the subtitle of the game and buttons.
      * The interface when you launch the game.
      */
-    public void displayMenu(){
+    public void displayMenu() {
         //create JPanel to add all the components
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
@@ -52,9 +52,9 @@ public class MenuFrame extends JFrame implements ActionListener {
         subtitlepanel.setPreferredSize(new Dimension(600, 50));
 
         JPanel buttonspanel = new ButtonsMenuPanel();
-        buttonspanel.setPreferredSize(new Dimension(400,350));
+        buttonspanel.setPreferredSize(new Dimension(400, 350));
         buttonspanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        for(Component c : buttonspanel.getComponents()) {
+        for (Component c : buttonspanel.getComponents()) {
             ((JButton) c).addActionListener(this);
         }
 
@@ -81,7 +81,7 @@ public class MenuFrame extends JFrame implements ActionListener {
      * It contains the game and the HUD.
      * The interface when you click on the "Play" button.
      */
-    public void displayGame(){
+    public void displayGame() {
         //create JPanel to add all the components
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
@@ -102,7 +102,7 @@ public class MenuFrame extends JFrame implements ActionListener {
      * It displays the scoreboard.
      * The interface when you click on the "Score" button.
      */
-    public void displayScore(){
+    public void displayScore() {
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
@@ -119,13 +119,14 @@ public class MenuFrame extends JFrame implements ActionListener {
     /**
      * This method is used to know which button is clicked.
      * It is used to know which action to do.
+     *
      * @param actionEvent
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String key = actionEvent.getActionCommand();
 
-        switch(key){
+        switch (key) {
             case "Play":
                 this.getContentPane().removeAll();
                 this.displayGame();
