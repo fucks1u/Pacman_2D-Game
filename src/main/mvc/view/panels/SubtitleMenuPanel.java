@@ -9,12 +9,10 @@ import java.awt.*;
 public class SubtitleMenuPanel extends JPanel {
     public SubtitleMenuPanel() {
         JLabel label = new JLabel("EPITECH SPECIAL EDITION");
+        label.setFont(new Font("Arial", Font.BOLD, 35));
         label.setForeground(Color.YELLOW);
 
-        this.setBackground(Color.BLACK);
-
-        label.setFont(new Font("Arial", Font.BOLD, 35));
-
+        this.setBackground(Color.RED);
         this.add(label);
     }
 }
