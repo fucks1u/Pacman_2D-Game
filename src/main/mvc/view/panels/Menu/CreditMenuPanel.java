@@ -10,8 +10,8 @@ import javax.swing.JLabel;
  */
 public class CreditMenuPanel extends JPanel {
     /**
-     * Constructor of the CreditMenuPanel class
-     * It contains a JLabel with our names
+     * Constructor of the CreditMenuPanel class.
+     * It contains a JLabel with our names.
      */
     public CreditMenuPanel() {
         JLabel label = new JLabel("CREDITS : Ariirau FUCKS / Thomas LOUBAT");
