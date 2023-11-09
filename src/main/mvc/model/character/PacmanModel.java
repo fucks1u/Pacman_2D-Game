@@ -1,4 +1,4 @@
-package main.mvc.model.character;
+package src.main.mvc.model.character;
 
 import java.awt.Point;
 

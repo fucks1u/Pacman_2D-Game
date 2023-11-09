@@ -1,9 +1,6 @@
-package main;
+package src.main;
 
-import main.mvc.view.frames.MenuFrame;
-
-import java.awt.*;
-import java.io.IOException;
+import src.main.mvc.view.frames.MenuFrame;
 
 public class Main {
     public static void main(String[] args) {

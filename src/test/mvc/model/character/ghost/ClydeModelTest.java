@@ -1,4 +1,4 @@
-package test.mvc.model.character.ghost;
+package src.test.mvc.model.character.ghost;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,8 +9,8 @@ import java.awt.Point;
 
 import org.junit.jupiter.api.Test;
 
-import main.mvc.model.character.GhostModel;
-import main.mvc.model.character.ghost.ClydeModel;
+import src.main.mvc.model.character.GhostModel;
+import src.main.mvc.model.character.ghost.ClydeModel;
 
 // TODO: add move() test when implemented
 

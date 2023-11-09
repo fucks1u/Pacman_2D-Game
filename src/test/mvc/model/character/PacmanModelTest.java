@@ -1,4 +1,4 @@
-package test.mvc.model.character;
+package src.test.mvc.model.character;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,7 +7,7 @@ import java.awt.Point;
 
 import org.junit.jupiter.api.Test;
 
-import main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.character.PacmanModel;
 
 public class PacmanModelTest {
   PacmanModel pacman = new PacmanModel(new Point(10, 10));
