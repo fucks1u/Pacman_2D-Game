@@ -1,13 +1,19 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.view.panels.TitleMenuPanel;
+
 import javax.swing.*;
+import java.awt.*;
 
 
 public class MenuFrame extends JFrame {
     public MenuFrame() {
         super("Pacman");
+        this.setLayout(new BorderLayout());
 
-        add(new src.main.mvc.view.panels.TitleMenuPanel());
+        JPanel panelTitle = new TitleMenuPanel();
+        panelTitle.setPreferredSize(new Dimension(800, 180));
+        add(panelTitle, BorderLayout.NORTH);
 
         setSize(800, 800);
         setResizable(false);
