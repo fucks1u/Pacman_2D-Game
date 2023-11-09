@@ -15,11 +15,11 @@ public abstract class CharacterModel {
   }
 
   public void moveUp() {
-    this.position.setLocation(this.position.getX(), this.position.getY() + 1);
+    this.position.setLocation(this.position.getX(), this.position.getY() - 1);
   }
 
   public void moveDown() {
-    this.position.setLocation(this.position.getX(), this.position.getY() - 1);
+    this.position.setLocation(this.position.getX(), this.position.getY() + 1);
   }
 
   public void moveLeft() {

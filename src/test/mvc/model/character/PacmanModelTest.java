@@ -50,7 +50,7 @@ public class PacmanModelTest {
     pacman.moveLeft();
     pacman.moveLeft();
 
-    assertEquals(posX - 2, posX);
+    assertEquals(posX - 2, (int) pacman.getPosition().getX());
   }
 
   @Test

@@ -26,6 +26,7 @@ public class ClydeModelTest {
   void enableVulnerability() {
     GhostModel.setVulnerable(true);
     assertTrue(GhostModel.isVulnerable());
+    GhostModel.setVulnerable(false);
   }
 
   @Test
@@ -67,7 +68,7 @@ public class ClydeModelTest {
     clyde.moveLeft();
     clyde.moveLeft();
 
-    assertEquals(posX - 2, posX);
+    assertEquals(posX - 2, (int) clyde.getPosition().getX());
   }
 
   @Test

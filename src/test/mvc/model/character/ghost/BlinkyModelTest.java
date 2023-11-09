@@ -26,6 +26,7 @@ public class BlinkyModelTest {
   void enableVulnerability() {
     GhostModel.setVulnerable(true);
     assertTrue(GhostModel.isVulnerable());
+    GhostModel.setVulnerable(false);
   }
 
   @Test
@@ -67,7 +68,7 @@ public class BlinkyModelTest {
     blinky.moveLeft();
     blinky.moveLeft();
 
-    assertEquals(posX - 2, posX);
+    assertEquals(posX - 2, (int) blinky.getPosition().getX());
   }
 
   @Test

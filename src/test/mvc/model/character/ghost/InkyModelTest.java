@@ -26,6 +26,7 @@ public class InkyModelTest {
   void enableVulnerability() {
     GhostModel.setVulnerable(true);
     assertTrue(GhostModel.isVulnerable());
+    GhostModel.setVulnerable(false);
   }
 
   @Test
@@ -67,7 +68,7 @@ public class InkyModelTest {
     inky.moveLeft();
     inky.moveLeft();
 
-    assertEquals(posX - 2, posX);
+    assertEquals(posX - 2, (int) inky.getPosition().getX());
   }
 
   @Test
