@@ -1,4 +1,4 @@
-package src.main.mvc.view.panels;
+package src.main.mvc.view.panels.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
