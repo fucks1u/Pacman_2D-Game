@@ -26,10 +26,16 @@ import java.awt.event.ActionListener;
  * The interface when you launch the game.
  */
 public class MenuFrame extends JFrame implements ActionListener {
+    /**
+     * This constructor creates the JFrame.
+     * It calls the method displayMenu().
+     * Call displayMenu to show the default Menu.
+     */
     public MenuFrame() {
         super("Pacman Game");
         displayMenu();
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2,
+                (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }
 
     /**

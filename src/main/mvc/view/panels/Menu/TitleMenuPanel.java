@@ -37,7 +37,8 @@ public class TitleMenuPanel extends JPanel {
     private Font loadCustomFont() {
         Font customFontPacman = null;
         try {
-            customFontPacman = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/PAC-FONT.TTF"));
+            customFontPacman = Font.createFont(Font.TRUETYPE_FONT,
+                    new File("src/main/resources/font/PAC-FONT.TTF"));
         } catch (FontFormatException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
