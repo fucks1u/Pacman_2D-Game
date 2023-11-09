@@ -17,13 +17,4 @@ public abstract class ItemModel {
   public int getScore() {
     return score;
   }
-
-  /**
-   * Sets the score of the item.
-   *
-   * @param score the score to set
-   */
-  public void setScore(int score) {
-    this.score = score;
-  }
 }

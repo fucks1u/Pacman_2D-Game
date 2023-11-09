@@ -20,13 +20,4 @@ public abstract class FruitModel extends ItemModel {
   public int getSpawnAt() {
     return this.spawnAt;
   }
-
-  /**
-   * Sets the spawn location of the fruit.
-   * 
-   * @param spawnAt the spawn location of the fruit
-   */
-  public void setSpawnAt(int spawnAt) {
-    this.spawnAt = spawnAt;
-  }
 }
