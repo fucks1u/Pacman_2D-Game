@@ -1,4 +1,9 @@
-*.class
+# IDE
 .idea
-/out/
+.vscode
+
+# class & log files
+*.class
 dist
+/out/
+logs
