@@ -1,5 +1,6 @@
 package src.main.mvc.view.panels;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +10,13 @@ public class TitleMenuPanel extends JPanel {
         Font customFont = loadCustomFont();
         JLabel label = new JLabel("PAC-MAN");
         label.setForeground(Color.YELLOW);
+
+        label.setBorder(BorderFactory.createEmptyBorder(17, 10, 10, 10));
+        this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
+
         this.setBackground(Color.RED);
 
-        label.setFont(customFont.deriveFont(100f));
+        label.setFont(customFont.deriveFont(120f));
 
         this.add(label);
     }
