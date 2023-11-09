@@ -1,8 +1,8 @@
-package main.mvc.model.item;
+package src.main.mvc.model.item;
 
 import java.util.concurrent.TimeUnit;
 
-import main.mvc.model.character.GhostModel;
+import src.main.mvc.model.character.GhostModel;
 
 /**
  * Represents a big dot item in the game. When Pac-Man eats a big dot, all

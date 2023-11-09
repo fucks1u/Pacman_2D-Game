@@ -1,4 +1,4 @@
-package main.mvc.model.item;
+package src.main.mvc.model.item;
 
 /**
  * Represents a model for a dot item with a score of 10.

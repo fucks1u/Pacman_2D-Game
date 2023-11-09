@@ -1,4 +1,4 @@
-package main.mvc.model.item;
+package src.main.mvc.model.item;
 
 /**
  * This class represents a wall item in the game.

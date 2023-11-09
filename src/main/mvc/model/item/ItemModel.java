@@ -1,4 +1,4 @@
-package main.mvc.model.item;
+package src.main.mvc.model.item;
 
 /**
  * The Item class represents a generic item in the game.

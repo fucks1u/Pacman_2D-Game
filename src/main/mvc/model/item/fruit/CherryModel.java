@@ -1,6 +1,6 @@
-package main.mvc.model.item.fruit;
+package src.main.mvc.model.item.fruit;
 
-import main.mvc.model.item.FruitModel;
+import src.main.mvc.model.item.FruitModel;
 
 /**
  * Represents a model for a cherry fruit item with a score of 100.

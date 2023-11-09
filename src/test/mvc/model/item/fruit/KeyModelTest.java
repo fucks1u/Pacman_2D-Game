@@ -1,10 +1,10 @@
-package test.mvc.model.item.fruit;
+package src.test.mvc.model.item.fruit;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import main.mvc.model.item.fruit.KeyModel;
+import src.main.mvc.model.item.fruit.KeyModel;
 
 /**
  * This class contains unit tests for the {@link KeyModel} class.
