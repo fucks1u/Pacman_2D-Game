@@ -16,12 +16,12 @@ import java.awt.Font;
  * This class is a JPanel to show the ScoreBoard of all registered users.
  * It reads the file leaderboard.txt and displays the players.
  */
-public class LeaderboardPanel extends JPanel {
+public class LeaderboardPanel extends JPanel{
     /**
      * Constructor of the LeaderboardPanel class.
      * It creates the JPanel and adds the players.
      */
-    public LeaderboardPanel() {
+    public LeaderboardPanel(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.BLACK);
 

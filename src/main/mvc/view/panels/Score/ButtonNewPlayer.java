@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * The first button is to go back to the menu.
  * The second button is to create a new player.
  */
-public class ButtonNewPlayer extends JPanel {
+public class ButtonNewPlayer extends JPanel{
 
     /**
      * Constructor of the ButtonNewPlayer class.

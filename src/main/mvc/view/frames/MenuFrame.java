@@ -10,7 +10,13 @@ import src.main.mvc.view.panels.Score.ButtonNewPlayer;
 import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -18,11 +24,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Toolkit;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 /**
  * This class is a JFrame that contains the menu of the game.
@@ -149,6 +151,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     /**
      * This method adds a player to the leaderboard.
      * It writes in the file leaderboard.txt the name given in parameter.
+     *
      * @param name
      */
     public void addPlayer(String name) {
@@ -194,7 +197,7 @@ public class MenuFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         String key = actionEvent.getActionCommand();
 
-        switch (key) {
+        switch(key){
             case "New Player":
                 String name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
                 if(name == null){
@@ -205,7 +208,7 @@ public class MenuFrame extends JFrame implements ActionListener {
                 while(name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")){
                     JOptionPane.showMessageDialog(this, String.format("Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."), "Error", JOptionPane.ERROR_MESSAGE);
                     name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                    if(name == null){
+                    if (name == null) {
                         this.getContentPane().removeAll();
                         this.displayScore();
                         break;
