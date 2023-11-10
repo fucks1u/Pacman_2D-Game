@@ -19,10 +19,10 @@ import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
  * This class is a JFrame that contains the menu of the game.
@@ -38,9 +38,6 @@ public class MenuFrame extends JFrame implements ActionListener {
     public MenuFrame() {
         super("Pacman Game");
         displayMenu();
-        setLocation((
-                Toolkit.getDefaultToolkit().getScreenSize().width -getSize().width)/2,
-                (Toolkit.getDefaultToolkit().getScreenSize().height -getSize().height) / 2);
     }
 
     /**
@@ -83,6 +80,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);
     }
@@ -103,6 +101,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);
     }
@@ -142,6 +141,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
         setFocusable(true);
     }
@@ -151,25 +151,41 @@ public class MenuFrame extends JFrame implements ActionListener {
      * It writes in the file leaderboard.txt the name given in parameter.
      * @param name
      */
-    public void addPlayer(String name){
+    public void addPlayer(String name) {
         File file = new File("src/main/resources/leaderboard.txt");
 
         if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line = reader.readLine();
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String line = reader.readLine();
 
-                if (line != null) {
-                    System.out.println("pas vide");
-                } else {
-                    System.out.println("vide.");
+                    if (line != null) {
+                        try {
+                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                            bw.write("\n" + name + ":0");
+                            bw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                            bw.write(name + ":0");
+                            bw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
                 }
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
+            } else {
+                System.out.println("pas de fichier");
             }
-        } else {
-            System.out.println("pas de fichier");
         }
     }
+
+
     /**
      * This method is used to know which button is clicked.
      * It is used to know which action to do.
@@ -180,11 +196,26 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         switch (key) {
             case "New Player":
-                String nom = JOptionPane.showInputDialog(this,"Enter your name :");
-                this.addPlayer(nom);
-                //TODO: add player to leaderboard file
-                //TODO: display new leaderboard
+                String name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
+                if(name == null){
+                    this.getContentPane().removeAll();
+                    this.displayScore();
+                    break;
+                }
+                while(name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")){
+                    JOptionPane.showMessageDialog(this, String.format("Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."), "Error", JOptionPane.ERROR_MESSAGE);
+                    name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
+                    if(name == null){
+                        this.getContentPane().removeAll();
+                        this.displayScore();
+                        break;
+                    }
+                }
+                this.addPlayer(name);
+                this.getContentPane().removeAll();
+                this.displayScore();
                 break;
+
             case "Back":
                 this.getContentPane().removeAll();
                 this.displayMenu();
