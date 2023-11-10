@@ -1,13 +1,15 @@
 package src.main.mvc.view.panels.Score;
 
+
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JLabel;
 import java.awt.Font;
 
 /**
@@ -43,26 +45,30 @@ public class LeaderboardPanel extends JPanel {
                 String[] parts = line.split(":");
                 if (i == 1) {
                     JLabel label = new JLabel(String.format("%s. %s : %s points!!!", i, parts[0], parts[1]));
-                    label.setFont(new Font("Arial", Font.BOLD, 60));
+                    label.setFont(new Font("Arial", Font.BOLD, 40));
                     label.setForeground(Color.RED);
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
                     add(label);
                     i++;
                 } else if (i == 2) {
                     JLabel label = new JLabel(String.format("%s. %s : %s points!!", i, parts[0], parts[1]));
-                    label.setFont(new Font("Arial", Font.BOLD, 50));
+                    label.setFont(new Font("Arial", Font.BOLD, 35));
                     label.setForeground(Color.CYAN);
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 0, 13, 0));
                     add(label);
                     i++;
                 } else if (i == 3) {
                     JLabel label = new JLabel(String.format("%s. %s : %s points!", i, parts[0], parts[1]));
-                    label.setFont(new Font("Arial", Font.BOLD, 40));
+                    label.setFont(new Font("Arial", Font.BOLD, 30));
                     label.setForeground(Color.ORANGE);
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 0, 11, 0));
                     add(label);
                     i++;
                 } else {
                     JLabel label = new JLabel(String.format("%s. %s : %s points", i, parts[0], parts[1]));
-                    label.setFont(new Font("Arial", Font.BOLD, 30));
+                    label.setFont(new Font("Arial", Font.BOLD, 26));
                     label.setForeground(Color.PINK);
+                    label.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
                     add(label);
                     i++;
                 }
