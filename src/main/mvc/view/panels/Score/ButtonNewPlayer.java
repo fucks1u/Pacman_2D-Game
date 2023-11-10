@@ -7,7 +7,16 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * This class is a JPanel to show two buttons.
+ * The first button is to go back to the menu.
+ * The second button is to create a new player.
+ */
 public class ButtonNewPlayer extends JPanel {
+
+    /**
+     * Constructor of the ButtonNewPlayer class.
+     */
     public ButtonNewPlayer(){
         this.setLayout(null);
 
