@@ -18,16 +18,20 @@ public class MapFactoryController {
    * @param schema the 2D array of characters representing the map
    * @return a 2D array of ItemModel objects representing the map
    */
-  public ItemModel[][] createMapFromSchema(String[] schema) {
+  public ItemModel[][] createMapFromSchema(String[] schema, int rows, int columns) {
     ItemFactoryController factory = new ItemFactoryController();
-    int rows = 31;
-    int columns = 28;
 
     ItemModel[][] map = new ItemModel[rows][columns];
 
     try {
-      if (schema.length != rows || schema[0].length() != columns) {
+      if (schema.length != rows) {
         throw new BadDimensionsException("Wrong dimensions, check the map schema.");
+      }
+
+      for (int i = 0; i < columns; i++) {
+        if (schema[i].length() != columns) {
+          throw new BadDimensionsException("Wrong dimensions, check the map schema.");
+        }
       }
 
       for (int i = 0; i < schema.length && schema.length == rows; i++) {

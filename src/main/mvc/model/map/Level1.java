@@ -24,7 +24,7 @@ public class Level1 extends MapModel {
     MapFactoryController factory = new MapFactoryController();
     String[] schema = {
         "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
-        "wddddddddddddwwddddddddddddw",
+        "wdddddddddddwwddddddddddddw",
         "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",
         "wDwwwwdwwwwwdwwdwwwwwdwwwwDw",
         "wddddddddddddddddddddddddddw",
@@ -56,6 +56,6 @@ public class Level1 extends MapModel {
         "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
     };
 
-    return factory.createMapFromSchema(schema);
+    return factory.createMapFromSchema(schema, 31,28);
   }
 }
