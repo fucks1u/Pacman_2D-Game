@@ -36,13 +36,13 @@ import java.io.IOException;
  * It contains the title and the subtitle of the game and buttons.
  * The interface when you launch the game.
  */
-public class MenuFrame extends JFrame implements ActionListener{
+public class MenuFrame extends JFrame implements ActionListener {
     /**
      * This constructor creates the JFrame.
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame(){
+    public MenuFrame() {
         super("Pacman Game");
         displayMenu();
     }
@@ -52,7 +52,7 @@ public class MenuFrame extends JFrame implements ActionListener{
      * It contains the title and the subtitle of the game and buttons.
      * The interface when you launch the game.
      */
-    public void displayMenu(){
+    public void displayMenu() {
         //create JPanel to add all the components.
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
@@ -97,7 +97,7 @@ public class MenuFrame extends JFrame implements ActionListener{
      * It contains the game and the HUD.
      * The interface when you click on the "Play" button.
      */
-    public void displayGame(){
+    public void displayGame() {
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
@@ -118,7 +118,7 @@ public class MenuFrame extends JFrame implements ActionListener{
      * It displays the scoreboard.
      * The interface when you click on the "Score" button.
      */
-    public void displayScore(){
+    public void displayScore() {
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new BoxLayout(mainpanel, BoxLayout.Y_AXIS));
         mainpanel.setBorder(null);
@@ -156,9 +156,10 @@ public class MenuFrame extends JFrame implements ActionListener{
     /**
      * This method adds a player to the leaderboard.
      * It writes in the file leaderboard.txt the name given in parameter.
-     *  @param name The name of the player to add.
+     *
+     * @param name The name of the player to add.
      */
-    public void addPlayer(String name){
+    public void addPlayer(String name) {
         File file = new File("src/main/resources/leaderboard.txt");
 
         if (file.exists()) {
@@ -166,27 +167,27 @@ public class MenuFrame extends JFrame implements ActionListener{
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line = reader.readLine();
 
-                    if (line != null){
-                        try{
+                    if (line != null) {
+                        try {
                             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
                             bw.write("\n" + name + ":0");
                             bw.close();
-                        }catch(IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else{
-                        try{
+                    } else {
+                        try {
                             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
                             bw.write(name + ":0");
                             bw.close();
-                        }catch(IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                }catch(IOException e){
+                } catch (IOException e) {
                     System.err.println(e.getMessage());
                 }
-            }else{
+            } else {
                 System.out.println("pas de fichier");
             }
         }
@@ -198,21 +199,21 @@ public class MenuFrame extends JFrame implements ActionListener{
      * It is used to know which action to do.
      */
     @Override
-    public void actionPerformed(ActionEvent actionEvent){
+    public void actionPerformed(ActionEvent actionEvent) {
         String key = actionEvent.getActionCommand();
 
-        switch(key){
+        switch (key) {
             case "New Player":
                 String name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                if(name == null){
+                if (name == null) {
                     this.getContentPane().removeAll();
                     this.displayScore();
                     break;
                 }
-                while(name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")){
+                while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
                     JOptionPane.showMessageDialog(this, String.format("Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."), "Error", JOptionPane.ERROR_MESSAGE);
                     name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                    if (name == null){
+                    if (name == null) {
                         this.getContentPane().removeAll();
                         this.displayScore();
                         break;

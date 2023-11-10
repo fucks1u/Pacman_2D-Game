@@ -40,8 +40,7 @@ public class ScorePanel extends JPanel {
     private Font loadCustomFont() {
         Font customFontPacman;
         try {
-            customFontPacman = Font.createFont(Font.TRUETYPE_FONT,
-                    new File("src/main/resources/font/PAC-FONT.TTF"));
+            customFontPacman = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/PAC-FONT.TTF"));
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
