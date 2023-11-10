@@ -1,5 +1,6 @@
 package src.main.mvc.controller;
 
+import src.main.mvc.model.item.BigDotModel;
 import src.main.mvc.model.item.DotModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.WallModel;
@@ -56,6 +57,15 @@ public class ItemFactoryController {
    */
   public DotModel getDot() {
     return new DotModel();
+  }
+
+  /**
+   * Create a new BigDotModel.
+   *
+   * @return a BigDot model.
+   */
+  public BigDotModel getBigDot() {
+    return new BigDotModel();
   }
 
   /**
