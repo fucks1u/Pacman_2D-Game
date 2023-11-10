@@ -162,7 +162,6 @@ public class MenuFrame extends JFrame implements ActionListener {
     public void addPlayer(String name) {
         File file = new File("src/main/resources/leaderboard.txt");
 
-        if (file.exists()) {
             if (file.exists()) {
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line = reader.readLine();
@@ -191,7 +190,6 @@ public class MenuFrame extends JFrame implements ActionListener {
                 System.out.println("pas de fichier");
             }
         }
-    }
 
 
     /**
