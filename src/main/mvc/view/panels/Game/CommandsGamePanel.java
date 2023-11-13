@@ -1,12 +1,27 @@
 package src.main.mvc.view.panels.Game;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
-public class CommandsGamePanel extends JPanel{
+/**
+ * This class is a JPanel to show the commands of the game.
+ * It contains the four buttons to move the player.
+ */
+public class CommandsGamePanel extends JPanel {
 
-    public CommandsGamePanel(){
-        setLayout(new GridLayout(3,3));
+    /**
+     * Constructor of the CommandsGamePanel class.
+     * It set up the JPanel and add the components.
+     * It contains the four buttons to move the player.
+     * The four buttons are up, left, right and down.
+     * JButton are created with the class {@link ArrowButton}.
+     */
+    public CommandsGamePanel() {
+        setLayout(new GridLayout(3, 3));
         JButton buttonUp = new ArrowButton("up");
         JButton buttonLeft = new ArrowButton("left");
         JButton buttonRight = new ArrowButton("right");
