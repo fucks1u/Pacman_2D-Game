@@ -7,15 +7,24 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-
+/**
+ * This class is a JButton to create an arrow.
+ * It paints an arrow on each direction.
+ * @see JButton
+ */
 public class ArrowButton extends JButton {
     private final String arrow;
+    private enum Direction {UP, DOWN, LEFT, RIGHT};
 
     public ArrowButton(String arrow) {
         this.arrow = arrow;
         setPreferredSize(new Dimension(100, 40));
     }
 
+    /**
+     * This method paints an arrow for each direction.
+     * @param g Graphics object to paint.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -26,26 +35,26 @@ public class ArrowButton extends JButton {
         int height = getHeight();
 
         GeneralPath path = new GeneralPath();
-        switch (arrow) {
-            case "up":
+        switch (Direction.valueOf(arrow.toUpperCase())) {
+            case UP:
                 path.moveTo((float) width / 2, 10);
                 path.lineTo(width - 10, height - 10);
                 path.lineTo(10, height - 10);
                 path.closePath();
                 break;
-            case "down":
+            case DOWN:
                 path.moveTo(10, 10);
                 path.lineTo(width - 10, 10);
                 path.lineTo((float) width / 2, height - 10);
                 path.closePath();
                 break;
-            case "left":
+            case LEFT:
                 path.moveTo(10, (float) height / 2);
                 path.lineTo(width - 10, 10);
                 path.lineTo(width - 10, height - 10);
                 path.closePath();
                 break;
-            case "right":
+            case RIGHT:
                 path.moveTo(10, 10);
                 path.lineTo(10, height - 10);
                 path.lineTo(width - 10, (float) height / 2);
