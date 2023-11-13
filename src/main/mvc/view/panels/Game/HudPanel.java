@@ -21,7 +21,7 @@ public class HudPanel extends JPanel {
     public HudPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         JPanel panelCommands = new CommandsGamePanel();
-        JPanel panelScore = new ScorePanel(0,0);
+        JPanel panelScore = new ScorePanel(0, 0);
         JPanel panelLife = new JPanel();
 
         panelLife.setPreferredSize(new Dimension(200, 170));
