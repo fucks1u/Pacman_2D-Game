@@ -2,6 +2,8 @@ package src.main.mvc.model.map;
 
 import java.awt.Point;
 
+import src.main.mvc.model.item.BigDotModel;
+import src.main.mvc.model.item.DotModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
 
@@ -52,5 +54,17 @@ public abstract class MapModel {
     } else {
       return true;
     }
+  }
+
+  public boolean isDot() {
+    for (int i = 0; i < this.map.length; i++) {
+      for (int j = 0; j < this.map[0].length; j++) {
+        ItemModel item = getCell(new Point(i, j));
+        if (item instanceof DotModel || item instanceof BigDotModel) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
