@@ -22,10 +22,7 @@ public class HudPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         JPanel panelCommands = new CommandsGamePanel();
         JPanel panelScore = new ScorePanel(0, 0);
-        JPanel panelLife = new JPanel();
-
-        panelLife.setPreferredSize(new Dimension(200, 170));
-        panelLife.setBackground(Color.YELLOW);
+        JPanel panelLife = new DetailsScore(3);
 
         this.add(panelCommands);
         this.add(panelScore);
