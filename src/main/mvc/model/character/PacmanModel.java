@@ -2,8 +2,6 @@ package src.main.mvc.model.character;
 
 import java.awt.Point;
 
-import src.main.mvc.utils.NoSuchDirectionException;
-
 /**
  * Represents the Pacman character in the game.
  */
@@ -41,7 +39,7 @@ public class PacmanModel extends CharacterModel {
     this.lives = lives;
   }
 
-  public void setDirection(directions direction) throws NoSuchDirectionException {
+  public void setDirection(directions direction) {
     switch (direction) {
       case UP:
         this.direction = directions.UP;

@@ -26,7 +26,7 @@ public class GameController {
   private MapModel map;
   private PacmanModel pacman;
   private List<GhostModel> ghosts;
-  private List<FruitModel> fruits; 
+  private List<FruitModel> fruits;
 
   public GameController(MapModel map) {
     this.map = map;
@@ -46,8 +46,12 @@ public class GameController {
     LocalTime startTime = LocalTime.now();
     while (pacman.getLives() > 0 && map.getDot() > 0) {
       LocalTime currentTime = LocalTime.now();
+      if (Duration.between(startTime, currentTime).toNanos() % 100000 == 0) {
+        System.out.println(Duration.between(startTime, currentTime).toNanos());
+        pacman.setDirection(PacmanModel.directions.UP);
+        // pacman.move();
+      }
       if (checkCell()) {
-        pacman.move();
         if (map.getCell(pacman.getPosition()) != null) {
           this.score += map.getCell(pacman.getPosition()).getScore();
           this.map.setCell(pacman.getPosition());
@@ -71,7 +75,6 @@ public class GameController {
 
       spawnItem(fruits);
       checkCollision();
-      System.out.println(Duration.between(startTime, currentTime).toSeconds());
     }
   }
 
@@ -85,6 +88,10 @@ public class GameController {
       return false;
     } else {
       Point cell = pacman.getPosition();
+      if (cell.getY() + 1 > map.getMap()[0].length || cell.getY() - 1 < 0
+          || cell.getX() + 1 > map.getMap().length || cell.getX() - 1 < 0) {
+        return false;
+      }
       switch ((PacmanModel.directions) pacman.getDirection()) {
         case UP:
           cell.setLocation(cell.getX(), cell.getY() - 1);
@@ -99,6 +106,7 @@ public class GameController {
           cell.setLocation(cell.getX() + 1, cell.getY());
           break;
       }
+      // TODO: check if cell is out of bounds
       if (map.getCell(cell) instanceof WallModel) {
         return false;
       } else {
