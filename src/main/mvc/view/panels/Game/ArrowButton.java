@@ -14,8 +14,17 @@ import java.awt.geom.GeneralPath;
  */
 public class ArrowButton extends JButton {
     private final String arrow;
-    private enum Direction {UP, DOWN, LEFT, RIGHT};
 
+    private enum Direction {UP, DOWN, LEFT, RIGHT}
+
+    ;
+
+    /**
+     * Constructor of the ArrowButton class.
+     * It set the size of the button.
+     * It set the direction of the arrow.
+     * @param arrow Direction of the arrow.
+     */
     public ArrowButton(String arrow) {
         this.arrow = arrow;
         setPreferredSize(new Dimension(100, 40));
