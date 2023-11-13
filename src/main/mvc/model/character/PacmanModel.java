@@ -9,7 +9,14 @@ import src.main.mvc.utils.NoSuchDirectionException;
  */
 public class PacmanModel extends CharacterModel {
   private int lives;
-  private String direction;
+  private directions direction;
+
+  public enum directions {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+  };
 
   public PacmanModel(Point position) {
     super(position);
@@ -34,22 +41,43 @@ public class PacmanModel extends CharacterModel {
     this.lives = lives;
   }
 
-  public void setDirection(String direction) throws NoSuchDirectionException {
+  public void setDirection(directions direction) throws NoSuchDirectionException {
     switch (direction) {
-      case "up":
-        this.direction = "up";
-      case "down":
-        this.direction = "down";
-      case "left":
-        this.direction = "left";
-      case "right":
-        this.direction = "right";
-      default:
-        throw new NoSuchDirectionException("Wrong direction (up, down, left, right).");
+      case UP:
+        this.direction = directions.UP;
+        break;
+      case DOWN:
+        this.direction = directions.DOWN;
+        break;
+      case LEFT:
+        this.direction = directions.LEFT;
+        break;
+      case RIGHT:
+        this.direction = directions.RIGHT;
+        break;
     }
   }
 
-  public String getDirection() {
+  public directions getDirection() {
     return this.direction;
+  }
+
+  public void move() {
+    switch (this.direction) {
+      case UP:
+        this.moveUp();
+        break;
+      case DOWN:
+        this.moveDown();
+        break;
+      case LEFT:
+        this.moveLeft();
+        break;
+      case RIGHT:
+        this.moveRight();
+        break;
+      default:
+        return;
+    }
   }
 }

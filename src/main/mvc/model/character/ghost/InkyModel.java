@@ -21,7 +21,7 @@ public class InkyModel extends GhostModel {
    * @param pacman the PacmanModel used to determine Inky movement.
    */
   @Override
-  public void Move(PacmanModel pacman) {
+  public void move(PacmanModel pacman) {
     throw new UnsupportedOperationException("Not implemented");
   }
 }

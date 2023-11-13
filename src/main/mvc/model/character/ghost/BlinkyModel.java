@@ -20,7 +20,7 @@ public class BlinkyModel extends GhostModel {
    * @param pacman the Pacman model to go towards.
    */
   @Override
-  public void Move(PacmanModel pacman) {
+  public void move(PacmanModel pacman) {
     throw new UnsupportedOperationException("Not implemented");
   }
 }
