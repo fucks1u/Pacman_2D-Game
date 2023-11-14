@@ -34,13 +34,13 @@ public class Level1 extends MapModel {
         "wwwwwwdwwwww/ww/wwwwwdwwwwww",
         "wwwwwwdwwwww/ww/wwwwwdwwwwww",
         "/////wdww//////////wwdw/////",
-        "/////wdww//////////wwdw/////",
         "/////wdww/www//www/wwdw/////",
+        "/////wdww/w//////w/wwdw/////",
         "wwwwwwdww/w//////w/wwdwwwwww",
-        "/////wd///w//////w///dw/////",
+        "//////d///w//////w///d//////",
         "wwwwwwdww/w//////w/wwdwwwwww",
+        "/////wdww/w//////w/wwdw/////",
         "/////wdww/wwwwwwww/wwdw/////",
-        "/////wdww//////////wwdw/////",
         "/////wdww//////////wwdw/////",
         "wwwwwwdww/wwwwwwww/wwdwwwwww",
         "wddddddddddddwwddddddddddddw",
@@ -56,6 +56,6 @@ public class Level1 extends MapModel {
         "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
     };
 
-    return factory.createMapFromSchema(schema, 31,28);
+    return factory.createMapFromSchema(schema, 31, 28);
   }
 }

@@ -7,10 +7,18 @@ import java.awt.Point;
  */
 public class PacmanModel extends CharacterModel {
   private int lives;
+  private directions direction;
+
+  public enum directions {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+  };
 
   public PacmanModel(Point position) {
     super(position);
-    this.lives = 0;
+    this.lives = 1;
   }
 
   /**
@@ -29,5 +37,45 @@ public class PacmanModel extends CharacterModel {
    */
   public void setLives(int lives) {
     this.lives = lives;
+  }
+
+  public void setDirection(directions direction) {
+    switch (direction) {
+      case UP:
+        this.direction = directions.UP;
+        break;
+      case DOWN:
+        this.direction = directions.DOWN;
+        break;
+      case LEFT:
+        this.direction = directions.LEFT;
+        break;
+      case RIGHT:
+        this.direction = directions.RIGHT;
+        break;
+    }
+  }
+
+  public directions getDirection() {
+    return this.direction;
+  }
+
+  public void move() {
+    switch (this.direction) {
+      case UP:
+        this.moveUp();
+        break;
+      case DOWN:
+        this.moveDown();
+        break;
+      case LEFT:
+        this.moveLeft();
+        break;
+      case RIGHT:
+        this.moveRight();
+        break;
+      default:
+        return;
+    }
   }
 }
