@@ -19,7 +19,7 @@ public class Main {
 //        ItemModel[][] map = level1.getMap();
 //        System.out.println("loading map...");
 //        printMap(map);
-        MenuFrame mainframe = new MenuFrame();
+        MenuFrame mainframe = new MenuFrame(level1.getMap());
         game = new GameController(level1, mainframe);
         game(game);
     }

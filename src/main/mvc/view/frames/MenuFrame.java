@@ -1,5 +1,6 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.view.panels.Game.GamePanel;
 import src.main.mvc.view.panels.Game.HudPanel;
 import src.main.mvc.view.panels.Menu.ButtonsMenuPanel;
@@ -43,9 +44,9 @@ public class MenuFrame extends JFrame {
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame() {
+    public MenuFrame(ItemModel[][] map) {
         super("Pacman Game");
-        panelgame = new GamePanel();
+        panelgame = new GamePanel(map);
         panelhud = new HudPanel();
         displayMenu();
     }
@@ -106,6 +107,7 @@ public class MenuFrame extends JFrame {
         mainpanel.add(panelhud);
 
         add(mainpanel);
+        mainpanel.setBackground(Color.BLACK);
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

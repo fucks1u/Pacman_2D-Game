@@ -120,7 +120,7 @@ public class GameController implements ActionListener {
                     if (map[i][j] == null) {
                         List<Point> spawn = this.map.getSpawn();
                         for (Point cell : spawn) {
-                            if (new Point(i, j) != cell) {
+                            if (!new Point(i, j).equals(cell)) {
                                 freeCells.add(new Point(i, j));
                             }
                         }
@@ -128,7 +128,7 @@ public class GameController implements ActionListener {
                 }
             }
 
-            int randInt = 0 + (int) (Math.random() + freeCells.size());
+            int randInt = (int) (Math.random() + freeCells.size());
             this.map.setCell(freeCells.get(randInt), fruit);
             fruit.setPosition(freeCells.get(randInt));
             fruit.setExpire(LocalTime.now().plusSeconds(10));
