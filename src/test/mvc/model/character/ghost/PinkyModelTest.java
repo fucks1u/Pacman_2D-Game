@@ -11,11 +11,13 @@ import org.junit.jupiter.api.Test;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.ghost.PinkyModel;
+import src.main.mvc.model.map.Level1;
 
 // TODO: add move() test when implemented
 
 public class PinkyModelTest {
-  PinkyModel pinky = new PinkyModel(new Point(10, 10));
+  Level1 level1 = new Level1();
+  PinkyModel pinky = new PinkyModel(new Point(10, 10), level1);
 
   @Test
   void checkVulnerability() {

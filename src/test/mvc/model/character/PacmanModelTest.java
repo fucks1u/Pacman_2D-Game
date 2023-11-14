@@ -8,9 +8,11 @@ import java.awt.Point;
 import org.junit.jupiter.api.Test;
 
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.map.Level1;
 
 public class PacmanModelTest {
-  PacmanModel pacman = new PacmanModel(new Point(10, 10));
+  Level1 level1 = new Level1();
+  PacmanModel pacman = new PacmanModel(new Point(10, 10), level1);
 
   @Test
   void lives() {
