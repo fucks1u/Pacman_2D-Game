@@ -45,6 +45,8 @@ public class MenuFrame extends JFrame {
      */
     public MenuFrame() {
         super("Pacman Game");
+        panelgame = new GamePanel();
+        panelhud = new HudPanel();
         displayMenu();
     }
 
@@ -99,9 +101,6 @@ public class MenuFrame extends JFrame {
     public void displayGame() {
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
-
-        panelgame = new GamePanel();
-        panelhud = new HudPanel();
 
         mainpanel.add(panelgame);
         mainpanel.add(panelhud);

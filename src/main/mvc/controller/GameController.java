@@ -32,6 +32,7 @@ public class GameController implements ActionListener {
     private List<GhostModel> ghosts;
     private List<FruitModel> fruits;
     private MenuFrame mainframe;
+    private boolean isStarted = false;
     private boolean isPaused = false;
     private boolean isEnded = false;
 
@@ -63,7 +64,7 @@ public class GameController implements ActionListener {
             return false;
         } else {
             Point cell = pacman.getPosition().getLocation();
-            switch ((PacmanModel.directions) pacman.getDirection()) {
+            switch (pacman.getDirection()) {
                 case UP:
                     cell.setLocation(cell.getX(), cell.getY() - 1);
                     break;
@@ -161,6 +162,7 @@ public class GameController implements ActionListener {
             case "Play":
                 mainframe.getContentPane().removeAll();
                 mainframe.displayGame();
+                isStarted = true;
                 addListeners(mainframe.getPanelGame().getComponents());
                 break;
             case "Score":
@@ -237,5 +239,9 @@ public class GameController implements ActionListener {
 
     public boolean isEnded() {
         return isEnded;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
     }
 }
