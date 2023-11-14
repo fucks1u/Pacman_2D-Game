@@ -102,28 +102,24 @@ public class GameController {
       switch ((PacmanModel.directions) pacman.getDirection()) {
         case UP:
           cell.setLocation(cell.getX(), cell.getY() - 1);
-          if (cell.getY() <= 0 || map.getCell(cell) instanceof WallModel) {
-            return false;
-          }
           break;
         case DOWN:
           cell.setLocation(cell.getX(), cell.getY() + 1);
-          if (cell.getY() >= map.getMap()[0].length || map.getCell(cell) instanceof WallModel) {
-            return false;
-          }
           break;
         case LEFT:
           cell.setLocation(cell.getX() - 1, cell.getY());
-          if (cell.getX() <= 0 || map.getCell(cell) instanceof WallModel) {
-            return false;
-          }
           break;
         case RIGHT:
           cell.setLocation(cell.getX() + 1, cell.getY());
-          if (cell.getX() >= map.getMap().length || map.getCell(cell) instanceof WallModel) {
-            return false;
-          }
           break;
+      }
+
+      if (map.getCell(cell) instanceof WallModel
+          || cell.getY() <= 0
+          || cell.getY() >= map.getMap()[0].length
+          || cell.getX() <= 0
+          || cell.getX() >= map.getMap().length) {
+        return false;
       }
       return true;
     }
