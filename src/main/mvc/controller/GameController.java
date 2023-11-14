@@ -42,19 +42,30 @@ public class GameController {
         new OrangeModel(210));
   }
 
+  /**
+   * This method runs the game loop until either the player runs out of lives or
+   * all the dots on the map are eaten.
+   * It updates the direction of the Pacman depending on the user inputs and moves
+   * the Pacman accordingly.
+   * It also checks for collisions with other game objects and updates the score
+   * accordingly.
+   */
   public void game() {
     LocalTime startTime = LocalTime.now();
+
     while (pacman.getLives() > 0 && map.getDot() > 0) {
       LocalTime currentTime = LocalTime.now();
       if (Duration.between(startTime, currentTime).toNanos() % 100000 == 0) {
-        System.out.println(Duration.between(startTime, currentTime).toNanos());
+        // TODO: change direction depending on user input
         pacman.setDirection(PacmanModel.directions.UP);
-        // pacman.move();
-      }
-      if (checkCell()) {
-        if (map.getCell(pacman.getPosition()) != null) {
-          this.score += map.getCell(pacman.getPosition()).getScore();
-          this.map.setCell(pacman.getPosition());
+
+        if (checkCell()) {
+          pacman.move();
+
+          if (map.getCell(pacman.getPosition()) != null) {
+            this.score += map.getCell(pacman.getPosition()).getScore();
+            this.map.setCell(pacman.getPosition());
+          }
         }
       }
 
@@ -87,31 +98,34 @@ public class GameController {
     if (pacman.getDirection() == null) {
       return false;
     } else {
-      Point cell = pacman.getPosition();
-      if (cell.getY() + 1 > map.getMap()[0].length || cell.getY() - 1 < 0
-          || cell.getX() + 1 > map.getMap().length || cell.getX() - 1 < 0) {
-        return false;
-      }
+      Point cell = pacman.getPosition().getLocation();
       switch ((PacmanModel.directions) pacman.getDirection()) {
         case UP:
           cell.setLocation(cell.getX(), cell.getY() - 1);
+          if (cell.getY() <= 0 || map.getCell(cell) instanceof WallModel) {
+            return false;
+          }
           break;
         case DOWN:
           cell.setLocation(cell.getX(), cell.getY() + 1);
+          if (cell.getY() >= map.getMap()[0].length || map.getCell(cell) instanceof WallModel) {
+            return false;
+          }
           break;
         case LEFT:
           cell.setLocation(cell.getX() - 1, cell.getY());
+          if (cell.getX() <= 0 || map.getCell(cell) instanceof WallModel) {
+            return false;
+          }
           break;
         case RIGHT:
           cell.setLocation(cell.getX() + 1, cell.getY());
+          if (cell.getX() >= map.getMap().length || map.getCell(cell) instanceof WallModel) {
+            return false;
+          }
           break;
       }
-      // TODO: check if cell is out of bounds
-      if (map.getCell(cell) instanceof WallModel) {
-        return false;
-      } else {
-        return true;
-      }
+      return true;
     }
   }
 
