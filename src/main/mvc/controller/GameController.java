@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Duration;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,9 @@ import src.main.mvc.model.item.fruit.OrangeModel;
 import src.main.mvc.model.map.MapModel;
 import src.main.mvc.view.frames.MenuFrame;
 
-public class GameController implements ActionListener {
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
+
+public class GameController implements ActionListener, KeyListener {
     private int score = 0;
     private MapModel map;
     private PacmanModel pacman;
@@ -36,18 +39,19 @@ public class GameController implements ActionListener {
     private boolean isPaused = false;
     private boolean isEnded = false;
 
-    public GameController(MapModel map, MenuFrame mainframe) {
+    public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman) {
         this.map = map;
 
         this.mainframe = mainframe;
+        this.pacman = pacman;
         for (Component c : mainframe.getButtonsPanel().getComponents()) ((JButton) c).addActionListener(this);
 
-        this.pacman = new PacmanModel(new Point(16, 13));
+
         this.ghosts = Arrays.asList(
-                new BlinkyModel(new Point(13, 12)),
-                new ClydeModel(new Point(13, 13)),
-                new InkyModel(new Point(13, 14)),
-                new PinkyModel(new Point(13, 15)));
+                new BlinkyModel(new Point(13, 12), this.map),
+                new ClydeModel(new Point(13, 13), this.map),
+                new InkyModel(new Point(13, 14), this.map),
+                new PinkyModel(new Point(13, 15), this.map));
         this.fruits = Arrays.asList(
                 new CherryModel(70),
                 new BellModel(140),
@@ -160,6 +164,7 @@ public class GameController implements ActionListener {
                 mainframe.getContentPane().removeAll();
                 mainframe.displayGame();
                 isStarted = true;
+                mainframe.addKeyListener(this);
                 addListeners(mainframe.getPanelGame().getComponents());
                 break;
             case "Score":
@@ -202,6 +207,58 @@ public class GameController implements ActionListener {
         }
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                pacman.setDirection(PacmanModel.directions.UP);
+                pacman.move();
+                System.out.printf("Position : %s%n", pacman.getPosition());
+                printMap(map.getMap());
+                mainframe.repaint();
+                break;
+            case KeyEvent.VK_DOWN:
+                pacman.setDirection(PacmanModel.directions.DOWN);
+                pacman.move();
+                System.out.printf("Position : %s%n", pacman.getPosition());
+                printMap(map.getMap());
+                mainframe.repaint();
+                break;
+            case KeyEvent.VK_LEFT:
+                pacman.setDirection(PacmanModel.directions.LEFT);
+                pacman.move();
+                System.out.printf("Position : %s%n", pacman.getPosition());
+                printMap(map.getMap());
+                mainframe.repaint();
+                break;
+            case KeyEvent.VK_RIGHT:
+                pacman.setDirection(PacmanModel.directions.RIGHT);
+                pacman.move();
+                System.out.printf("Position : %s%n", pacman.getPosition());
+//                printMap(map.getMap());
+                mainframe.repaint();
+                break;
+            default:
+                break;
+//            case KeyEvent.VK_ESCAPE:
+//                if (isPaused) {
+//                    isPaused = false;
+//                } else {
+//                    isPaused = true;
+//                }
+//                break;
+        }
+    }
     public void setScore(int score) {
         this.score = score;
     }
@@ -240,5 +297,19 @@ public class GameController implements ActionListener {
 
     public boolean isStarted() {
         return isStarted;
+    }
+
+    //TO DO : delete later
+    public static void printMap(ItemModel[][] map) {
+        for (int i = 0; i < 31; i++) {
+            System.out.printf("%n");
+            for (int j = 0; j < 28; j++) {
+                if (map[i][j] == null) {
+                    System.out.print("[N]");
+                } else {
+                    System.out.printf("[%s]", map[i][j].getClass().getName().split("\\.")[5].charAt(0));
+                }
+            }
+        }
     }
 }

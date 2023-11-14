@@ -4,14 +4,18 @@ import java.awt.Point;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
 
 /**
  * This class represents the model of the Ghost Pinky in the game.
  * It extends the GhostModel class and implements the movement logic for Pinky.
  */
 public class PinkyModel extends GhostModel {
-  public PinkyModel(Point position) {
-    super("Pinky", position);
+  private MapModel map;
+  public PinkyModel(Point position, MapModel map) {
+    super("Pinky", position,map);
+    this.map = map;
   }
 
     /**

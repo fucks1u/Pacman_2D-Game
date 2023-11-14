@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.BigDotModel;
 import src.main.mvc.model.item.DotModel;
 import src.main.mvc.model.item.ItemModel;
@@ -16,9 +17,11 @@ import src.main.mvc.model.item.WallModel;
  */
 public abstract class MapModel {
   private ItemModel[][] map;
+  private ItemModel previousItem;
 
   public MapModel(ItemModel[][] map) {
     this.map = map;
+    previousItem = null;
   }
 
   /**
@@ -48,10 +51,20 @@ public abstract class MapModel {
    * @param item     the item to be set in the cell.
    */
   public void setCell(Point position, ItemModel item) {
-    int x = (int) position.getX();
-    int y = (int) position.getY();
+      int x = (int) position.getX();
+      int y = (int) position.getY();
 
-    this.map[x][y] = item;
+      this.map[x][y] = item;
+  }
+
+  public void setCellPacman(Point previousposition, Point nextposition){
+    int x = (int) previousposition.getX();
+    int y = (int) previousposition.getY();
+    int x1 = (int) nextposition.getX();
+    int y1 = (int) nextposition.getY();
+
+    this.map[x][y] = null;
+    this.map[x1][y1] = new PacmanModel(nextposition, this);
   }
 
   /**

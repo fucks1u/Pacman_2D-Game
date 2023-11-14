@@ -1,5 +1,6 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.view.panels.Game.GamePanel;
 import src.main.mvc.view.panels.Game.HudPanel;
@@ -10,6 +11,7 @@ import src.main.mvc.view.panels.Menu.TitleMenuPanel;
 import src.main.mvc.view.panels.Score.ButtonNewPlayer;
 import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
+import src.main.mvc.model.character.PacmanModel.directions;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -34,19 +36,21 @@ import java.io.IOException;
  */
 public class MenuFrame extends JFrame {
 
-    ButtonsMenuPanel panelbuttons;
-    ButtonNewPlayer panelnewplayer;
-    GamePanel panelgame;
-    HudPanel panelhud;
+    private ButtonsMenuPanel panelbuttons;
+    private ButtonNewPlayer panelnewplayer;
+    private GamePanel panelgame;
+    private HudPanel panelhud;
+    private PacmanModel pacman;
+
 
     /**
      * This constructor creates the JFrame.
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame(ItemModel[][] map) {
+    public MenuFrame(ItemModel[][] map, PacmanModel pacman) {
         super("Pacman Game");
-        panelgame = new GamePanel(map);
+        panelgame = new GamePanel(map, pacman);
         panelhud = new HudPanel();
         displayMenu();
     }
@@ -212,5 +216,9 @@ public class MenuFrame extends JFrame {
 
     public HudPanel getPanelHud() {
         return this.panelhud;
+    }
+
+    public PacmanModel getPacman() {
+        return this.pacman;
     }
 }

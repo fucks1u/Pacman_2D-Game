@@ -1,5 +1,8 @@
 package src.main.mvc.model.character;
 
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
+
 import java.awt.Point;
 
 /**
@@ -16,8 +19,8 @@ public class PacmanModel extends CharacterModel {
     RIGHT
   };
 
-  public PacmanModel(Point position) {
-    super(position);
+  public PacmanModel(Point position, MapModel map) {
+    super(position,map);
     this.lives = 1;
   }
 

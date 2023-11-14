@@ -4,14 +4,18 @@ import java.awt.Point;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
 
 /**
  * This class represents the model of the Ghost Clyde in the game.
  * It extends the GhostModel class and implements the movement logic for Clyde.
  */
 public class ClydeModel extends GhostModel {
-  public ClydeModel(Point position) {
-    super("Clyde", position);
+  private MapModel map;
+  public ClydeModel(Point position, MapModel map) {
+    super("Clyde", position,map);
+    this.map = map;
   }
 
   /**

@@ -7,20 +7,23 @@ import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.map.Level1;
 import src.main.mvc.view.frames.MenuFrame;
 
+import java.awt.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Objects;
 
 public class Main {
     static GameController game;
+    static PacmanModel pacman;
 
     public static void main(String[] args) {
         Level1 level1 = new Level1();
 //        ItemModel[][] map = level1.getMap();
 //        System.out.println("loading map...");
 //        printMap(map);
-        MenuFrame mainframe = new MenuFrame(level1.getMap());
-        game = new GameController(level1, mainframe);
+        pacman = new PacmanModel(new Point(15, 14), level1);
+        MenuFrame mainframe = new MenuFrame(level1.getMap(), pacman);
+        game = new GameController(level1, mainframe, pacman);
         game(game);
     }
 
@@ -34,7 +37,8 @@ public class Main {
      */
     public static void game(GameController g) {
         LocalTime startTime = null;
-        while (g.getPacman().getLives() > 0 && g.getMap().getDot() > 0 && !g.isEnded()) {
+        printMap(g.getMap().getMap());
+        while (pacman.getLives() > 0 && g.getMap().getDot() > 0 && !g.isEnded() && !g.isPaused()) {
             if (!g.isStarted()) {
                 startTime = LocalTime.now();
             } else {
@@ -44,14 +48,14 @@ public class Main {
                     int seconds = duration.toSecondsPart();
                     // TODO: change direction depending on user input
                     g.getMainframe().getPanelHud().setTimer(minutes, seconds);
-                    g.getPacman().setDirection(PacmanModel.directions.UP);
+                    pacman.setDirection(PacmanModel.directions.UP);
 
                     if (g.checkCell()) {
-                        g.getPacman().move();
+                        pacman.move();
 
-                        if (g.getMap().getCell(g.getPacman().getPosition()) != null) {
-                            g.setScore(g.getMap().getCell(g.getPacman().getPosition()).getScore());
-                            g.getMap().setCell(g.getPacman().getPosition());
+                        if (g.getMap().getCell(pacman.getPosition()) != null) {
+                            g.setScore(g.getMap().getCell(pacman.getPosition()).getScore());
+                            g.getMap().setCell(pacman.getPosition());
                         }
                     }
                 }

@@ -1,7 +1,10 @@
 package src.main.mvc.controller;
 
+import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.utils.BadDimensionsException;
+
+import java.awt.*;
 
 /**
  * The MapFactoryController class is responsible for creating a 2D array of
@@ -46,6 +49,9 @@ public class MapFactoryController {
             case 'D':
               map[i][j] = factory.getBigDot();
               break;
+            case 'p':
+                map[i][j] = new PacmanModel(new Point(i,j), null);
+                break;
             default:
               map[i][j] = null;
           }

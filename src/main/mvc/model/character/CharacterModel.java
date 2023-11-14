@@ -1,15 +1,21 @@
 package src.main.mvc.model.character;
 
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
+
 import java.awt.Point;
 
 /**
  * An abstract class representing a character in a 2D space with a position and movement methods.
  */
-public abstract class CharacterModel {
+public abstract class CharacterModel extends ItemModel {
   private Point position;
+  private MapModel map;
 
-  public CharacterModel(Point position) {
+  public CharacterModel(Point position, MapModel map) {
+    super(0);
     this.position = position;
+    this.map = map;
   }
 
   /**
@@ -44,6 +50,8 @@ public abstract class CharacterModel {
    * Moves the character right by incrementing its X coordinate.
    */
   public void moveRight() {
+    Point res = new Point(this.position);
     this.position.setLocation(this.position.getX() + 1, this.position.getY());
+    map.setCellPacman(res,this.position);
   }
 }

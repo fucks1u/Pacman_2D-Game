@@ -1,5 +1,8 @@
 package src.main.mvc.model.character;
 
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
+
 import java.awt.Point;
 
 /**
@@ -10,10 +13,12 @@ import java.awt.Point;
 public abstract class GhostModel extends CharacterModel {
   public static boolean vulnerable = false;
   private String name;
+  private MapModel map;
 
-  public GhostModel(String name, Point position) {
-    super(position);
+  public GhostModel(String name, Point position, MapModel map) {
+    super(position,map);
     this.name = name;
+    this.map = map;
   }
 
   /**

@@ -4,14 +4,18 @@ import java.awt.Point;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.map.MapModel;
 
 /**
  * This class represents the model of the Ghost Inky in the game.
  * It extends the GhostModel class and implements the movement logic for Inky.
  */
 public class InkyModel extends GhostModel {
-  public InkyModel(Point position) {
-    super("Inky", position);
+    private MapModel map;
+  public InkyModel(Point position, MapModel map) {
+    super("Inky", position, map);
+    this.map = map;
   }
 
   /**
