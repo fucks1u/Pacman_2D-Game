@@ -17,28 +17,35 @@ import java.awt.image.BufferedImage;
  * It contains the timer, the number of fruits eaten and the number of monsters eaten.
  */
 public class DetailsScore extends JPanel {
+    int minutes;
+    int seconds;
+    int score;
+    int highscore;
+    JLabel timerlabel;
+
     /**
      * Constructor of the DetailsScore class.
      * It creates the JPanel and add the components.
+     *
      * @param numberOfLife
      */
-    public DetailsScore(int numberOfLife){
+    public DetailsScore(int numberOfLife) {
         setLayout(new BorderLayout());
         JPanel panelStatsTimerNORTH = new JPanel();
-        JLabel timerlabel = new JLabel("Timer : 00:00");
+        timerlabel = new JLabel("Timer : "+minutes+":"+seconds);
         timerlabel.setFont(new Font("Arial", Font.BOLD, 20));
         timerlabel.setForeground(Color.WHITE);
-        timerlabel.setBorder(BorderFactory.createEmptyBorder(15,0,0,0));
+        timerlabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 
         JLabel fruitslabel = new JLabel("Fruits eatean : 999");
         fruitslabel.setFont(new Font("Arial", Font.BOLD, 15));
         fruitslabel.setForeground(Color.WHITE);
-        fruitslabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        fruitslabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         JLabel monsterslabel = new JLabel("Monsters eaten : 999");
         monsterslabel.setFont(new Font("Arial", Font.BOLD, 15));
         monsterslabel.setForeground(Color.WHITE);
-        monsterslabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
+        monsterslabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         panelStatsTimerNORTH.add(timerlabel);
         panelStatsTimerNORTH.add(fruitslabel);
@@ -54,16 +61,21 @@ public class DetailsScore extends JPanel {
         JPanel panelLifeRemainingSOUTH = new JPanel();
         panelLifeRemainingSOUTH.setPreferredSize(new Dimension(200, 50));
         panelLifeRemainingSOUTH.setBackground(Color.BLACK);
-        try{
+        try {
             BufferedImage cherryPict = ImageIO.read(new File("src/main/resources/img/cherry.png"));
             JLabel cherryLabel = new JLabel(new ImageIcon(cherryPict));
             panelLifeRemainingSOUTH.add(cherryLabel);
-            cherryLabel.setBorder(BorderFactory.createEmptyBorder(0,0,8,22));
-        } catch (Exception e){
+            cherryLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 22));
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         LifeRemaining lifeRemaining = new LifeRemaining(numberOfLife);
         panelLifeRemainingSOUTH.add(lifeRemaining);
         add(panelLifeRemainingSOUTH, BorderLayout.SOUTH);
+    }
+
+    public void setTimer(int minutes, int seconds) {
+        timerlabel.setText("Timer : "+minutes+":"+seconds);
+        repaint();
     }
 }
