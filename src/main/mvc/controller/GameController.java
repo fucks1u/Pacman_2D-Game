@@ -79,14 +79,11 @@ public class GameController implements ActionListener {
                     break;
             }
 
-            if (map.getCell(cell) instanceof WallModel
-                    || cell.getY() <= 0
-                    || cell.getY() >= map.getMap()[0].length
-                    || cell.getX() <= 0
-                    || cell.getX() >= map.getMap().length) {
-                return false;
-            }
-            return true;
+            return !(map.getCell(cell) instanceof WallModel)
+                    && !(cell.getY() <= 0)
+                    && !(cell.getY() >= map.getMap()[0].length)
+                    && !(cell.getX() <= 0)
+                    && !(cell.getX() >= map.getMap().length);
         }
     }
 
@@ -95,8 +92,8 @@ public class GameController implements ActionListener {
      * if there is a collision.
      */
     public void checkCollision() {
-        for (int i = 0; i < this.ghosts.size(); i++) {
-            if (this.pacman.getPosition() == this.ghosts.get(i).getPosition()) {
+        for (GhostModel ghost : this.ghosts) {
+            if (this.pacman.getPosition() == ghost.getPosition()) {
                 this.pacman.setLives(this.pacman.getLives() - 1);
             }
         }
