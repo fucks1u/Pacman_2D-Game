@@ -17,7 +17,7 @@ public class Main {
             System.out.printf("%n");
             for (int j = 0; j < 28; j++) {
                 if (map[i][j] == null) {
-                    System.out.printf("[N]");
+                    System.out.print("[N]");
                 } else {
                     System.out.printf("[%s]", map[i][j].getClass().getName().split("\\.")[5].charAt(0));
                 }
