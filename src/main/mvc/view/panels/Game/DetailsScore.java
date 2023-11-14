@@ -12,7 +12,16 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class is a JPanel to show the details of the score.
+ * It contains the timer, the number of fruits eaten and the number of monsters eaten.
+ */
 public class DetailsScore extends JPanel {
+    /**
+     * Constructor of the DetailsScore class.
+     * It creates the JPanel and add the components.
+     * @param numberOfLife
+     */
     public DetailsScore(int numberOfLife){
         setLayout(new BorderLayout());
         JPanel panelStatsTimerNORTH = new JPanel();
