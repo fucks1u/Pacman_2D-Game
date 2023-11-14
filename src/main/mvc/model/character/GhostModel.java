@@ -48,7 +48,5 @@ public abstract class GhostModel extends CharacterModel {
    * 
    * @param pacman the Pacman model to determine the Ghost movement.
    */
-  public void Move(PacmanModel pacman) {
-    throw new UnsupportedOperationException("Not implemented");
-  }
+  public abstract void move(PacmanModel pacman);
 }
