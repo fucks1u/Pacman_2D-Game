@@ -34,8 +34,11 @@ public class DetailsScore extends JPanel {
         this.monsters = 0;
         setLayout(new BorderLayout());
         JPanel panelStatsTimerNORTH = new JPanel();
-        timerlabel = new JLabel("Timer : "+minutes+":"+seconds);
+        timerlabel = new JLabel("00:00");
         timerlabel.setFont(new Font("Arial", Font.BOLD, 20));
+        //center the jlabel in timerlabel
+        timerlabel.setHorizontalAlignment(JLabel.CENTER);
+        timerlabel.setPreferredSize(new Dimension(200, 40));
         timerlabel.setForeground(Color.WHITE);
         timerlabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 
@@ -77,7 +80,15 @@ public class DetailsScore extends JPanel {
     }
 
     public void setTimer(int minutes, int seconds) {
-        timerlabel.setText("Timer : "+minutes+":"+seconds);
+        if(minutes < 10 && seconds < 10) {
+            timerlabel.setText("0"+minutes+":0"+seconds);
+        } else if(minutes < 10) {
+            timerlabel.setText("0"+minutes+":"+seconds);
+        } else if(seconds < 10) {
+            timerlabel.setText(minutes+":0"+seconds);
+        } else {
+            timerlabel.setText(+minutes+":"+seconds);
+        }
         repaint();
     }
 
