@@ -42,4 +42,9 @@ public class ScorePanel extends JPanel {
         highlabel.setForeground(Color.GREEN);
         this.add(highlabel);
     }
+
+    public void setScore(int score) {
+        JLabel scorepanel = (JLabel) this.getComponent(0);
+        scorepanel.setText("Score : " + score);
+    }
 }

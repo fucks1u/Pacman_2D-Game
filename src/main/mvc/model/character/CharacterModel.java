@@ -1,6 +1,7 @@
 package src.main.mvc.model.character;
 
 import src.main.mvc.model.item.ItemModel;
+import src.main.mvc.model.item.WallModel;
 import src.main.mvc.model.map.MapModel;
 
 import java.awt.Point;
@@ -29,27 +30,67 @@ public abstract class CharacterModel extends ItemModel {
    * Moves the character up by decrementing its Y coordinate.
    */
   public void moveUp() {
-    this.position.setLocation(this.position.getX(), this.position.getY() - 1);
+    Point nextPos = new Point(this.position.x-1, this.position.y);
+    if(this.map.isAccessible(nextPos)){
+      this.map.setCell(this.position);
+      this.position = nextPos;
+      this.map.setCellPacman(this.position);
+    }
   }
 
   /**
    * Moves the character down by incrementing its Y coordinate.
    */
   public void moveDown() {
-    this.position.setLocation(this.position.getX(), this.position.getY() + 1);
+    Point nextPos = new Point(this.position.x+1, this.position.y);
+    if(this.map.isAccessible(nextPos)){
+      this.map.setCell(this.position);
+      this.position = nextPos;
+      this.map.setCellPacman(this.position);
+    }
   }
 
   /**
    * Moves the character left by decrementing its X coordinate.
    */
   public void moveLeft() {
-    this.position.setLocation(this.position.getX() - 1, this.position.getY());
+    Point nextPos = new Point(this.position.x, this.position.y-1);
+    if(this.map.isAccessible(nextPos)){
+      this.map.setCell(this.position);
+      this.position = nextPos;
+      this.map.setCellPacman(this.position);
+    }
   }
 
   /**
    * Moves the character right by incrementing its X coordinate.
    */
   public void moveRight() {
-    this.map.setCellPacman(this.position,new Point(this.position.x, this.position.y+1));
+    Point nextPos = new Point(this.position.x, this.position.y+1);
+    if(this.map.isAccessible(nextPos)){
+      this.map.setCell(this.position);
+      this.position = nextPos;
+      this.map.setCellPacman(this.position);
+    }
+  }
+
+  public boolean canMoveUp(){
+    Point nextPos = new Point(this.position.x-1, this.position.y);
+    return this.map.isAccessible(nextPos);
+  }
+
+  public boolean canMoveDown(){
+    Point nextPos = new Point(this.position.x+1, this.position.y);
+    return this.map.isAccessible(nextPos);
+  }
+
+  public boolean canMoveLeft(){
+    Point nextPos = new Point(this.position.x, this.position.y-1);
+    return this.map.isAccessible(nextPos);
+  }
+
+  public boolean canMoveRight(){
+    Point nextPos = new Point(this.position.x, this.position.y+1);
+    return this.map.isAccessible(nextPos);
   }
 }

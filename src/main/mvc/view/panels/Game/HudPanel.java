@@ -39,6 +39,9 @@ public class HudPanel extends JPanel {
     public void setTimer(int minutes, int seconds) {
         panelLife.setTimer(minutes, seconds);
     }
+    public void setScore(int score) {
+        panelScore.setScore(score);
+    }
     /**
      * Getter of the CommandsGamePanel.
      * @return the CommandsGamePanel.

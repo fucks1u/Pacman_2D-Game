@@ -68,21 +68,26 @@ public class GameController implements ActionListener, KeyListener {
             return false;
         } else {
             Point cell = pacman.getPosition().getLocation();
+            Point nextpos = null;
             switch (pacman.getDirection()) {
                 case UP:
-                    cell.setLocation(cell.getX(), cell.getY() - 1);
+                    nextpos = new Point(cell.x-1, cell.y);
+                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case DOWN:
-                    cell.setLocation(cell.getX(), cell.getY() + 1);
+                    nextpos = new Point(cell.x+1, cell.y);
+                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case LEFT:
-                    cell.setLocation(cell.getX() - 1, cell.getY());
+                    nextpos = new Point(cell.x, cell.y-1);
+                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case RIGHT:
-                    cell.setLocation(cell.getX() + 1, cell.getY());
+                    nextpos = new Point(cell.x, cell.y+1);
+                    if(map.isAccessible(nextpos)) return true;
                     break;
             }
-
+            if(map.getCell(cell) instanceof WallModel) mainframe.getPanelHud().getScorePanel().setScore(100);
             return !(map.getCell(cell) instanceof WallModel)
                     && !(cell.getY() <= 0)
                     && !(cell.getY() >= map.getMap()[0].length)
@@ -99,6 +104,7 @@ public class GameController implements ActionListener, KeyListener {
         for (GhostModel ghost : this.ghosts) {
             if (this.pacman.getPosition() == ghost.getPosition()) {
                 this.pacman.setLives(this.pacman.getLives() - 1);
+                mainframe.getPanelHud().getPanelLife().setLives(this.pacman.getLives());
             }
         }
     }
@@ -221,32 +227,32 @@ public class GameController implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                pacman.setDirection(PacmanModel.directions.UP);
-                pacman.move();
-                System.out.printf("Position : %s%n", pacman.getPosition());
-                printMap(map.getMap());
-                mainframe.repaint();
+                if(pacman.canMoveUp()){
+                    pacman.setDirection(PacmanModel.directions.UP);
+                    pacman.move();
+                    mainframe.repaint();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                pacman.setDirection(PacmanModel.directions.DOWN);
-                pacman.move();
-                System.out.printf("Position : %s%n", pacman.getPosition());
-                printMap(map.getMap());
-                mainframe.repaint();
+                if(pacman.canMoveDown()){
+                    pacman.setDirection(PacmanModel.directions.DOWN);
+                    pacman.move();
+                    mainframe.repaint();
+                }
                 break;
             case KeyEvent.VK_LEFT:
-                pacman.setDirection(PacmanModel.directions.LEFT);
-                pacman.move();
-                System.out.printf("Position : %s%n", pacman.getPosition());
-                printMap(map.getMap());
-                mainframe.repaint();
+                if(pacman.canMoveLeft()){
+                    pacman.setDirection(PacmanModel.directions.LEFT);
+                    pacman.move();
+                    mainframe.repaint();
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                pacman.setDirection(PacmanModel.directions.RIGHT);
-                pacman.move();
-                System.out.printf("Position : %s%n", this.pacman.getPosition());
-//                printMap(map.getMap());
-                mainframe.repaint();
+                if(pacman.canMoveRight()){
+                    pacman.setDirection(PacmanModel.directions.RIGHT);
+                    pacman.move();
+                    mainframe.repaint();
+                }
                 break;
             default:
                 break;

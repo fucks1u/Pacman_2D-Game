@@ -17,6 +17,12 @@ import javax.swing.*;
 public class GamePanel extends JPanel {
     private ItemModel[][] map;
 
+    BufferedImage spriteWall = null;
+    BufferedImage spriteDot = null;
+    BufferedImage spritePacman = null;
+    BufferedImage spriteBigDot = null;
+
+
     /**
      * Constructor of the GamePanel class.
      */
@@ -25,19 +31,8 @@ public class GamePanel extends JPanel {
         this.setPreferredSize(new Dimension(532, 590));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
-    }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D) g;
-
-        BufferedImage spriteWall = null;
-        BufferedImage spriteDot = null;
-        BufferedImage spritePacman = null;
-        BufferedImage spriteBigDot = null;
-
+        Toolkit tk = Toolkit.getDefaultToolkit();
 
         try {
             spriteWall = ImageIO.read(new File("src/main/resources/img/wall.png"));
@@ -47,8 +42,13 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
+        Graphics2D g2d = (Graphics2D) g;
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -66,7 +66,6 @@ public class GamePanel extends JPanel {
                         g2d.drawImage(spriteBigDot, x+4, y+4, 11, 11, this);
                         break;
                     case 'P':
-                        System.out.println("Pacman"+i+":"+j);
                         g2d.drawImage(spritePacman, x, y, 19, 19, this);
                     default:
                         break;

@@ -19,8 +19,8 @@ import java.awt.image.BufferedImage;
 public class DetailsScore extends JPanel {
     int minutes;
     int seconds;
-    int score;
-    int highscore;
+    int fruits;
+    int monsters;
     JLabel timerlabel;
 
     /**
@@ -30,6 +30,8 @@ public class DetailsScore extends JPanel {
      * @param numberOfLife
      */
     public DetailsScore(int numberOfLife) {
+        this.fruits = 0;
+        this.monsters = 0;
         setLayout(new BorderLayout());
         JPanel panelStatsTimerNORTH = new JPanel();
         timerlabel = new JLabel("Timer : "+minutes+":"+seconds);
@@ -37,12 +39,12 @@ public class DetailsScore extends JPanel {
         timerlabel.setForeground(Color.WHITE);
         timerlabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 
-        JLabel fruitslabel = new JLabel("Fruits eatean : 999");
+        JLabel fruitslabel = new JLabel("Fruits eatean : "+fruits);
         fruitslabel.setFont(new Font("Arial", Font.BOLD, 15));
         fruitslabel.setForeground(Color.WHITE);
         fruitslabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        JLabel monsterslabel = new JLabel("Monsters eaten : 999");
+        JLabel monsterslabel = new JLabel("Monsters eaten : "+monsters);
         monsterslabel.setFont(new Font("Arial", Font.BOLD, 15));
         monsterslabel.setForeground(Color.WHITE);
         monsterslabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -77,5 +79,8 @@ public class DetailsScore extends JPanel {
     public void setTimer(int minutes, int seconds) {
         timerlabel.setText("Timer : "+minutes+":"+seconds);
         repaint();
+    }
+
+    public void setLives(int lives) {
     }
 }

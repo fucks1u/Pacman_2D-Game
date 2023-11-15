@@ -57,14 +57,14 @@ public abstract class MapModel {
         this.map[x][y] = item;
     }
 
-    public void setCellPacman(Point previouspos, Point nextpos) {
-        int x = (int) nextpos.getX();
-        int y = (int) nextpos.getY();
-        int x1 = (int) previouspos.getX();
-        int y1 = (int) previouspos.getY();
-
-        this.map[x][y] = null;
-        this.map[x1][y1] = new PacmanModel(previouspos, null);
+    public void setCellPacman(Point pos) {
+        int x = (int) pos.getX();
+        int y = (int) pos.getY();
+        if(this.map[x][y] instanceof WallModel) {
+            return;
+        } else {
+            this.map[x][y] = new PacmanModel(pos, this);
+        }
     }
 
     /**

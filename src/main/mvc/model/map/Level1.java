@@ -41,7 +41,7 @@ public class Level1 extends MapModel {
         "wwwwwwdww/w//////w/wwdwwwwww",
         "/////wdww/w//////w/wwdw/////",
         "/////wdww/wwwwwwww/wwdw/////",
-        "/////wdww////pdddddwwdw/////",
+        "/////wdww////p/////wwdw/////",
         "wwwwwwdww/wwwwwwww/wwdwwwwww",
         "wddddddddddddwwddddddddddddw",
         "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",

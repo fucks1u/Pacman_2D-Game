@@ -1,6 +1,5 @@
 package src.main.mvc.model.character;
 
-import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.map.MapModel;
 
 import java.awt.Point;
@@ -11,6 +10,7 @@ import java.awt.Point;
 public class PacmanModel extends CharacterModel {
   private int lives;
   private directions direction;
+  private int score;
 
   public enum directions {
     UP,
@@ -21,6 +21,7 @@ public class PacmanModel extends CharacterModel {
 
   public PacmanModel(Point position, MapModel map) {
     super(position,map);
+    this.score = 0;
     this.lives = 1;
   }
 
@@ -40,6 +41,13 @@ public class PacmanModel extends CharacterModel {
    */
   public void setLives(int lives) {
     this.lives = lives;
+  }
+  public void addScore(int score){
+    this.score += score;
+  }
+
+  public int getScore(){
+    return this.score;
   }
 
   public void setDirection(directions direction) {

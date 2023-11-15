@@ -11,6 +11,7 @@ import java.awt.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     static GameController game;
@@ -38,6 +39,7 @@ public class Main {
     public static void game(GameController g) {
         LocalTime startTime = null;
         printMap(g.getMap().getMap());
+        //boucle timé
         while (pacman.getLives() > 0 && g.getMap().getDot() > 0 && !g.isEnded() && !g.isPaused()) {
             if (!g.isStarted()) {
                 startTime = LocalTime.now();
@@ -48,38 +50,46 @@ public class Main {
                     int seconds = duration.toSecondsPart();
                     // TODO: change direction depending on user input
                     g.getMainframe().getPanelHud().setTimer(minutes, seconds);
-//                    pacman.setDirection(PacmanModel.directions.UP);
-
+//                    g.getMainframe().getPanelHud().setScore(g.getScore());
+                    System.out.println("Direction : "+pacman.getScore());
                     if (g.checkCell()) {
-                        pacman.move();
-
                         if (g.getMap().getCell(pacman.getPosition()) != null) {
+                            System.out.println("Score : "+g.getMap().getCell(pacman.getPosition()).getScore());
                             g.setScore(g.getMap().getCell(pacman.getPosition()).getScore());
-                            g.getMap().setCell(pacman.getPosition());
+                            g.getMap().setCellPacman(pacman.getPosition());
+                            g.getPacman().move();
+                            g.getMainframe().repaint();
                         }
                     }
                 }
-
-                if (FruitModel.isPlaced()) {
-                    FruitModel currentFruit = null;
-                    for (FruitModel fruit : g.getFruits()) {
-                        if (fruit.getExpire() != null) {
-                            currentFruit = fruit;
-                        }
-                    }
-
-                    if (LocalTime.now().isAfter(currentFruit.getExpire())) {
-                        g.getMap().setCell(currentFruit.getPosition());
-                        FruitModel.setPlaced(false);
-                    }
-                    ;
+//
+//                if (FruitModel.isPlaced()) {
+//                    FruitModel currentFruit = null;
+//                    for (FruitModel fruit : g.getFruits()) {
+//                        if (fruit.getExpire() != null) {
+//                            currentFruit = fruit;
+//                        }
+//                    }
+//
+//                    if (LocalTime.now().isAfter(currentFruit.getExpire())) {
+//                        g.getMap().setCell(currentFruit.getPosition());
+//                        FruitModel.setPlaced(false);
+//                    }
+//                    ;
+//                }
+//
+//                g.spawnItem(g.getFruits());
+//                g.checkCollision();
                 }
-
-                g.spawnItem(g.getFruits());
-                g.checkCollision();
+            try {
+                Thread.sleep(9);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             }
         }
-    }
+
+
 
 
     public static void printMap(ItemModel[][] map) {
