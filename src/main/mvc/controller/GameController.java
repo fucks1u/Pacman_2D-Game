@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
@@ -20,6 +21,7 @@ import src.main.mvc.model.item.fruit.BellModel;
 import src.main.mvc.model.item.fruit.CherryModel;
 import src.main.mvc.model.item.fruit.OrangeModel;
 import src.main.mvc.model.map.MapModel;
+import src.main.mvc.utils.Clock;
 
 public class GameController {
   private int score = 0;
@@ -51,17 +53,28 @@ public class GameController {
    * accordingly.
    */
   public void game() {
-    LocalTime startTime = LocalTime.now();
+    Clock gameTimer = new Clock();
+    Clock fpsTimer = new Clock();
+    Clock moveTimer = new Clock();
+    Clock fruitTimer = new Clock();
+    int fps = 0;
 
     while (pacman.getLives() > 0 && map.getDot() > 0) {
-      LocalTime currentTime = LocalTime.now();
-      if (Duration.between(startTime, currentTime).toNanos() % 100000 == 0) {
-        // TODO: change direction depending on user input
-        pacman.setDirection(PacmanModel.directions.UP);
+      if (fpsTimer.getSec() >= 1) {
+        System.out.printf("FPS: %d, Time: %d%n", fps, gameTimer.getSec());
+        fpsTimer.reset();
+        fps = 0;
+      } else {
+        fps++;
+      }
 
+      if (moveTimer.getMs() >= 90) {
+        moveTimer.reset();
+
+        // TODO: change direction depending on user input
+        // this.ghosts.get(0).move(pacman, map);
         if (checkCell()) {
           pacman.move();
-
           if (map.getCell(pacman.getPosition()) != null) {
             this.score += map.getCell(pacman.getPosition()).getScore();
             this.map.setCell(pacman.getPosition());
@@ -72,20 +85,25 @@ public class GameController {
       if (FruitModel.isPlaced()) {
         FruitModel currentFruit = null;
         for (FruitModel fruit : this.fruits) {
-          if (fruit.getExpire() != null) {
+          if (!fruit.isExpired()) {
             currentFruit = fruit;
           }
         }
 
-        if (currentTime.isAfter(currentFruit.getExpire())) {
+        if (!currentFruit.isExpired()) {
           map.setCell(currentFruit.getPosition());
           FruitModel.setPlaced(false);
         }
-        ;
       }
 
       spawnItem(fruits);
       checkCollision();
+
+      try {
+        TimeUnit.MILLISECONDS.sleep((long) 16.666666667);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -166,7 +184,7 @@ public class GameController {
       int randInt = 0 + (int) (Math.random() + freeCells.size());
       this.map.setCell(freeCells.get(randInt), fruit);
       fruit.setPosition(freeCells.get(randInt));
-      fruit.setExpire(LocalTime.now().plusSeconds(10));
+      fruit.setExpire();
       FruitModel.setPlaced(true);
     }
   }
