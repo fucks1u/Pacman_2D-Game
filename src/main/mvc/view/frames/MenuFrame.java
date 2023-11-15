@@ -11,7 +11,6 @@ import src.main.mvc.view.panels.Menu.TitleMenuPanel;
 import src.main.mvc.view.panels.Score.ButtonNewPlayer;
 import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
-import src.main.mvc.model.character.PacmanModel.directions;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -48,9 +47,9 @@ public class MenuFrame extends JFrame {
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame(ItemModel[][] map, PacmanModel pacman) {
+    public MenuFrame(ItemModel[][] map) {
         super("Pacman Game");
-        panelgame = new GamePanel(map, pacman);
+        panelgame = new GamePanel(map);
         panelhud = new HudPanel();
         displayMenu();
     }

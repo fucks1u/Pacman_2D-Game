@@ -244,7 +244,7 @@ public class GameController implements ActionListener, KeyListener {
             case KeyEvent.VK_RIGHT:
                 pacman.setDirection(PacmanModel.directions.RIGHT);
                 pacman.move();
-                System.out.printf("Position : %s%n", pacman.getPosition());
+                System.out.printf("Position : %s%n", this.pacman.getPosition());
 //                printMap(map.getMap());
                 mainframe.repaint();
                 break;

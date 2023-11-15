@@ -14,8 +14,8 @@ public abstract class CharacterModel extends ItemModel {
 
   public CharacterModel(Point position, MapModel map) {
     super(0);
-    this.position = position;
     this.map = map;
+    this.position = position;
   }
 
   /**
@@ -50,8 +50,6 @@ public abstract class CharacterModel extends ItemModel {
    * Moves the character right by incrementing its X coordinate.
    */
   public void moveRight() {
-    Point res = new Point(this.position);
-    this.position.setLocation(this.position.getX() + 1, this.position.getY());
-    map.setCellPacman(res,this.position);
+    this.map.setCellPacman(this.position,new Point(this.position.x, this.position.y+1));
   }
 }

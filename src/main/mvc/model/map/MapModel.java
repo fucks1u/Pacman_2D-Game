@@ -16,116 +16,116 @@ import src.main.mvc.model.item.WallModel;
  * position is accessible.
  */
 public abstract class MapModel {
-  private ItemModel[][] map;
-  private ItemModel previousItem;
+    private ItemModel[][] map;
+    private ItemModel previousItem;
 
-  public MapModel(ItemModel[][] map) {
-    this.map = map;
-    previousItem = null;
-  }
-
-  /**
-   * @return the 2D array of ItemModel objects representing the map.
-   */
-  public ItemModel[][] getMap() {
-    return map;
-  }
-
-  /**
-   * Returns the item at the specified position.
-   *
-   * @param position the position of the item to retrieve
-   * @return the item at the specified position
-   */
-  public ItemModel getCell(Point position) {
-    int x = (int) position.getX();
-    int y = (int) position.getY();
-
-    return this.map[x][y];
-  }
-
-  /**
-   * Sets the item in the specified position of the map.
-   * 
-   * @param position the position of the cell to be set.
-   * @param item     the item to be set in the cell.
-   */
-  public void setCell(Point position, ItemModel item) {
-      int x = (int) position.getX();
-      int y = (int) position.getY();
-
-      this.map[x][y] = item;
-  }
-
-  public void setCellPacman(Point previousposition, Point nextposition){
-    int x = (int) previousposition.getX();
-    int y = (int) previousposition.getY();
-    int x1 = (int) nextposition.getX();
-    int y1 = (int) nextposition.getY();
-
-    this.map[x][y] = null;
-    this.map[x1][y1] = new PacmanModel(nextposition, this);
-  }
-
-  /**
-   * Sets the cell at the given position to null.
-   * 
-   * @param position the position of the cell to set
-   */
-  public void setCell(Point position) {
-    int x = (int) position.getX();
-    int y = (int) position.getY();
-
-    this.map[x][y] = null;
-  }
-
-  /**
-   * Returns a list of points representing the spawn locations on the map.
-   *
-   * @return a list of points representing the spawn locations on the map
-   */
-  public List<Point> getSpawn() {
-    List<Point> spawn = new ArrayList<>();
-    for (int i = 9; i < 19; i++) {
-      for (int j = 9; j < 19; j++) {
-        spawn.add(new Point(i, j));
-      }
+    public MapModel(ItemModel[][] map) {
+        this.map = map;
+        previousItem = null;
     }
-    return spawn;
-  }
 
-  /**
-   * Checks if a given position is accessible on the map.
-   * 
-   * @param position the position to check
-   * @return true if the position is accessible, false otherwise
-   */
-  public boolean isAccessible(Point position) {
-    int x = (int) position.getX();
-    int y = (int) position.getY();
-
-    if (this.map[x][y] instanceof WallModel) {
-      return false;
-    } else {
-      return true;
+    /**
+     * @return the 2D array of ItemModel objects representing the map.
+     */
+    public ItemModel[][] getMap() {
+        return map;
     }
-  }
 
-  /**
-   * Returns the number of dots and big dots in the map.
-   *
-   * @return the number of dots and big dots in the map
-   */
-  public int getDot() {
-    int k = 0;
-    for (int i = 0; i < this.map.length; i++) {
-      for (int j = 0; j < this.map[0].length; j++) {
-        ItemModel item = getCell(new Point(i, j));
-        if (item instanceof DotModel || item instanceof BigDotModel) {
-          k++;
+    /**
+     * Returns the item at the specified position.
+     *
+     * @param position the position of the item to retrieve
+     * @return the item at the specified position
+     */
+    public ItemModel getCell(Point position) {
+        int x = (int) position.getX();
+        int y = (int) position.getY();
+
+        return this.map[x][y];
+    }
+
+    /**
+     * Sets the item in the specified position of the map.
+     *
+     * @param position the position of the cell to be set.
+     * @param item     the item to be set in the cell.
+     */
+    public void setCell(Point position, ItemModel item) {
+        int x = (int) position.getX();
+        int y = (int) position.getY();
+
+        this.map[x][y] = item;
+    }
+
+    public void setCellPacman(Point previouspos, Point nextpos) {
+        int x = (int) nextpos.getX();
+        int y = (int) nextpos.getY();
+        int x1 = (int) previouspos.getX();
+        int y1 = (int) previouspos.getY();
+
+        this.map[x][y] = null;
+        this.map[x1][y1] = new PacmanModel(previouspos, null);
+    }
+
+    /**
+     * Sets the cell at the given position to null.
+     *
+     * @param position the position of the cell to set
+     */
+    public void setCell(Point position) {
+        int x = (int) position.getX();
+        int y = (int) position.getY();
+
+        this.map[x][y] = null;
+    }
+
+    /**
+     * Returns a list of points representing the spawn locations on the map.
+     *
+     * @return a list of points representing the spawn locations on the map
+     */
+    public List<Point> getSpawn() {
+        List<Point> spawn = new ArrayList<>();
+        for (int i = 9; i < 19; i++) {
+            for (int j = 9; j < 19; j++) {
+                spawn.add(new Point(i, j));
+            }
         }
-      }
+        return spawn;
     }
-    return k;
-  }
+
+    /**
+     * Checks if a given position is accessible on the map.
+     *
+     * @param position the position to check
+     * @return true if the position is accessible, false otherwise
+     */
+    public boolean isAccessible(Point position) {
+        int x = (int) position.getX();
+        int y = (int) position.getY();
+
+        if (this.map[x][y] instanceof WallModel) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Returns the number of dots and big dots in the map.
+     *
+     * @return the number of dots and big dots in the map
+     */
+    public int getDot() {
+        int k = 0;
+        for (int i = 0; i < this.map.length; i++) {
+            for (int j = 0; j < this.map[0].length; j++) {
+                ItemModel item = getCell(new Point(i, j));
+                if (item instanceof DotModel || item instanceof BigDotModel) {
+                    k++;
+                }
+            }
+        }
+        return k;
+    }
 }

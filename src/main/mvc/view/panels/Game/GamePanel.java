@@ -16,14 +16,12 @@ import javax.swing.*;
  */
 public class GamePanel extends JPanel {
     private ItemModel[][] map;
-    private PacmanModel pacman;
 
     /**
      * Constructor of the GamePanel class.
      */
-    public GamePanel(ItemModel[][] map,PacmanModel pacman) {
+    public GamePanel(ItemModel[][] map) {
         this.map = map;
-        this.pacman = pacman;
         this.setPreferredSize(new Dimension(532, 590));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
@@ -40,15 +38,6 @@ public class GamePanel extends JPanel {
         BufferedImage spritePacman = null;
         BufferedImage spriteBigDot = null;
 
-        int sizeSpriteWall = 19;
-        int sizePacman = 19;
-        int sizeDot = 10;
-        int sizeBigDot = 11;
-
-        boolean first = true;
-
-        int posPacManX = pacman.getPosition().x;
-        int posPacManY = pacman.getPosition().y;
 
         try {
             spriteWall = ImageIO.read(new File("src/main/resources/img/wall.png"));
@@ -63,20 +52,21 @@ public class GamePanel extends JPanel {
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                int x = j * sizeSpriteWall;
-                int y = i * sizeSpriteWall;
+                int x = j * 19;
+                int y = i * 19;
                 if(map[i][j] == null) continue;
                 switch(map[i][j].getClass().getName().split("\\.")[5].charAt(0)) {
                     case 'W':
-                        g2d.drawImage(spriteWall, x, y, sizeSpriteWall, sizeSpriteWall, this);
+                        g2d.drawImage(spriteWall, x, y, 19, 19, this);
                         break;
                     case 'D':
-                        g2d.drawImage(spriteDot, x+5, y+5, sizeDot, sizeDot, this);
+                        g2d.drawImage(spriteDot, x+5, y+5, 10, 10, this);
                         break;
                     case 'B':
-                        g2d.drawImage(spriteBigDot, x+4, y+4, sizeBigDot, sizeBigDot, this);
+                        g2d.drawImage(spriteBigDot, x+4, y+4, 11, 11, this);
                         break;
                     case 'P':
+                        System.out.println("Pacman"+i+":"+j);
                         g2d.drawImage(spritePacman, x, y, 19, 19, this);
                     default:
                         break;

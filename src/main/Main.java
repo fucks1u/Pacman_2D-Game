@@ -21,8 +21,8 @@ public class Main {
 //        ItemModel[][] map = level1.getMap();
 //        System.out.println("loading map...");
 //        printMap(map);
-        pacman = new PacmanModel(new Point(15, 14), level1);
-        MenuFrame mainframe = new MenuFrame(level1.getMap(), pacman);
+        pacman = new PacmanModel(new Point(18,13),level1);
+        MenuFrame mainframe = new MenuFrame(level1.getMap());
         game = new GameController(level1, mainframe, pacman);
         game(game);
     }
@@ -48,7 +48,7 @@ public class Main {
                     int seconds = duration.toSecondsPart();
                     // TODO: change direction depending on user input
                     g.getMainframe().getPanelHud().setTimer(minutes, seconds);
-                    pacman.setDirection(PacmanModel.directions.UP);
+//                    pacman.setDirection(PacmanModel.directions.UP);
 
                     if (g.checkCell()) {
                         pacman.move();
