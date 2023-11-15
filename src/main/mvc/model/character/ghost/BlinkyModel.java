@@ -1,16 +1,19 @@
 package src.main.mvc.model.character.ghost;
 
-import java.awt.Point;
+import src.main.mvc.utils.Astar;
+import src.main.mvc.utils.Astar.Point;
+
+import java.util.List;
 
 import src.main.mvc.model.character.GhostModel;
-import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.map.MapModel;
 
 /**
  * This class represents the model of the Ghost Blinky in the game.
  * It extends the GhostModel class and implements the movement logic for Blinky.
  */
 public class BlinkyModel extends GhostModel {
-  public BlinkyModel(Point position) {
+  public BlinkyModel(java.awt.Point position) {
     super("Blinky", position);
   }
 
@@ -20,7 +23,24 @@ public class BlinkyModel extends GhostModel {
    * @param pacman the Pacman model to go towards.
    */
   @Override
-  public void move(PacmanModel pacman) {
-    throw new UnsupportedOperationException("Not implemented");
+  public void move(java.awt.Point target, MapModel map) {
+    java.awt.Point currentPos = this.getPosition();
+
+    Point start = new Point((int) currentPos.getX(), (int) currentPos.getY(), null);
+    Point end = new Point((int) target.getX(),
+        (int) target.getY(), null);
+    List<Point> test = Astar.findPath(map, start, end);
+    if (test != null) {
+      Point nextCell = test.get(0);
+      if (nextCell.x > currentPos.getX() && nextCell.y == currentPos.getY()) {
+        moveRight();
+      } else if (nextCell.x < currentPos.getX() && nextCell.y == currentPos.getY()) {
+        moveLeft();
+      } else if (nextCell.x == currentPos.getX() && nextCell.y > currentPos.getY()) {
+        moveDown();
+      } else if (nextCell.x == currentPos.getX() && nextCell.y < currentPos.getY()) {
+        moveUp();
+      }
+    }
   }
 }

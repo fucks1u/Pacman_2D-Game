@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.map.MapModel;
 
 /**
  * This class represents the model of the Ghost Clyde in the game.
@@ -21,7 +22,7 @@ public class ClydeModel extends GhostModel {
    * @param pacman the Pacman model to determine the Clyde movement.
    */
   @Override
-  public void move(PacmanModel pacman) {
+  public void move(java.awt.Point target, MapModel map) {
     throw new UnsupportedOperationException("Not implemented");
   }
 }

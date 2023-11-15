@@ -2,6 +2,8 @@ package src.main.mvc.model.character;
 
 import java.awt.Point;
 
+import src.main.mvc.model.map.MapModel;
+
 /**
  * The GhostModel class represents the abstract model of a ghost character in the game.
  * It extends the CharacterModel class and provides methods to get and set the vulnerability status of the ghost,
@@ -48,5 +50,5 @@ public abstract class GhostModel extends CharacterModel {
    * 
    * @param pacman the Pacman model to determine the Ghost movement.
    */
-  public abstract void move(PacmanModel pacman);
+  public abstract void move(java.awt.Point target, MapModel map);
 }

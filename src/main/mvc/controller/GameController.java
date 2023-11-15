@@ -1,8 +1,6 @@
 package src.main.mvc.controller;
 
 import java.awt.Point;
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +30,7 @@ public class GameController {
 
   public GameController(MapModel map) {
     this.map = map;
-    this.pacman = new PacmanModel(new Point(16, 13));
+    this.pacman = new PacmanModel(new Point(29, 13));
     this.ghosts = Arrays.asList(
         new BlinkyModel(new Point(13, 12)),
         new ClydeModel(new Point(13, 13)),
@@ -56,12 +54,10 @@ public class GameController {
     Clock gameTimer = new Clock();
     Clock fpsTimer = new Clock();
     Clock moveTimer = new Clock();
-    Clock fruitTimer = new Clock();
     int fps = 0;
-
     while (pacman.getLives() > 0 && map.getDot() > 0) {
+      System.out.printf("FPS: %d, Time: %d%n", fps, gameTimer.getSec());
       if (fpsTimer.getSec() >= 1) {
-        System.out.printf("FPS: %d, Time: %d%n", fps, gameTimer.getSec());
         fpsTimer.reset();
         fps = 0;
       } else {
@@ -72,14 +68,20 @@ public class GameController {
         moveTimer.reset();
 
         // TODO: change direction depending on user input
-        // this.ghosts.get(0).move(pacman, map);
+        this.pacman.setDirection(PacmanModel.directions.LEFT);
+
         if (checkCell()) {
           pacman.move();
+          System.out.printf("[GCtrl] Pacman: [x=%d, y=%d]%n", (int) this.pacman.getPosition().getX(),
+              (int) this.pacman.getPosition().getY());
           if (map.getCell(pacman.getPosition()) != null) {
             this.score += map.getCell(pacman.getPosition()).getScore();
             this.map.setCell(pacman.getPosition());
           }
         }
+        this.ghosts.get(0).move(this.pacman.getPosition(), map);
+        System.out.printf("[GCtrl] Blinky: [x=%d, y=%d]%n", (int) this.ghosts.get(0).getPosition().getX(),
+            (int) this.ghosts.get(0).getPosition().getY());
       }
 
       if (FruitModel.isPlaced()) {
@@ -148,9 +150,15 @@ public class GameController {
    * if there is a collision.
    */
   public void checkCollision() {
-    for (int i = 0; i < this.ghosts.size(); i++) {
-      if (this.pacman.getPosition() == this.ghosts.get(i).getPosition()) {
+    // TODO: handle collision when ghosts are vulnerables.
+    Point pacPos = this.pacman.getPosition().getLocation();
+
+    for (GhostModel ghost : this.ghosts) {
+      Point ghostPos = ghost.getPosition().getLocation();
+      if (pacPos.getX() == ghostPos.getX() && pacPos.getY() == ghostPos.getY()) {
         this.pacman.setLives(this.pacman.getLives() - 1);
+        System.out.printf("[GCtrl] %s touched %s, he now have %d lives.%n", pacman.getClass().getSimpleName(),
+            ghost.getClass().getSimpleName(), pacman.getLives());
       }
     }
   }
