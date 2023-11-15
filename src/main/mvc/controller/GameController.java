@@ -30,7 +30,7 @@ public class GameController {
 
   public GameController(MapModel map) {
     this.map = map;
-    this.pacman = new PacmanModel(new Point(29, 13));
+    this.pacman = new PacmanModel(new Point(18, 13));
     this.ghosts = Arrays.asList(
         new BlinkyModel(new Point(13, 12)),
         new ClydeModel(new Point(13, 13)),
@@ -56,8 +56,8 @@ public class GameController {
     Clock moveTimer = new Clock();
     int fps = 0;
     while (pacman.getLives() > 0 && map.getDot() > 0) {
-      System.out.printf("FPS: %d, Time: %d%n", fps, gameTimer.getSec());
       if (fpsTimer.getSec() >= 1) {
+        System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, gameTimer.getSec());
         fpsTimer.reset();
         fps = 0;
       } else {
@@ -68,7 +68,7 @@ public class GameController {
         moveTimer.reset();
 
         // TODO: change direction depending on user input
-        this.pacman.setDirection(PacmanModel.directions.LEFT);
+        this.pacman.setDirection(PacmanModel.directions.UP);
 
         if (checkCell()) {
           pacman.move();

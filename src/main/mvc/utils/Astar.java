@@ -31,7 +31,7 @@ public class Astar {
   public static boolean isWalkable(MapModel mapModel, Point point) {
     ItemModel[][] map = mapModel.getMap();
 
-    if (point.x < 0 || point.y > map.length - 1 || point.y < 0 || point.x > map[0].length - 1
+    if (point.x < 0 || point.x > map.length - 1 || point.y < 0 || point.y > map[0].length - 1
         || map[point.x][point.y] instanceof WallModel) {
       return false;
     } else {
@@ -62,8 +62,16 @@ public class Astar {
     if (isWalkable(mapModel, right)) {
       adjacent.add(right);
     }
-
     return adjacent;
+  }
+
+  public static boolean listContains(List<Point> list, Point toCheck) {
+    for (Point point : list) {
+      if (point.x == toCheck.x && point.y == toCheck.y) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static List<Point> findPath(MapModel mapModel, Point start, Point end) {
@@ -75,23 +83,18 @@ public class Astar {
       List<Point> unused = new ArrayList<>();
       for (int i = 0; i < used.size(); i++) {
         Point point = used.get(i);
-        System.out
-            .println("[Astar] i: " + i + " / point: " + point.getLocation().getX() + " " + point.getLocation().getY());
+
         for (Point adjacent : findAdjacent(mapModel, point)) {
-          if (used.contains(adjacent) == false && unused.contains(adjacent) == false) {
-            System.out.println("test");
+          if (!listContains(used, adjacent) && !listContains(unused, adjacent)) {
             unused.add(adjacent);
           }
         }
 
         for (Point newPoint : unused) {
-          used.add(newPoint);
-          System.out.println("unused:" + unused.size());
-          // System.out.printf("[Astar] end: [x=%d, y=%d] | new: [x=%d, y=%d]%n", (int)
-          // end.x, (int) end.y,
-          // (int) newPoint.getLocation().getX(), (int) newPoint.getLocation().getY());
+          if (!listContains(used, newPoint)) {
+            used.add(newPoint);
+          }
           if (end.getLocation().getY() == newPoint.y && end.getLocation().getX() == newPoint.x) {
-            System.out.println("{{{{{{{{{{{{{{{ Test }}}}}}}}}}}}}}}");
             completed = true;
             break;
           }
@@ -113,7 +116,6 @@ public class Astar {
       path.add(0, point);
       point = point.previousPoint;
     }
-
     return path;
   }
 }
