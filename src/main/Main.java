@@ -50,39 +50,35 @@ public class Main {
                     int seconds = duration.toSecondsPart();
                     // TODO: change direction depending on user input
                     g.getMainframe().getPanelHud().setTimer(minutes, seconds);
-//                    g.getMainframe().getPanelHud().setScore(g.getScore());
-                    System.out.println("Direction : "+pacman.getScore());
                     if (g.checkCell()) {
                         if (g.getMap().getCell(pacman.getPosition()) != null) {
-                            System.out.println("Score : "+g.getMap().getCell(pacman.getPosition()).getScore());
-                            g.setScore(g.getMap().getCell(pacman.getPosition()).getScore());
+                            g.getMainframe().getPanelHud().getScorePanel().setScore(pacman.getScore());
                             g.getMap().setCellPacman(pacman.getPosition());
                             g.getPacman().move();
                             g.getMainframe().repaint();
                         }
                     }
                 }
-//
-//                if (FruitModel.isPlaced()) {
-//                    FruitModel currentFruit = null;
-//                    for (FruitModel fruit : g.getFruits()) {
-//                        if (fruit.getExpire() != null) {
-//                            currentFruit = fruit;
-//                        }
-//                    }
-//
-//                    if (LocalTime.now().isAfter(currentFruit.getExpire())) {
-//                        g.getMap().setCell(currentFruit.getPosition());
-//                        FruitModel.setPlaced(false);
-//                    }
-//                    ;
-//                }
-//
-//                g.spawnItem(g.getFruits());
-//                g.checkCollision();
+
+                if (FruitModel.isPlaced()) {
+                    FruitModel currentFruit = null;
+                    for (FruitModel fruit : g.getFruits()) {
+                        if (fruit.getExpire() != null) {
+                            currentFruit = fruit;
+                        }
+                    }
+
+                    if (LocalTime.now().isAfter(currentFruit.getExpire())) {
+                        g.getMap().setCell(currentFruit.getPosition());
+                        FruitModel.setPlaced(false);
+                    }
+                }
+
+                g.spawnItem(g.getFruits());
+                g.checkCollision();
                 }
             try {
-                Thread.sleep(9);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

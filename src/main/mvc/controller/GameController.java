@@ -17,6 +17,7 @@ import src.main.mvc.model.character.ghost.BlinkyModel;
 import src.main.mvc.model.character.ghost.ClydeModel;
 import src.main.mvc.model.character.ghost.InkyModel;
 import src.main.mvc.model.character.ghost.PinkyModel;
+import src.main.mvc.model.item.DotModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
@@ -38,6 +39,7 @@ public class GameController implements ActionListener, KeyListener {
     private boolean isStarted = false;
     private boolean isPaused = false;
     private boolean isEnded = false;
+    private int keyCode = -1;
 
     public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman) {
         this.map = map;
@@ -72,22 +74,23 @@ public class GameController implements ActionListener, KeyListener {
             switch (pacman.getDirection()) {
                 case UP:
                     nextpos = new Point(cell.x-1, cell.y);
-                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case DOWN:
                     nextpos = new Point(cell.x+1, cell.y);
-                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case LEFT:
                     nextpos = new Point(cell.x, cell.y-1);
-                    if(map.isAccessible(nextpos)) return true;
                     break;
                 case RIGHT:
                     nextpos = new Point(cell.x, cell.y+1);
-                    if(map.isAccessible(nextpos)) return true;
                     break;
             }
-            if(map.getCell(cell) instanceof WallModel) mainframe.getPanelHud().getScorePanel().setScore(100);
+            if(nextpos != null && map.isAccessible(nextpos)){
+                if(map.getCell(nextpos) instanceof DotModel) pacman.addScore(10);
+                if(map.getCell(nextpos) instanceof FruitModel) pacman.addScore(100);
+                return true;
+            }
+
             return !(map.getCell(cell) instanceof WallModel)
                     && !(cell.getY() <= 0)
                     && !(cell.getY() >= map.getMap()[0].length)
@@ -227,28 +230,32 @@ public class GameController implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                if(pacman.canMoveUp()){
+                if(pacman.canMoveUp() && (keyCode == -1 || keyCode != e.getKeyCode())){
+                    keyCode = e.getKeyCode();
                     pacman.setDirection(PacmanModel.directions.UP);
                     pacman.move();
                     mainframe.repaint();
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if(pacman.canMoveDown()){
+                if(pacman.canMoveDown() && (keyCode == -1 || keyCode != e.getKeyCode())){
+                    keyCode = e.getKeyCode();
                     pacman.setDirection(PacmanModel.directions.DOWN);
                     pacman.move();
                     mainframe.repaint();
                 }
                 break;
             case KeyEvent.VK_LEFT:
-                if(pacman.canMoveLeft()){
+                if(pacman.canMoveLeft() && (keyCode == -1 || keyCode != e.getKeyCode())){
+                    keyCode = e.getKeyCode();
                     pacman.setDirection(PacmanModel.directions.LEFT);
                     pacman.move();
                     mainframe.repaint();
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if(pacman.canMoveRight()){
+                if(pacman.canMoveRight() && (keyCode == -1 || keyCode != e.getKeyCode())){
+                    keyCode = e.getKeyCode();
                     pacman.setDirection(PacmanModel.directions.RIGHT);
                     pacman.move();
                     mainframe.repaint();
