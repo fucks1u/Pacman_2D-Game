@@ -1,18 +1,32 @@
 package src.main;
 
 import src.main.mvc.controller.GameController;
+import src.main.mvc.model.character.GhostModel;
+import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.character.ghost.BlinkyModel;
+import src.main.mvc.model.character.ghost.ClydeModel;
+import src.main.mvc.model.character.ghost.InkyModel;
+import src.main.mvc.model.character.ghost.PinkyModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.map.Level1;
 import src.main.mvc.view.frames.MenuFrame;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         Level1 level1 = new Level1();
-        ItemModel[][] map = level1.getMap();
-        new MenuFrame();
-        System.out.println("loading map...");
-        printMap(map);
-        GameController game = new GameController(level1);
+        PacmanModel pacman = new PacmanModel(new Point(18, 13));
+        List<GhostModel> ghost = Arrays.asList(
+                new BlinkyModel(new Point(13, 12)),
+                new ClydeModel(new Point(13, 13)),
+                new InkyModel(new Point(13, 14)),
+                new PinkyModel(new Point(13, 15)));
+
+        MenuFrame menu = new MenuFrame(level1.getMap(),pacman,ghost);
+        GameController game = new GameController(level1,menu,pacman,ghost);
         game.game();
     }
 

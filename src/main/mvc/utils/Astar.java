@@ -32,7 +32,7 @@ public class Astar {
     ItemModel[][] map = mapModel.getMap();
 
     if (point.x < 0 || point.x > map.length - 1 || point.y < 0 || point.y > map[0].length - 1
-        || map[point.x][point.y] instanceof WallModel) {
+            || map[point.x][point.y] instanceof WallModel) {
       return false;
     } else {
       return true;

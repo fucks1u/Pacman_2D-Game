@@ -60,8 +60,8 @@ public abstract class MapModel {
    * @param position the position of the cell to set
    */
   public void setCell(Point position) {
-    int x = (int) position.getX();
-    int y = (int) position.getY();
+    int y = (int) position.getX();
+    int x = (int) position.getY();
 
     this.map[x][y] = null;
   }

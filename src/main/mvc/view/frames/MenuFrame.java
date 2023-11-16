@@ -1,5 +1,8 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.model.character.GhostModel;
+import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.view.panels.Game.GamePanel;
 import src.main.mvc.view.panels.Game.HudPanel;
 import src.main.mvc.view.panels.Menu.ButtonsMenuPanel;
@@ -11,39 +14,46 @@ import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This class is a JFrame that contains the menu of the game.
  * It contains the title and the subtitle of the game and buttons.
  * The interface when you launch the game.
  */
-public class MenuFrame extends JFrame implements ActionListener {
+public class MenuFrame extends JFrame {
+
+    private ButtonsMenuPanel panelbuttons;
+    private ButtonNewPlayer panelnewplayer;
+    private GamePanel panelgame;
+    private HudPanel panelhud;
+    private PacmanModel pacman;
+
+
     /**
      * This constructor creates the JFrame.
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame() {
+    public MenuFrame(ItemModel[][] map, PacmanModel pacman, List<GhostModel> ghost) {
         super("Pacman Game");
+        panelgame = new GamePanel(map,pacman,ghost);
+        this.pacman = pacman;
+        panelhud = new HudPanel();
         displayMenu();
     }
 
@@ -56,30 +66,28 @@ public class MenuFrame extends JFrame implements ActionListener {
         //create JPanel to add all the components.
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
+        mainpanel.setBackground(Color.BLACK);
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
         //JPanel for the title -> "PAC-MAN".
-        JPanel paneltitle = new TitleMenuPanel();
+        TitleMenuPanel paneltitle = new TitleMenuPanel();
         paneltitle.setPreferredSize(new Dimension(800, 180));
 
         //JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
-        JPanel subtitlepanel = new SubtitleMenuPanel();
+        SubtitleMenuPanel subtitlepanel = new SubtitleMenuPanel();
         subtitlepanel.setPreferredSize(new Dimension(600, 50));
 
-        JPanel buttonspanel = new ButtonsMenuPanel();
+        ButtonsMenuPanel buttonspanel = new ButtonsMenuPanel();
         buttonspanel.setPreferredSize(new Dimension(400, 350));
         buttonspanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        for (Component c : buttonspanel.getComponents()) {
-            ((JButton) c).addActionListener(this);
-        }
+        this.panelbuttons = buttonspanel;
 
-        JPanel creditpanel = new CreditMenuPanel();
+        CreditMenuPanel creditpanel = new CreditMenuPanel();
         creditpanel.setPreferredSize(new Dimension(800, 185));
         creditpanel.setBorder(BorderFactory.createEmptyBorder(160, 420, 0, 0));
 
         mainpanel.add(paneltitle);
         mainpanel.add(subtitlepanel);
-        mainpanel.setBackground(Color.BLACK);
         mainpanel.add(buttonspanel);
         mainpanel.add(creditpanel);
 
@@ -101,10 +109,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        mainpanel.add(new GamePanel());
-        mainpanel.add(new HudPanel());
+        mainpanel.add(panelgame);
+        mainpanel.add(panelhud);
 
         add(mainpanel);
+        mainpanel.setBackground(Color.BLACK);
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,9 +138,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         JScrollPane scroll = new JScrollPane(leaderboardPanel);
         ButtonNewPlayer buttonnewplayer = new ButtonNewPlayer();
-        for (Component c : buttonnewplayer.getComponents()) {
-            ((JButton) c).addActionListener(this);
-        }
+        this.panelnewplayer = buttonnewplayer;
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(mainpanel, BorderLayout.NORTH);
@@ -193,54 +200,27 @@ public class MenuFrame extends JFrame implements ActionListener {
         }
     }
 
-
     /**
      * This method is used to know which button is clicked.
      * It is used to know which action to do.
      */
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        String key = actionEvent.getActionCommand();
+    public ButtonsMenuPanel getButtonsPanel() {
+        return this.panelbuttons;
+    }
 
-        switch (key) {
-            case "New Player":
-                String name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                if (name == null) {
-                    this.getContentPane().removeAll();
-                    this.displayScore();
-                    break;
-                }
-                while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
-                    JOptionPane.showMessageDialog(this, String.format("Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."), "Error", JOptionPane.ERROR_MESSAGE);
-                    name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                    if (name == null) {
-                        this.getContentPane().removeAll();
-                        this.displayScore();
-                        break;
-                    }
-                }
-                this.addPlayer(name);
-                this.getContentPane().removeAll();
-                this.displayScore();
-                break;
+    public ButtonNewPlayer getNewPlayerPanel() {
+        return this.panelnewplayer;
+    }
 
-            case "Back":
-                this.getContentPane().removeAll();
-                this.displayMenu();
-                break;
-            case "Play":
-                this.getContentPane().removeAll();
-                this.displayGame();
-                break;
-            case "Score":
-                this.getContentPane().removeAll();
-                this.displayScore();
-                break;
-            case "Quit":
-                System.exit(0);
-                break;
-            default:
-                break;
-        }
+    public GamePanel getPanelGame() {
+        return this.panelgame;
+    }
+
+    public HudPanel getPanelHud() {
+        return this.panelhud;
+    }
+
+    public PacmanModel getPacman() {
+        return this.pacman;
     }
 }
