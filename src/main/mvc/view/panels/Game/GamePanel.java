@@ -24,6 +24,7 @@ public class GamePanel extends JPanel {
     private BufferedImage spritePacman = null;
     private BufferedImage spriteBigDot = null;
     private BufferedImage spriteGhost = null;
+    private BufferedImage spriteCherry = null;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
 
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel {
             spriteBigDot = ImageIO.read(new File("src/main/resources/img/dot.png"));
             spritePacman = ImageIO.read(new File("src/main/resources/img/pacman.png"));
             spriteGhost = ImageIO.read(new File("src/main/resources/img/ghost3.png"));
+            spriteCherry = ImageIO.read(new File("src/main/resources/img/cherry.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,6 +74,9 @@ public class GamePanel extends JPanel {
                     case 'B':
                         g2d.drawImage(spriteBigDot, x+4, y+4, 11, 11, this);
                         break;
+                    case 'f':
+                    g2d.drawImage(spriteCherry, x+4, y+4, 16, 16, this);
+                    break;
                     default:
                         break;
                 }

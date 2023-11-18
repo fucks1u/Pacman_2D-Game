@@ -18,7 +18,7 @@ public abstract class FruitModel extends ItemModel {
 
   public FruitModel(int score, int spawnAt) {
     super(score);
-    new Clock();
+    this.expire = new Clock();
     this.spawnAt = spawnAt;
   }
 

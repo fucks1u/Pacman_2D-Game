@@ -46,4 +46,12 @@ public abstract class CharacterModel {
   public void moveRight() {
     this.position.setLocation(this.position.getX() + 1, this.position.getY());
   }
+
+/**
+   * Sets the position of the character.
+   * @param position the position to set
+   */
+    public void setPosition(Point position) {
+      this.position = position;
+    }
 }

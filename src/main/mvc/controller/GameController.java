@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -28,6 +26,8 @@ import src.main.mvc.model.item.fruit.OrangeModel;
 import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
+
+import static src.main.Main.printMap;
 
 public class GameController implements ActionListener, KeyListener {
     private int score = 0;
@@ -59,8 +59,8 @@ public class GameController implements ActionListener, KeyListener {
         for (Component c : mainframe.getButtonsPanel().getComponents()) ((JButton) c).addActionListener(this);
         this.fruits = Arrays.asList(
                 new CherryModel(70),
-                new BellModel(140),
-                new OrangeModel(210));
+                new CherryModel(140),
+                new CherryModel(210));
     }
 
     /**
@@ -72,6 +72,7 @@ public class GameController implements ActionListener, KeyListener {
      * accordingly.
      */
     public void game() {
+        Clock ghosttimer = new Clock();
         Clock gameTimer = new Clock();
         Clock fpsTimer = new Clock();
         Clock moveTimer = new Clock();
@@ -88,7 +89,7 @@ public class GameController implements ActionListener, KeyListener {
             if (isStarted) {
                 if (moveTimer.getMs() >= 90) {
                     moveTimer.reset();
-                    
+
                     checkNextPosition(next);
                     if (checkCell()) {
                         pacman.move();
@@ -96,15 +97,18 @@ public class GameController implements ActionListener, KeyListener {
                                 (int) this.pacman.getPosition().getY());
                         if (map.getCell(pacman.getPosition()) != null) {
                             this.score += map.getCell(pacman.getPosition()).getScore();
-                            map.setCell(pacman.getPosition(),null);
-                            System.out.println(score);
-//              this.map.setCell(pacman.getPosition());
+                            map.setCell(pacman.getPosition());
+                            mainframe.getPanelHud().updateScore(this.score);
+
                         }
                     }
-//                    this.ghosts.get(0).move(this.pacman.getPosition(), map);
-//                    System.out.printf("[GCtrl] Blinky: [x=%d, y=%d]%n", (int) this.ghosts.get(0).getPosition().getX(),
-//                            (int) this.ghosts.get(0).getPosition().getY());
-                    mainframe.getPanelGame().repaint();
+                }
+                if(ghosttimer.getMs() >= 140){
+                    ghosttimer.reset();
+
+                    this.ghosts.get(0).move(this.pacman.getPosition(), map);
+                    System.out.printf("[GCtrl] Blinky: [x=%d, y=%d]%n", (int) this.ghosts.get(0).getPosition().getX(),
+                            (int) this.ghosts.get(0).getPosition().getY());
                 }
 
                 if (FruitModel.isPlaced()) {
@@ -115,14 +119,15 @@ public class GameController implements ActionListener, KeyListener {
                         }
                     }
 
-                    if (!currentFruit.isExpired()) {
-                        map.setCell(currentFruit.getPosition());
-                        FruitModel.setPlaced(false);
-                    }
+//                    if (!currentFruit.isExpired()) {
+//                        map.setCell(currentFruit.getPosition());
+//                        FruitModel.setPlaced(false);
+//                    }
                 }
 
                 spawnItem(fruits);
                 checkCollision();
+                mainframe.getPanelGame().repaint();
             }
             try {
                 TimeUnit.MILLISECONDS.sleep((long) 16.666666667);
@@ -158,10 +163,10 @@ public class GameController implements ActionListener, KeyListener {
             }
 
             if (map.getCell(cell) instanceof WallModel
-                    || cell.getY() <= 0
-                    || cell.getY() >= map.getMap()[0].length
+                    || cell.getY() < 0
+                    || cell.getY() > map.getMap()[0].length
                     || cell.getX() <= 0
-                    || cell.getX() >= map.getMap().length) {
+                    || cell.getX() > map.getMap().length) {
                 return false;
             }
             return true;
@@ -195,27 +200,24 @@ public class GameController implements ActionListener, KeyListener {
         int dots = this.map.getDot();
 
         if (dots % 70 == 0 && dots / 70 <= fruits.size() && !FruitModel.isPlaced()) {
-            FruitModel fruit = fruits.get(dots / 70);
+            FruitModel fruit = fruits.get(dots / 70 - 1);
             ItemModel[][] map = this.map.getMap();
             List<Point> freeCells = new ArrayList<>();
+            List<Point> spawn = this.map.getSpawn();
 
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map[i].length; j++) {
-                    if (map[i][j] == null) {
-                        List<Point> spawn = this.map.getSpawn();
-                        for (Point cell : spawn) {
-                            if (!new Point(i, j).equals(cell)) {
-                                freeCells.add(new Point(i, j));
-                            }
-                        }
+                    if (map[i][j] == null && !spawn.contains(new Point(i, j)) && !this.map.getVoids().contains(new Point(i, j))) {
+                        freeCells.add(new Point(i, j));
                     }
                 }
             }
-
-            int randInt = (int) (Math.random() + freeCells.size());
+            int randInt = new Random().nextInt(freeCells.size()-1);
+            System.out.println("ici"+freeCells.size()+" : "+randInt);
             this.map.setCell(freeCells.get(randInt), fruit);
             fruit.setPosition(freeCells.get(randInt));
             fruit.setExpire();
+            this.mainframe.getPanelGame().repaint();
             FruitModel.setPlaced(true);
         }
     }
@@ -234,11 +236,16 @@ public class GameController implements ActionListener, KeyListener {
     }
 
     public void checkNextPosition(nextDirection nextdirection) {
-        int posX = pacman.getPosition().x;
-        int posY = pacman.getPosition().y;
+        if(map.isTeleporter(pacman.getPosition())){
+            System.out.println("aaa");
+            this.pacman.setPosition(map.getTeleporter(pacman.getPosition()));
+            return;
+        }
         if(nextdirection == null){
             return;
         }
+        int posX = pacman.getPosition().x;
+        int posY = pacman.getPosition().y;
         switch (nextdirection) {
             case UP:
                 if (map.isAccessible(new Point(posX, posY - 1))) {

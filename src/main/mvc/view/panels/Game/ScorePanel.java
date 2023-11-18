@@ -14,32 +14,40 @@ import java.awt.Component;
  * It contains the score of the game and the highest score.
  */
 public class ScorePanel extends JPanel {
-
+    private JLabel scorelabel;
+    JLabel highscorelabel;
     /**
      * Constructor of the ScorePanel class.
      * It creates the JPanel and add the components.
      * It contains the score of the game.
      * It contains the highest score.
-     *
-     * @param score     Score of the player.
-     * @param highScore Highest score of the player.
      */
-    public ScorePanel(int score, int highScore) {
+    public ScorePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setPreferredSize(new Dimension(400, 170));
         setBackground(Color.BLACK);
 
-        JLabel scorelabel = new JLabel("Score : " + score);
-        scorelabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        scorelabel.setFont(new Font("Arial", Font.PLAIN, 30));
-        scorelabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        scorelabel.setForeground(Color.WHITE);
-        this.add(scorelabel);
+        this.scorelabel = new JLabel("Score : 0");
+        this.scorelabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.scorelabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        this.scorelabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        this.scorelabel.setForeground(Color.WHITE);
+        this.add(this.scorelabel);
 
-        JLabel highlabel = new JLabel("Highest Score : " + highScore);
-        highlabel.setFont(new Font("Arial", Font.PLAIN, 30));
-        highlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        highlabel.setForeground(Color.GREEN);
-        this.add(highlabel);
+        this.highscorelabel = new JLabel("Highest Score : 0");
+        this.highscorelabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        this.highscorelabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.highscorelabel.setForeground(Color.GREEN);
+        this.add(this.highscorelabel);
+    }
+
+    public void setScore(int score){
+        this.scorelabel.setText("Score : " + score);
+        this.repaint();
+    }
+
+    public void setHighscore(int highscore){
+        this.highscorelabel.setText("Highest Score : " + highscore);
+        this.repaint();
     }
 }
