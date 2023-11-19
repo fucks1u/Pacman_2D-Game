@@ -32,7 +32,24 @@ public class Astar {
     ItemModel[][] map = mapModel.getMap();
 
     if (point.x < 0 || point.x > map.length - 1 || point.y < 0 || point.y > map[0].length - 1
-            || map[point.x][point.y] instanceof WallModel) {
+        || map[point.x][point.y] instanceof WallModel) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public static boolean isWalkable(MapModel mapModel, Point point, List<java.awt.Point> ghostsPositions) {
+    ItemModel[][] map = mapModel.getMap();
+
+    for (java.awt.Point ghostPosition : ghostsPositions) {
+      if (point.x == ghostPosition.getX() && point.y == ghostPosition.getY()) {
+        return false;
+      }
+    }
+
+    if (point.x < 0 || point.x > map.length - 1 || point.y < 0 || point.y > map[0].length - 1
+        || map[point.x][point.y] instanceof WallModel) {
       return false;
     } else {
       return true;
@@ -65,6 +82,32 @@ public class Astar {
     return adjacent;
   }
 
+  public static List<Point> findAdjacent(MapModel mapModel, Point point, List<java.awt.Point> ghostsPositions) {
+    List<Point> adjacent = new ArrayList<>();
+
+    Point up = point.offset(0, 1);
+    Point down = point.offset(0, -1);
+    Point left = point.offset(-1, 0);
+    Point right = point.offset(1, 0);
+
+    if (isWalkable(mapModel, up, ghostsPositions)) {
+      adjacent.add(up);
+    }
+
+    if (isWalkable(mapModel, down, ghostsPositions)) {
+      adjacent.add(down);
+    }
+
+    if (isWalkable(mapModel, left, ghostsPositions)) {
+      adjacent.add(left);
+    }
+
+    if (isWalkable(mapModel, right, ghostsPositions)) {
+      adjacent.add(right);
+    }
+    return adjacent;
+  }
+
   public static boolean listContains(List<Point> list, Point toCheck) {
     for (Point point : list) {
       if (point.x == toCheck.x && point.y == toCheck.y) {
@@ -85,6 +128,52 @@ public class Astar {
         Point point = used.get(i);
 
         for (Point adjacent : findAdjacent(mapModel, point)) {
+          if (!listContains(used, adjacent) && !listContains(unused, adjacent)) {
+            unused.add(adjacent);
+          }
+        }
+
+        for (Point newPoint : unused) {
+          if (!listContains(used, newPoint)) {
+            used.add(newPoint);
+          }
+          if (end.getLocation().getY() == newPoint.y && end.getLocation().getX() == newPoint.x) {
+            completed = true;
+            break;
+          }
+        }
+
+        if (completed) {
+          break;
+        }
+
+        if (!completed && unused.isEmpty()) {
+          return null;
+        }
+      }
+    }
+    List<Point> path = new ArrayList<>();
+    Point point = used.get(used.size() - 1);
+
+    while (point.previousPoint != null) {
+      path.add(0, point);
+      point = point.previousPoint;
+    }
+    return path;
+  }
+
+  public static List<Point> findPathWithGhosts(MapModel mapModel, Point start, Point end,
+      List<java.awt.Point> ghostsPositions) {
+    boolean completed = false;
+    List<Point> used = new ArrayList<>();
+
+    used.add(start);
+    while (!completed) {
+      List<Point> unused = new ArrayList<>();
+      for (int i = 0; i < used.size(); i++) {
+        Point point = used.get(i);
+
+        for (Point adjacent : findAdjacent(mapModel, point, ghostsPositions)) {
           if (!listContains(used, adjacent) && !listContains(unused, adjacent)) {
             unused.add(adjacent);
           }

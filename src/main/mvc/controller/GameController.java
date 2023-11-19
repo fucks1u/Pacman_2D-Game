@@ -13,6 +13,7 @@ import java.awt.Component;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.character.ghost.InkyModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
@@ -101,10 +102,16 @@ public class GameController implements ActionListener, KeyListener {
 				if (ghosttimer.getMs() >= 140) {
 					ghosttimer.reset();
 
-					// this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					// System.out.printf("[GCtrl] Blinky: [x=%d, y=%d]%n", (int)
-					// this.ghosts.get(0).getPosition().getX(),
-					// (int) this.ghosts.get(0).getPosition().getY());
+					InkyModel inky = (InkyModel) this.ghosts.get(2);
+					List<Point> ghostsPositions = new ArrayList<>();
+					for (GhostModel ghost : this.ghosts) {
+						ghostsPositions.add(ghost.getPosition());
+					}
+
+					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					// this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
 				if (FruitModel.isPlaced() && fruitTimer.getSec() >= 10) {

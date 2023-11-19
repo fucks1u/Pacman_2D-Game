@@ -1,12 +1,11 @@
 package src.main.mvc.model.character.ghost;
 
-import src.main.mvc.utils.Astar;
-import src.main.mvc.utils.Astar.Point;
-
 import java.util.List;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.map.MapModel;
+import src.main.mvc.utils.Astar;
+import src.main.mvc.utils.Astar.Point;
 
 /**
  * This class represents the model of the Ghost Blinky in the game.
