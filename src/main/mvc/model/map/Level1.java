@@ -3,6 +3,8 @@ package src.main.mvc.model.map;
 import src.main.mvc.controller.MapFactoryController;
 import src.main.mvc.model.item.ItemModel;
 
+import java.awt.*;
+
 /**
  * Level1 class represents the first level of the game map.
  * It extends the MapModel class and initializes the map for Level1 using a
@@ -12,7 +14,8 @@ public class Level1 extends MapModel {
 
   public Level1() {
     super(initMap());
-
+    this.setVoids(MapFactoryController.getVoids());
+    this.addTeleporters(new Point(14, 1), new Point(14, 26));
   }
 
   /**
@@ -26,36 +29,35 @@ public class Level1 extends MapModel {
         "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
         "wddddddddddddwwddddddddddddw",
         "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",
-        "wDwwwwdwwwwwdwwdwwwwwdwwwwDw",
-        "wddddddddddddddddddddddddddw",
+        "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",
+        "wDddddddddddddddddddddddddDw",
         "wdwwwwdwwdwwwwwwwwdwwdwwwwdw",
         "wdwwwwdwwdwwwwwwwwdwwdwwwwdw",
         "wddddddwwddddwwddddwwddddddw",
         "wwwwwwdwwwww/ww/wwwwwdwwwwww",
         "wwwwwwdwwwww/ww/wwwwwdwwwwww",
-        "/////wdww//////////wwdw/////",
-        "/////wdww/www//www/wwdw/////",
-        "/////wdww/w//////w/wwdw/////",
+        "#####wdww//////////wwdw#####",
+        "#####wdww/www//www/wwdw#####",
+        "#####wdww/w//////w/wwdw#####",
         "wwwwwwdww/w//////w/wwdwwwwww",
         "//////d///w//////w///d//////",
         "wwwwwwdww/w//////w/wwdwwwwww",
-        "/////wdww/w//////w/wwdw/////",
-        "/////wdww/wwwwwwww/wwdw/////",
-        "/////wdww//////////wwdw/////",
+        "#####wdww/w//////w/wwdw#####",
+        "#####wdww/wwwwwwww/wwdw#####",
+        "#####wdww//////////wwdw#####",
         "wwwwwwdww/wwwwwwww/wwdwwwwww",
         "wddddddddddddwwddddddddddddw",
         "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",
         "wdwwwwdwwwwwdwwdwwwwwdwwwwdw",
-        "wDddwwddddddddddddddddwwddDw",
+        "wdddwwddddddddddddddddwwdddw",
         "wwwdwwdwwdwwwwwwwwdwwdwwdwww",
         "wwwdwwdwwdwwwwwwwwdwwdwwdwww",
-        "wddddddwwddddwwddddwwddddddw",
+        "wDdddddwwddddwwddddwwdddddDw",
         "wdwwwwwwwwwwdwwdwwwwwwwwwwdw",
         "wdwwwwwwwwwwdwwdwwwwwwwwwwdw",
         "wddddddddddddddddddddddddddw",
         "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
     };
-
     return factory.createMapFromSchema(schema, 31, 28);
   }
 }

@@ -3,12 +3,17 @@ package src.main.mvc.controller;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.utils.BadDimensionsException;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The MapFactoryController class is responsible for creating a 2D array of
  * ItemModel objects based on a given schema.
  * The schema is a 2D array of items representing the map.
  */
 public class MapFactoryController {
+  private static List<Point> voids = new ArrayList<>();
   /**
    * Creates a 2D array of ItemModel objects based on the given schema.
    * The schema is a 2D array of characters representing the map.
@@ -46,6 +51,9 @@ public class MapFactoryController {
             case 'D':
               map[i][j] = factory.getBigDot();
               break;
+            case '#':
+              voids.add(new Point(i, j));
+              map[i][j] = null;
             default:
               map[i][j] = null;
           }
@@ -54,7 +62,10 @@ public class MapFactoryController {
     } catch (BadDimensionsException e) {
       System.out.println(e.getMessage());
     }
-
     return map;
+  }
+
+  public static List<Point> getVoids() {
+    return voids;
   }
 }
