@@ -2,7 +2,6 @@ package src.main.mvc.model.item;
 
 import java.awt.Point;
 
-import src.main.mvc.utils.Clock;
 
 /**
  * This class represents a FruitModel, which is an abstract class that extends
@@ -13,13 +12,13 @@ import src.main.mvc.utils.Clock;
 public abstract class FruitModel extends ItemModel {
   private int spawnAt;
   private static boolean placed;
-  private Clock expire;
+  public boolean active;
   private Point position;
 
   public FruitModel(int score, int spawnAt) {
     super(score);
-    this.expire = new Clock();
     this.spawnAt = spawnAt;
+    this.active = false;
   }
 
   /**
@@ -37,16 +36,12 @@ public abstract class FruitModel extends ItemModel {
     return placed;
   }
 
-  public boolean isExpired() {
-    if (this.expire.getSec() >= 10) {
-      return true;
-    } else {
-      return false;
-    }
+  public boolean isActive() {
+    return this.active;
   }
 
-  public void setExpire() {
-    this.expire.reset();
+  public void setActive(boolean active) {
+    this.active = active;
   }
 
   public Point getPosition() {
