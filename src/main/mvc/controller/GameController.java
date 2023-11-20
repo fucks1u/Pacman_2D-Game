@@ -19,6 +19,7 @@ import java.awt.Component;
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.character.ghost.InkyModel;
+import src.main.mvc.model.item.BigDotModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
@@ -89,7 +90,15 @@ public class GameController implements ActionListener, KeyListener {
 		clocks.add(fruitTimer);
 		clocks.add(fpsTimer);
 		int fps = 0;
-		do {
+		Clock vulnerabilityTimer = new Clock();
+		HashMap<String, Point> basePositions = new HashMap<>();
+
+		for (GhostModel ghost : ghosts) {
+			Point position = ghost.getPosition();
+			basePositions.put(ghost.getName(), new Point((int) position.getX(), (int) position.getY()));
+		}
+
+		while (pacman.getLives() > 0 && map.getDot() > 0) {
 			if (fpsTimer.getSec() >= 1) {
 				System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, gameTimer.getSec());
 				fpsTimer.reset();
@@ -110,12 +119,16 @@ public class GameController implements ActionListener, KeyListener {
 						// (int) this.pacman.getPosition().getY());
 						if (map.getCell(pacman.getPosition()) != null) {
 							this.score += map.getCell(pacman.getPosition()).getScore();
+							if (map.getCell(pacman.getPosition()) instanceof BigDotModel) {
+								vulnerabilityTimer.reset();
+								GhostModel.setVulnerable(true);
+							}
 							map.setCell(pacman.getPosition());
 							mainframe.getPanelHud().updateScore(this.score);
-
 						}
 					}
 				}
+
 				if (ghosttimer.getMs() >= 140) {
 					ghosttimer.reset();
 
@@ -125,10 +138,14 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					// this.ghosts.get(0).move(this.pacman.getPosition(), map);
 					// this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					// inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
+				}
+
+				if (GhostModel.isVulnerable() && vulnerabilityTimer.getSec() >= 10) {
+					GhostModel.setVulnerable(false);
 				}
 
 				if (FruitModel.isPlaced() && fruitTimer.getSec() >= 10) {
@@ -143,7 +160,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 
 				spawnItem(fruits, fruitTimer);
-				checkCollision();
+				checkCollision(basePositions);
 				mainframe.getPanelGame().repaint();
 			}
 			try {
@@ -222,11 +239,18 @@ public class GameController implements ActionListener, KeyListener {
 					break;
 			}
 
+			for (Point spawn : map.getGhostSpawn()) {
+				if (cell.getX() == spawn.getX() && cell.getY() == spawn.getY()) {
+					System.out.println(cell.getX() + "-" + cell.getY() + " | " + spawn.getX() + " " + spawn.getY());
+					return false;
+				}
+			}
+
 			if (map.getCell(cell) instanceof WallModel
-					|| cell.getY() < 0
-					|| cell.getY() > map.getMap()[0].length
+					|| cell.getY() <= 0
+					|| cell.getY() >= map.getMap()[0].length
 					|| cell.getX() <= 0
-					|| cell.getX() > map.getMap().length) {
+					|| cell.getX() >= map.getMap().length) {
 				return false;
 			}
 			return true;
@@ -237,16 +261,24 @@ public class GameController implements ActionListener, KeyListener {
 	 * Checks for collision between Pacman and ghosts, and decrements Pacman's lives
 	 * if there is a collision.
 	 */
-	public void checkCollision() {
+	public void checkCollision(HashMap<String, Point> basePositions) {
 		// TODO: handle collision when ghosts are vulnerables.
 		Point pacPos = this.pacman.getPosition().getLocation();
 
 		for (GhostModel ghost : this.ghosts) {
 			Point ghostPos = ghost.getPosition().getLocation();
 			if (pacPos.getX() == ghostPos.getX() && pacPos.getY() == ghostPos.getY()) {
-				this.pacman.setLives(this.pacman.getLives() - 1);
-				System.out.printf("[GCtrl] %s touched %s, he now have %d lives.%n", pacman.getClass().getSimpleName(),
-						ghost.getClass().getSimpleName(), pacman.getLives());
+				if (GhostModel.isVulnerable() && basePositions.containsKey(ghost.getName())) {
+					ghost.setPosition(basePositions.get(ghost.getName()));
+					System.out.println(ghost.getPosition().getX() + "-" + ghost.getPosition().getY() + " /// "
+							+ basePositions.get(ghost.getName()));
+
+					this.score += 500;
+				} else {
+					this.pacman.setLives(this.pacman.getLives() - 1);
+					System.out.printf("[GCtrl] %s touched %s, he now have %d lives.%n", pacman.getClass().getSimpleName(),
+							ghost.getClass().getSimpleName(), pacman.getLives());
+				}
 			}
 		}
 	}
@@ -259,7 +291,7 @@ public class GameController implements ActionListener, KeyListener {
 	public void spawnItem(List<FruitModel> fruits, Clock timer) {
 		int dots = this.map.getDot();
 
-		if (dots % 70 == 0 && dots / 70 <= fruits.size() && !FruitModel.isPlaced()) {
+		if (dots % 70 == 0 && dots / 70 <= fruits.size() && !FruitModel.isPlaced() && dots >= 10) {
 			FruitModel fruit = fruits.get(dots / 70 - 1);
 			ItemModel[][] map = this.map.getMap();
 			List<Point> freeCells = new ArrayList<>();
@@ -297,7 +329,6 @@ public class GameController implements ActionListener, KeyListener {
 
 	public void checkNextPosition(nextDirection nextdirection) {
 		if (map.isTeleporter(pacman.getPosition())) {
-			System.out.println("aaa");
 			this.pacman.setPosition(map.getTeleporter(pacman.getPosition()));
 			return;
 		}
@@ -416,7 +447,7 @@ public class GameController implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
-			case KeyEvent.VK_UP:
+			case KeyEvent.VK_UP, KeyEvent.VK_Z:
 				if (map.isAccessible(new Point(pacman.getPosition().x, pacman.getPosition().y - 1))) {
 					this.pacman.setDirection(PacmanModel.directions.UP);
 				}
@@ -424,8 +455,11 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.UP;
 				}
 				break;
-			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_DOWN, KeyEvent.VK_S:
 				if (map.isAccessible(new Point(pacman.getPosition().x, pacman.getPosition().y + 1))) {
+					if (this.pacman.getPosition().equals(new Point(14, 26))) {
+						return;
+					}
 					this.pacman.setDirection(PacmanModel.directions.DOWN);
 					this.next = null;
 				}
@@ -433,7 +467,7 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.DOWN;
 				}
 				break;
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_LEFT, KeyEvent.VK_Q:
 				if (map.isAccessible(new Point(pacman.getPosition().x - 1, pacman.getPosition().y))) {
 					this.pacman.setDirection(PacmanModel.directions.LEFT);
 					this.next = null;
@@ -442,8 +476,11 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.LEFT;
 				}
 				break;
-			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
 				if (map.isAccessible(new Point(pacman.getPosition().x + 1, pacman.getPosition().y))) {
+					if (this.pacman.getPosition().equals(new Point(14, 1))) {
+						return;
+					}
 					this.pacman.setDirection(PacmanModel.directions.RIGHT);
 					this.next = null;
 				}
