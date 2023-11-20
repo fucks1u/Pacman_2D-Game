@@ -6,13 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 
-import src.main.mvc.model.character.CharacterModel;
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.character.ghost.InkyModel;
@@ -123,10 +121,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					// this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					// this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					// inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
 				if (GhostModel.isVulnerable() && vulnerabilityTimer.getSec() >= 10) {
@@ -179,6 +177,13 @@ public class GameController implements ActionListener, KeyListener {
 				case RIGHT:
 					cell.setLocation(cell.getX() + 1, cell.getY());
 					break;
+			}
+
+			for (Point spawn : map.getGhostSpawn()) {
+				if (cell.getX() == spawn.getX() && cell.getY() == spawn.getY()) {
+					System.out.println(cell.getX() + "-" + cell.getY() + " | " + spawn.getX() + " " + spawn.getY());
+					return false;
+				}
 			}
 
 			if (map.getCell(cell) instanceof WallModel

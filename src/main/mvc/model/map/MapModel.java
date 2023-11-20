@@ -84,6 +84,16 @@ public abstract class MapModel {
     return spawn;
   }
 
+  public List<Point> getGhostSpawn() {
+    List<Point> spawn = new ArrayList<>();
+    for (int i = 11; i < 17; i++) {
+      for (int j = 11; j < 17; j++) {
+        spawn.add(new Point(i, j));
+      }
+    }
+    return spawn;
+  }
+
   /**
    * Checks if a given position is accessible on the map.
    * 
