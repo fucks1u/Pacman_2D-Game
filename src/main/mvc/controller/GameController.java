@@ -44,6 +44,8 @@ public class GameController implements ActionListener, KeyListener {
 	private List<Clock> clocks;
 	private MenuFrame mainframe;
 	private boolean isStarted;
+	private int nbFruits;
+	private boolean first;
 
 	private enum nextDirection {
 		UP,
@@ -55,6 +57,10 @@ public class GameController implements ActionListener, KeyListener {
 	private String namePlayer;
 	private nextDirection next;
 
+	//TODO : Javadoc
+	//TODO : Set name of the player
+	//TODO : Display mob + fruit eated
+
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
 
 		this.map = map;
@@ -63,6 +69,7 @@ public class GameController implements ActionListener, KeyListener {
 		this.ghosts = ghostlist;
 		this.isStarted = false;
 		this.clocks = new ArrayList<>();
+		first = true;
 		for (Component c : mainframe.getButtonsPanel().getComponents())
 			((JButton) c).addActionListener(this);
 		this.fruits = Arrays.asList(
@@ -81,14 +88,16 @@ public class GameController implements ActionListener, KeyListener {
 	 */
 	public void game() {
 		Clock ghosttimer = new Clock();
-		Clock gameTimer = new Clock();
+		Clock pacmanTimer = new Clock();
 		Clock fruitTimer = new Clock();
 		Clock fpsTimer = new Clock();
 		Clock moveTimer = new Clock();
+		Clock gametimer = null;
 		clocks.add(ghosttimer);
-		clocks.add(gameTimer);
+		clocks.add(pacmanTimer);
 		clocks.add(fruitTimer);
 		clocks.add(fpsTimer);
+		clocks.add(moveTimer);
 		int fps = 0;
 		Clock vulnerabilityTimer = new Clock();
 		HashMap<String, Point> basePositions = new HashMap<>();
@@ -100,14 +109,19 @@ public class GameController implements ActionListener, KeyListener {
 
 		while (pacman.getLives() > 0 && map.getDot() > 0) {
 			if (fpsTimer.getSec() >= 1) {
-				System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, gameTimer.getSec());
+				System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, pacmanTimer.getSec());
 				fpsTimer.reset();
 				fps = 0;
 			} else {
 				fps++;
 			}
-
 			if (isStarted) {
+                if(first) {
+					gametimer = new Clock();
+					this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
+					first = false;
+				}
+				this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
 				if (moveTimer.getMs() >= 90) {
 					moveTimer.reset();
 
@@ -166,7 +180,7 @@ public class GameController implements ActionListener, KeyListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} while ((pacman.getLives() > 0 && map.getDot() > 0));
+		}
 
 		/**
 		 * End condition :
@@ -206,6 +220,9 @@ public class GameController implements ActionListener, KeyListener {
 				addListeners(mainframe.getButtonsPanel().getComponents());
 			}
 			this.reset();
+			this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(null);
+			this.first = true;
+			this.next = null;
 			this.game();
 		}
 	}

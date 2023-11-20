@@ -53,7 +53,7 @@ public class MenuFrame extends JFrame {
         super("Pacman Game");
         panelgame = new GamePanel(map,pacman,ghost);
         this.pacman = pacman;
-        panelhud = new HudPanel();
+        panelhud = new HudPanel(pacman.getLives());
         displayMenu();
     }
 

@@ -1,5 +1,7 @@
 package src.main.mvc.view.panels.Game;
 
+import src.main.mvc.utils.Clock;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -17,6 +19,9 @@ import java.awt.image.BufferedImage;
  * It contains the timer, the number of fruits eaten and the number of monsters eaten.
  */
 public class DetailsScore extends JPanel {
+    JLabel timerlabel;
+    JLabel fruitslabel;
+    JLabel monsterslabel;
     /**
      * Constructor of the DetailsScore class.
      * It creates the JPanel and add the components.
@@ -25,17 +30,17 @@ public class DetailsScore extends JPanel {
     public DetailsScore(int numberOfLife){
         setLayout(new BorderLayout());
         JPanel panelStatsTimerNORTH = new JPanel();
-        JLabel timerlabel = new JLabel("Timer : 00:00");
+        timerlabel = new JLabel("Timer : 00:00");
         timerlabel.setFont(new Font("Arial", Font.BOLD, 20));
         timerlabel.setForeground(Color.WHITE);
         timerlabel.setBorder(BorderFactory.createEmptyBorder(15,0,0,0));
 
-        JLabel fruitslabel = new JLabel("Fruits eatean : 999");
+        fruitslabel = new JLabel("Fruits eatean : 0");
         fruitslabel.setFont(new Font("Arial", Font.BOLD, 15));
         fruitslabel.setForeground(Color.WHITE);
         fruitslabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
 
-        JLabel monsterslabel = new JLabel("Monsters eaten : 999");
+        monsterslabel = new JLabel("Monsters eaten : 0");
         monsterslabel.setFont(new Font("Arial", Font.BOLD, 15));
         monsterslabel.setForeground(Color.WHITE);
         monsterslabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
@@ -65,5 +70,31 @@ public class DetailsScore extends JPanel {
         LifeRemaining lifeRemaining = new LifeRemaining(numberOfLife);
         panelLifeRemainingSOUTH.add(lifeRemaining);
         add(panelLifeRemainingSOUTH, BorderLayout.SOUTH);
+    }
+
+    public void setTimerlabel(Clock timer) {
+        if(timer == null) {
+            this.timerlabel.setText("Timer : 00:00");
+            return;
+        }
+        if (timer.getMin() < 10 && timer.getSec() < 10)
+            this.timerlabel.setText("Timer : 0" + timer.getMin() + ":0" + timer.getSec());
+        else if (timer.getMin() < 10)
+            this.timerlabel.setText("Timer : 0" + timer.getMin() + ":" + timer.getSec());
+        else if (timer.getSec() < 10)
+            this.timerlabel.setText("Timer : " + timer.getMin() + ":0" + timer.getSec());
+        else
+            this.timerlabel.setText("Timer : " + timer.getMin() + ":" + timer.getSec());
+        this.repaint();
+    }
+
+    public void setFruitslabel(int fruits){
+        this.fruitslabel.setText("Fruits eaten : " + fruits);
+        this.repaint();
+    }
+
+    public void setMonsterslabel(int monsters){
+        this.monsterslabel.setText("Monsters eaten : " + monsters);
+        this.repaint();
     }
 }

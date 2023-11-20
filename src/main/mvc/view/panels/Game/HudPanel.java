@@ -11,7 +11,7 @@ import javax.swing.BoxLayout;
  */
 public class HudPanel extends JPanel {
     private ScorePanel scorePanel;
-    private DetailsScore panelLife;
+    private DetailsScore detailsScore;
     private CommandsGamePanel commandsPanel;
     /**
      * Constructor of the HudPanel class.
@@ -21,15 +21,15 @@ public class HudPanel extends JPanel {
      * It contains the score of the game.
      * It contains the life of the player.
      */
-    public HudPanel() {
+    public HudPanel(int numberOfLife) {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.commandsPanel = new CommandsGamePanel();
         this.scorePanel = new ScorePanel();
-        this.panelLife = new DetailsScore(3);
+        this.detailsScore = new DetailsScore(numberOfLife);
 
         this.add(commandsPanel);
         this.add(scorePanel);
-        this.add(panelLife);
+        this.add(detailsScore);
 
         this.setBackground(Color.BLACK);
         this.setPreferredSize(new Dimension(800, 170));
@@ -49,5 +49,9 @@ public class HudPanel extends JPanel {
      */
     public void updateHighscore(int highscore) {
         this.scorePanel.setHighscore(highscore);
+    }
+
+    public DetailsScore getDetailsScore() {
+        return this.detailsScore;
     }
 }
