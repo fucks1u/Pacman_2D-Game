@@ -163,10 +163,10 @@ public class GameController implements ActionListener, KeyListener {
 			}
 
 			if (map.getCell(cell) instanceof WallModel
-					|| cell.getY() < 0
-					|| cell.getY() > map.getMap()[0].length
+					|| cell.getY() <= 0
+					|| cell.getY() >= map.getMap()[0].length
 					|| cell.getX() <= 0
-					|| cell.getX() > map.getMap().length) {
+					|| cell.getX() >= map.getMap().length) {
 				return false;
 			}
 			return true;
@@ -199,7 +199,7 @@ public class GameController implements ActionListener, KeyListener {
 	public void spawnItem(List<FruitModel> fruits, Clock timer) {
 		int dots = this.map.getDot();
 
-		if (dots % 70 == 0 && dots / 70 <= fruits.size() && !FruitModel.isPlaced()) {
+		if (dots % 70 == 0 && dots / 70 <= fruits.size() && !FruitModel.isPlaced() && dots >= 10) {
 			FruitModel fruit = fruits.get(dots / 70 - 1);
 			ItemModel[][] map = this.map.getMap();
 			List<Point> freeCells = new ArrayList<>();
@@ -238,7 +238,6 @@ public class GameController implements ActionListener, KeyListener {
 
 	public void checkNextPosition(nextDirection nextdirection) {
 		if (map.isTeleporter(pacman.getPosition())) {
-			System.out.println("aaa");
 			this.pacman.setPosition(map.getTeleporter(pacman.getPosition()));
 			return;
 		}
@@ -350,6 +349,9 @@ public class GameController implements ActionListener, KeyListener {
 				break;
 			case KeyEvent.VK_DOWN:
 				if (map.isAccessible(new Point(pacman.getPosition().x, pacman.getPosition().y + 1))) {
+					if (this.pacman.getPosition().equals(new Point(14, 26))) {
+						return;
+					}
 					this.pacman.setDirection(PacmanModel.directions.DOWN);
 					this.next = null;
 				}
@@ -368,6 +370,9 @@ public class GameController implements ActionListener, KeyListener {
 				break;
 			case KeyEvent.VK_RIGHT:
 				if (map.isAccessible(new Point(pacman.getPosition().x + 1, pacman.getPosition().y))) {
+					if (this.pacman.getPosition().equals(new Point(14, 1))) {
+						return;
+					}
 					this.pacman.setDirection(PacmanModel.directions.RIGHT);
 					this.next = null;
 				}
