@@ -48,7 +48,6 @@ public class HudPanel extends JPanel {
      * @param highscore the highscore of the game.
      */
     public void updateHighscore(int highscore) {
-        ScorePanel scorePanel = (ScorePanel) this.getComponent(1);
-        scorePanel.setHighscore(highscore);
+        this.scorePanel.setHighscore(highscore);
     }
 }

@@ -18,7 +18,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Level1 level1 = new Level1();
-        Level1 level1copy = new Level1();
         PacmanModel pacman = new PacmanModel(new Point(18, 13));
         List<GhostModel> ghost = Arrays.asList(
                 new BlinkyModel(new Point(13, 12)),
@@ -28,7 +27,6 @@ public class Main {
 
         MenuFrame menu = new MenuFrame(level1.getMap(),pacman,ghost);
         GameController game = new GameController(level1,menu,pacman,ghost);
-        game.setMapCopy(level1copy);
         game.game();
     }
 

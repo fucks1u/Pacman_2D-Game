@@ -255,8 +255,4 @@ public class MenuFrame extends JFrame {
     public JOptionPane getOptionPane(){
         return this.optionPane;
     }
-
-    public PacmanModel getPacman() {
-        return this.pacman;
-    }
 }

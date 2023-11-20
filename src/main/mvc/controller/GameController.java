@@ -5,17 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.Component;
-import java.util.HashMap;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
@@ -32,18 +36,14 @@ import src.main.mvc.view.frames.MenuFrame;
 
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
+	private int highscore = 0;
 	private MapModel map;
-	private MapModel mapCopy;
 	private PacmanModel pacman;
 	private List<GhostModel> ghosts;
 	private List<FruitModel> fruits;
 	private List<Clock> clocks;
 	private MenuFrame mainframe;
 	private boolean isStarted;
-
-	public void setMapCopy(MapModel map) {
-		this.mapCopy = map;
-	}
 
 	private enum nextDirection {
 		UP,
@@ -58,7 +58,6 @@ public class GameController implements ActionListener, KeyListener {
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
 
 		this.map = map;
-		this.mapCopy = map;
 		this.mainframe = mainframe;
 		this.pacman = pacman;
 		this.ghosts = ghostlist;
@@ -116,8 +115,6 @@ public class GameController implements ActionListener, KeyListener {
 					if (checkCell()) {
 						pacman.move();
 						// System.out.printf("[GCtrl] Pacman: [x=%d, y=%d]%n", (int)
-						// this.pacman.getPosition().getX(),
-						// (int) this.pacman.getPosition().getY());
 						if (map.getCell(pacman.getPosition()) != null) {
 							this.score += map.getCell(pacman.getPosition()).getScore();
 							if (map.getCell(pacman.getPosition()) instanceof BigDotModel) {
@@ -198,13 +195,11 @@ public class GameController implements ActionListener, KeyListener {
 						name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 								JOptionPane.QUESTION_MESSAGE);
 					}
-					System.out.println("update");
 					this.updateScore(name, this.score);
-				} else {
-					mainframe.getContentPane().removeAll();
-					mainframe.displayGame();
 				}
-				System.out.println("Vous avez choisi Oui");
+				mainframe.getContentPane().removeAll();
+				mainframe.displayGame();
+				mainframe.getPanelHud().updateHighscore(this.highscore);
 			} else if (selectedValue.equals("No")) {
 				mainframe.getContentPane().removeAll();
 				mainframe.displayMenu();
@@ -362,8 +357,15 @@ public class GameController implements ActionListener, KeyListener {
 		}
 	}
 
+	/**
+	 * This method is to reset all the variables of the game.
+	 * It is used when the player wants to play again.
+	 */
 	public void reset(){
 		this.score = 0;
+		if(this.highscore != 0){
+			this.mainframe.getPanelHud().updateHighscore(this.highscore);
+		}
 		this.mainframe.getPanelHud().updateScore(this.score);
 		this.pacman.setLives(1);
 		this.pacman.setPosition(new Point(18, 13));
@@ -436,15 +438,16 @@ public class GameController implements ActionListener, KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent keyEvent) {
-
-	}
-
+	public void keyTyped(KeyEvent keyEvent) {}
 	@Override
-	public void keyPressed(KeyEvent keyEvent) {
+	public void keyPressed(KeyEvent keyEvent) {}
 
-	}
-
+	/**
+	 * This method processes the user inputs and updates the direction of the Pacman.
+	 * Z,Q,S,D and the arrow keys are used to move the Pacman.
+	 * Left, Right, Up, Down are used to move the Pacman.
+	 * @param keyEvent the event to be processed
+	 */
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
@@ -495,62 +498,138 @@ public class GameController implements ActionListener, KeyListener {
 		this.isStarted = true;
 	}
 
-	public void updateScore(String name, int score){
-		File file = new File("src/main/resources/leaderboard.txt");
+	/**
+	 * This method updates the score of a player in the file leaderboard.txt.
+	 * It updates the score of the player if it is higher than the previous one.
+	 * @param name The name of the player.
+	 * @param score The score of the player.
+	 */
+	public void updateScore(String name, int score) {
+		try{
+			List<String> lines = readFile("src/main/resources/leaderboard.txt");
 
-		if(file.exists()){
-			try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
-				String line = reader.readLine();
-				while(line != null){
-					String[] parts = line.split(":");
-					if(parts[0].equals(name)){
-						if(score > Integer.parseInt(parts[1])){
-							try {
-								//delete line and replace with the good score
-								BufferedReader br = new BufferedReader(new FileReader(file));
-								String lineToRemove = line;
-								String currentLine;
-								String input = "";
-								while((currentLine = br.readLine()) != null) {
-									if(currentLine.equals(lineToRemove)) continue;
-									input += currentLine + "\n";
-								}
+			if(containtName(lines, name)) {
+				updateScore(lines, name, score);
+			} else {
+				addNewPlayer(lines, name, score);
+			}
 
-								BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-								bw.write("\n" + name + ":" + score);
-								bw.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-					line = reader.readLine();
-				}
+			sortAndWriteInFile("src/main/resources/leaderboard.txt", lines);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-//				if(parts[0] == name){
-//					if(score > Integer.parseInt(parts[1])){
-//						try {
-//							BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-//							bw.write("\n" + name + ":" + score);
-//							bw.close();
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
-//					} else {
-//						try {
-//							BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-//							bw.write("\n" + name + ":" + score);
-//							bw.close();
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//				}
-			} catch (FileNotFoundException e) {
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+	/**
+	 * This method reads the file leaderboard.txt and returns the lines of the file.
+	 * It returns a List of String with the lines of the file.
+	 * @param file The file to read.
+	 * @return A List of String with the lines of the file.
+	 * @throws IOException   If the file doesn't exist.
+	 */
+	private List<String> readFile(String file) throws IOException {
+		List<String> lines = new ArrayList<>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String ligne;
+			while ((ligne = br.readLine()) != null) {
+				lines.add(ligne);
 			}
 		}
+
+		return lines;
+	}
+
+	/**
+	 * This method adds a new player in the file leaderboard.txt.
+	 * It adds the name and the score of the player in the file.
+	 * @param lines The lines of the file leaderboard.txt.
+	 * @param name The name of the player.
+	 * @param score The score of the player.
+	 */
+	private void addNewPlayer(List<String> lines, String name, int score) {
+		lines.add(formatLine(name, score));
+	}
+
+	/**
+	 * This method checks if the file leaderboard.txt contains the name of the player.
+	 * It returns true if the file contains the name of the player, false otherwise.
+	 * @param lines The lines of the file leaderboard.txt.
+	 * @param name The name of the player.
+	 * @return true if the file contains the name of the player, false otherwise.
+	 */
+	private boolean containtName(List<String> lines, String name) {
+		for (String line : lines) {
+			if (line.startsWith(name + ":")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * This method updates the score of a player in the file leaderboard.txt.
+	 * It updates the score of the player if it is higher than the previous one.
+	 * @param lines The lines of the file leaderboard.txt.
+	 * @param name The name of the player.
+	 * @param newScore The new score of the player.
+	 */
+	private void updateScore(List<String> lines, String name, int newScore) {
+		for (int i = 0; i < lines.size(); i++) {
+			String ligne = lines.get(i);
+			if (ligne.startsWith(name + ":")) {
+				String[] elements = ligne.split(":");
+				int scoreActuel = Integer.parseInt(elements[1]);
+				if (newScore > scoreActuel) {
+					lines.set(i, formatLine(name, newScore));
+					this.highscore = newScore;
+				}
+				break;
+			}
+		}
+	}
+
+	/**
+	 * This method sorts the lines of the file leaderboard.txt and writes them in the file.
+	 * It sorts the lines by score.
+	 * @param file The file to write in.
+	 * @param lines The lines to write in the file.
+	 * @throws IOException If the file doesn't exist.
+	 */
+	private void sortAndWriteInFile(String file, List<String> lines) throws IOException {
+		lines.sort(Comparator.comparingInt((String s) -> Integer.parseInt(s.split(":")[1])).reversed());
+
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+			for (String line : lines) {
+				bw.write(line);
+				bw.newLine();
+			}
+		}
+	}
+
+	/**
+	 * This method formats a line to write in the file leaderboard.txt.
+	 * It returns a String with the name and the score of the player.
+	 * @param name Name of the player.
+	 * @param score Score of the player.
+	 * @return A String with the name and the score of the player.
+	 */
+	private String formatLine(String name, int score) {
+		return name + ":" + score;
+	}
+
+	private String getScore(String name){
+		try{
+			List<String> lines = readFile("src/main/resources/leaderboard.txt");
+			for (String line : lines) {
+				if (line.startsWith(name + ":")) {
+					String[] elements = line.split(":");
+					return elements[1];
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
