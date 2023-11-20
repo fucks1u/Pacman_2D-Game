@@ -16,13 +16,14 @@ public class PinkyModel extends GhostModel {
     super("Pinky", position);
   }
 
-  /*
+/**
    * Moves the ghost character towards the specified target position on the map.
    * Uses the A* algorithm to find the shortest path to the target position.
-   * If a valid path is found, the ghost character moves one step closer to the
-   * target position.
-   * The ghost character can move up, down, left, or right depending on the next
-   * cell in the path.
+   * If a valid path is found, the ghost character moves one step closer to the target position.
+   * The ghost character can move up, down, left, or right depending on the next cell in the path.
+   *
+   * @param target The target position to move towards.
+   * @param map The map model representing the game map.
    */
   @Override
   public void move(java.awt.Point target, MapModel map) {
