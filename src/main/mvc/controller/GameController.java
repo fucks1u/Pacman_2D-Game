@@ -109,7 +109,7 @@ public class GameController implements ActionListener, KeyListener {
 					}
 
 					this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					// this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					this.ghosts.get(1).move(this.pacman.getPosition(), map);
 					inky.move(this.pacman.getPosition(), map, ghostsPositions);
 					this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
@@ -339,7 +339,7 @@ public class GameController implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
-			case KeyEvent.VK_UP:
+			case KeyEvent.VK_UP, KeyEvent.VK_Z:
 				if (map.isAccessible(new Point(pacman.getPosition().x, pacman.getPosition().y - 1))) {
 					this.pacman.setDirection(PacmanModel.directions.UP);
 				}
@@ -347,7 +347,7 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.UP;
 				}
 				break;
-			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_DOWN, KeyEvent.VK_S:
 				if (map.isAccessible(new Point(pacman.getPosition().x, pacman.getPosition().y + 1))) {
 					if (this.pacman.getPosition().equals(new Point(14, 26))) {
 						return;
@@ -359,7 +359,7 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.DOWN;
 				}
 				break;
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_LEFT, KeyEvent.VK_Q:
 				if (map.isAccessible(new Point(pacman.getPosition().x - 1, pacman.getPosition().y))) {
 					this.pacman.setDirection(PacmanModel.directions.LEFT);
 					this.next = null;
@@ -368,7 +368,7 @@ public class GameController implements ActionListener, KeyListener {
 					this.next = nextDirection.LEFT;
 				}
 				break;
-			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_RIGHT, KeyEvent.VK_D:
 				if (map.isAccessible(new Point(pacman.getPosition().x + 1, pacman.getPosition().y))) {
 					if (this.pacman.getPosition().equals(new Point(14, 1))) {
 						return;
