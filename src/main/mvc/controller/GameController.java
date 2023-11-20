@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.Component;
+import java.util.HashMap;
 
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
@@ -138,10 +139,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					// this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					// this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					// inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					 this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					 this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					 inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					 this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
 				if (GhostModel.isVulnerable() && vulnerabilityTimer.getSec() >= 10) {
