@@ -137,11 +137,6 @@ public abstract class MapModel {
       this.voids = voids;
     }
 
-    /**
-     * Adds a void to the list of voids on the map.
-     *
-     * @param voids the voids to set
-     */
     public void addTeleporters(Point p1, Point p2) {
       teleporters.put(p1, p2);
       teleporters.put(p2, p1);

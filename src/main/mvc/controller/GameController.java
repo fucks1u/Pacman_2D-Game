@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -18,6 +23,7 @@ import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
 import src.main.mvc.model.item.fruit.CherryModel;
+import src.main.mvc.model.map.Level1;
 import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
@@ -25,11 +31,17 @@ import src.main.mvc.view.frames.MenuFrame;
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
 	private MapModel map;
+	private MapModel mapCopy;
 	private PacmanModel pacman;
 	private List<GhostModel> ghosts;
 	private List<FruitModel> fruits;
+	private List<Clock> clocks;
 	private MenuFrame mainframe;
 	private boolean isStarted;
+
+	public void setMapCopy(MapModel map) {
+		this.mapCopy = map;
+	}
 
 	private enum nextDirection {
 		UP,
@@ -38,17 +50,18 @@ public class GameController implements ActionListener, KeyListener {
 		RIGHT
 	}
 
-	;
-
+	private String namePlayer;
 	private nextDirection next;
 
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
 
 		this.map = map;
+		this.mapCopy = map;
 		this.mainframe = mainframe;
 		this.pacman = pacman;
 		this.ghosts = ghostlist;
 		this.isStarted = false;
+		this.clocks = new ArrayList<>();
 		for (Component c : mainframe.getButtonsPanel().getComponents())
 			((JButton) c).addActionListener(this);
 		this.fruits = Arrays.asList(
@@ -71,8 +84,12 @@ public class GameController implements ActionListener, KeyListener {
 		Clock fruitTimer = new Clock();
 		Clock fpsTimer = new Clock();
 		Clock moveTimer = new Clock();
+		clocks.add(ghosttimer);
+		clocks.add(gameTimer);
+		clocks.add(fruitTimer);
+		clocks.add(fpsTimer);
 		int fps = 0;
-		while (pacman.getLives() > 0 && map.getDot() > 0) {
+		do {
 			if (fpsTimer.getSec() >= 1) {
 				System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, gameTimer.getSec());
 				fpsTimer.reset();
@@ -134,6 +151,49 @@ public class GameController implements ActionListener, KeyListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} while ((pacman.getLives() > 0 && map.getDot() > 0));
+
+		/**
+		 * End condition :
+		 * If the player has no more lives or if there is no more dots on the map.
+		 */
+		if(pacman.getLives() <= 0 || map.getDot() <= 0){
+			this.isStarted = false;
+			boolean response;
+			mainframe.getContentPane().removeAll();
+			if(pacman.getLives() <= 0){
+				response = mainframe.displayGameOver("lose");
+			} else {
+				response = mainframe.displayGameOver("win");
+			}
+			removeListeners(mainframe.getPanelGame().getComponents());
+			Object selectedValue = mainframe.getOptionPane().getValue();
+			if(selectedValue == null){
+				mainframe.getContentPane().removeAll();
+				mainframe.displayMenu();
+				addListeners(mainframe.getButtonsPanel().getComponents());
+			} else if (selectedValue.equals("Yes")) {
+				if(!response){
+					String name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
+							JOptionPane.QUESTION_MESSAGE);
+					while(name == null) {
+						name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
+								JOptionPane.QUESTION_MESSAGE);
+					}
+					System.out.println("update");
+					this.updateScore(name, this.score);
+				} else {
+					mainframe.getContentPane().removeAll();
+					mainframe.displayGame();
+				}
+				System.out.println("Vous avez choisi Oui");
+			} else if (selectedValue.equals("No")) {
+				mainframe.getContentPane().removeAll();
+				mainframe.displayMenu();
+				addListeners(mainframe.getButtonsPanel().getComponents());
+			}
+			this.reset();
+			this.game();
 		}
 	}
 
@@ -214,7 +274,6 @@ public class GameController implements ActionListener, KeyListener {
 				}
 			}
 			int randInt = new Random().nextInt(freeCells.size() - 1);
-			System.out.println("ici" + freeCells.size() + " : " + randInt);
 			this.map.setCell(freeCells.get(randInt), fruit);
 			fruit.setPosition(freeCells.get(randInt));
 			fruit.setActive(true);
@@ -271,6 +330,24 @@ public class GameController implements ActionListener, KeyListener {
 		}
 	}
 
+	public void reset(){
+		this.score = 0;
+		this.mainframe.getPanelHud().updateScore(this.score);
+		this.pacman.setLives(1);
+		this.pacman.setPosition(new Point(18, 13));
+		this.isStarted = false;
+		int i = 0;
+		for(GhostModel ghost : this.ghosts){
+			ghost.setPosition(new Point(13, 12+i));
+			i++;
+		}
+		for(Clock c : this.clocks){
+			c.reset();
+		}
+		this.map = new Level1();
+		this.mainframe.getPanelGame().setMap(this.map.getMap());
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		String key = actionEvent.getActionCommand();
@@ -279,7 +356,6 @@ public class GameController implements ActionListener, KeyListener {
 			case "Play":
 				mainframe.getContentPane().removeAll();
 				mainframe.displayGame();
-				this.isStarted = true;
 				mainframe.addKeyListener(this);
 				addListeners(mainframe.getPanelGame().getComponents());
 				break;
@@ -302,7 +378,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
 					JOptionPane.showMessageDialog(mainframe, String.format(
-							"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
+									"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
 							"Error", JOptionPane.ERROR_MESSAGE);
 					name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 							JOptionPane.QUESTION_MESSAGE);
@@ -377,6 +453,66 @@ public class GameController implements ActionListener, KeyListener {
 				break;
 			default:
 				break;
+		}
+		this.isStarted = true;
+	}
+
+	public void updateScore(String name, int score){
+		File file = new File("src/main/resources/leaderboard.txt");
+
+		if(file.exists()){
+			try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
+				String line = reader.readLine();
+				while(line != null){
+					String[] parts = line.split(":");
+					if(parts[0].equals(name)){
+						if(score > Integer.parseInt(parts[1])){
+							try {
+								//delete line and replace with the good score
+								BufferedReader br = new BufferedReader(new FileReader(file));
+								String lineToRemove = line;
+								String currentLine;
+								String input = "";
+								while((currentLine = br.readLine()) != null) {
+									if(currentLine.equals(lineToRemove)) continue;
+									input += currentLine + "\n";
+								}
+
+								BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+								bw.write("\n" + name + ":" + score);
+								bw.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					line = reader.readLine();
+				}
+
+//				if(parts[0] == name){
+//					if(score > Integer.parseInt(parts[1])){
+//						try {
+//							BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+//							bw.write("\n" + name + ":" + score);
+//							bw.close();
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//					} else {
+//						try {
+//							BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+//							bw.write("\n" + name + ":" + score);
+//							bw.close();
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

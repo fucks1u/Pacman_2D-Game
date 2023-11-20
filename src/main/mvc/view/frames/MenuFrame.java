@@ -13,15 +13,14 @@ import src.main.mvc.view.panels.Score.ButtonNewPlayer;
 import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
-import javax.swing.BorderFactory;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -41,6 +40,7 @@ public class MenuFrame extends JFrame {
     private ButtonNewPlayer panelnewplayer;
     private GamePanel panelgame;
     private HudPanel panelhud;
+    private JOptionPane optionPane;
     private PacmanModel pacman;
 
 
@@ -170,7 +170,6 @@ public class MenuFrame extends JFrame {
         File file = new File("src/main/resources/leaderboard.txt");
 
         if (file.exists()) {
-            if (file.exists()) {
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line = reader.readLine();
 
@@ -197,6 +196,40 @@ public class MenuFrame extends JFrame {
             } else {
                 System.out.println("pas de fichier");
             }
+    }
+
+
+    public boolean displayGameOver(String state) {
+        this.optionPane = new JOptionPane();
+        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de texte
+        JPanel customPanel = new JPanel(new BorderLayout());
+        JLabel winLabel = new JLabel(state.toUpperCase());
+        JLabel retry = new JLabel("Retry ?");
+        JCheckBox checkbox = new JCheckBox("Invited player ?");
+        winLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
+        winLabel.setForeground(Color.RED);
+        winLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        retry.setHorizontalAlignment(SwingConstants.CENTER);
+        retry.setBorder(new EmptyBorder(20, 0, 0, 0));
+        winLabel.setFont(new Font("Arial", Font.BOLD, 30));
+
+        customPanel.add(winLabel, BorderLayout.NORTH);
+        customPanel.add(checkbox, BorderLayout.WEST);
+        customPanel.add(retry, BorderLayout.SOUTH);
+
+        Object[] options = {"Yes", "No"};
+
+        optionPane.setMessage(new Object[]{customPanel});
+        optionPane.setOptions(options);
+
+        JDialog dialog = optionPane.createDialog("You "+state.toUpperCase()+" !");
+        dialog.setResizable(false);
+
+        dialog.setVisible(true);
+        if(checkbox.isSelected()){
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -218,6 +251,9 @@ public class MenuFrame extends JFrame {
 
     public HudPanel getPanelHud() {
         return this.panelhud;
+    }
+    public JOptionPane getOptionPane(){
+        return this.optionPane;
     }
 
     public PacmanModel getPacman() {

@@ -87,4 +87,9 @@ public class GamePanel extends JPanel {
         }
         g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 19, 19, this);
     }
+
+    public void setMap(ItemModel[][] map) {
+        this.map = map;
+        this.repaint();
+    }
 }
