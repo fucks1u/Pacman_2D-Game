@@ -40,7 +40,7 @@ public class ClydeModel extends GhostModel {
     List<Point> path = Astar.findPath(map, start, end);
     if (path != null) {
       Point nextCell = path.get(0);
-      if (path.size() < 10 || GhostModel.vulnerable) {
+      if (path.size() < 10 || this.vulnerable) {
         nextCell = GhostModel.moveBackward(start, nextCell, map);
       }
 

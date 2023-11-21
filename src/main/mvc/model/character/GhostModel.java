@@ -17,12 +17,13 @@ import src.main.mvc.utils.Astar.Point;
  * position.
  */
 public abstract class GhostModel extends CharacterModel {
-  public static boolean vulnerable = false;
+  public boolean vulnerable;
   private String name;
 
   public GhostModel(String name, java.awt.Point position) {
     super(position);
     this.name = name;
+    this.vulnerable = false;
   }
 
   /**
@@ -30,7 +31,7 @@ public abstract class GhostModel extends CharacterModel {
    *
    * @return true if the ghost is vulnerable, false otherwise.
    */
-  public static boolean isVulnerable() {
+  public boolean isVulnerable() {
     return vulnerable;
   }
 
@@ -39,8 +40,8 @@ public abstract class GhostModel extends CharacterModel {
    * 
    * @param vuln the vulnerability status to set
    */
-  public static void setVulnerable(boolean vuln) {
-    vulnerable = vuln;
+  public void setVulnerable(boolean vulnerable) {
+    this.vulnerable = vulnerable;
   }
 
   /**
@@ -81,7 +82,7 @@ public abstract class GhostModel extends CharacterModel {
 
     return cell;
   }
-  
+
   public static boolean checkCell(Point cell, ItemModel[][] map) {
     if (map[cell.x][cell.y] instanceof WallModel) {
       return false;

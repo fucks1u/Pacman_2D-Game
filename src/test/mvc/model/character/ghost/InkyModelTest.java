@@ -9,7 +9,6 @@ import java.awt.Point;
 
 import org.junit.jupiter.api.Test;
 
-import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.ghost.InkyModel;
 
 // TODO: add move() test when implemented
@@ -19,14 +18,14 @@ public class InkyModelTest {
 
   @Test
   void checkVulnerability() {
-    assertFalse(GhostModel.isVulnerable());
+    assertFalse(inky.isVulnerable());
   }
 
   @Test
   void enableVulnerability() {
-    GhostModel.setVulnerable(true);
-    assertTrue(GhostModel.isVulnerable());
-    GhostModel.setVulnerable(false);
+    inky.setVulnerable(true);
+    assertTrue(inky.isVulnerable());
+    inky.setVulnerable(false);
   }
 
   @Test

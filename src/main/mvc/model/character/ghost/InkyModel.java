@@ -39,7 +39,7 @@ public class InkyModel extends GhostModel {
     List<Point> path = Astar.findPathWithGhosts(map, start, end, ghostModels);
     if (path != null) {
       Point nextCell = path.get(0);
-      if (GhostModel.vulnerable) {
+      if (this.vulnerable) {
         nextCell = GhostModel.moveBackward(start, nextCell, map);
       }
       

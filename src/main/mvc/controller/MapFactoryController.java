@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MapFactoryController {
   private static List<Point> voids = new ArrayList<>();
+
   /**
    * Creates a 2D array of ItemModel objects based on the given schema.
    * The schema is a 2D array of characters representing the map.
