@@ -4,7 +4,10 @@ import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.ItemModel;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -12,7 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * This class is a JPanel to show the game.
@@ -30,7 +34,6 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteGhostClyde = null;
     private BufferedImage spriteGhostVulnerable = null;
     private BufferedImage spriteCherry = null;
-    private int i = 0;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
     private int pacmanMouthAngle = 45;
@@ -62,6 +65,9 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        /**
+         * This timer is used to animate the mouth of pacman.
+         */
         Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,6 +78,13 @@ public class GamePanel extends JPanel {
         timer.start();
     }
 
+    /**
+     * This method paints the components.
+     * It draws the map.
+     * It draws the pacman and animate it.
+     * It draws the ghosts.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -83,7 +96,7 @@ public class GamePanel extends JPanel {
             for (int j = 0; j < map[i].length; j++) {
                 int x = i * 19;
                 int y = j * 19;
-                if(map[i][j] == null)  continue;
+                if(map[i][j] == null) continue;
                 switch(map[i][j].getClass().getName().split("\\.")[5].charAt(0)) {
                     case 'W':
                         g2d.drawImage(spriteWall, x, y, 19, 19, this);
@@ -127,8 +140,26 @@ public class GamePanel extends JPanel {
     }
 
     private void dessinerPacman(Graphics g, int angleBouche) {
-        g.setColor(Color.YELLOW);
-        g.fillArc(this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 19, 19, angleBouche, 360 - 2 * angleBouche);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.YELLOW);
+        int x = pacman.getPosition().x*19;
+        int y = pacman.getPosition().y*19;
+
+        if(pacman.getDirection() == null) return;
+        switch (pacman.getDirection()) {
+            case UP:
+                g2d.rotate(Math.toRadians(-90), x+11.5, y+13);
+                break;
+            case LEFT:
+                g2d.rotate(Math.toRadians(180), x+10, y+10);
+                break;
+            case DOWN:
+                g2d.rotate(Math.toRadians(90), x+10.5, y+9);
+                break;
+        }
+
+        g2d.fillArc(x, y, 19, 19, angleBouche, 360 - 2 * angleBouche);
+        g2d.rotate(Math.toRadians(0), x, y);
     }
 
     public void setMap(ItemModel[][] map) {
