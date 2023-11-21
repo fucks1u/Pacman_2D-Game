@@ -111,7 +111,7 @@ public class GameController implements ActionListener, KeyListener {
 
 		while (pacman.getLives() > 0 && map.getDot() > 0) {
 			if (fpsTimer.getSec() >= 1) {
-				System.out.printf("[GCtrl] FPS: %d, Time: %d%n", fps, pacmanTimer.getSec());
+				System.out.printf("[GCtrl] FPS: %d, Time: %d, Score: %d%n", fps, pacmanTimer.getSec(), this.score);
 				fpsTimer.reset();
 				fps = 0;
 			} else {
@@ -132,7 +132,7 @@ public class GameController implements ActionListener, KeyListener {
 					if (checkCell()) {
 						pacman.move();
 						if (map.getCell(pacman.getPosition()) != null) {
-							if(map.getCell(pacman.getPosition()) instanceof FruitModel){
+							if (map.getCell(pacman.getPosition()) instanceof FruitModel) {
 								this.mainframe.getPanelHud().getDetailsScore().setFruitslabel(this.nbFruits++);
 							}
 							this.score += map.getCell(pacman.getPosition()).getScore();
@@ -325,7 +325,7 @@ public class GameController implements ActionListener, KeyListener {
 			for (int i = 0; i < map.length; i++) {
 				for (int j = 0; j < map[i].length; j++) {
 					if (map[i][j] == null && !spawn.contains(new Point(i, j))
-							&& !this.map.getVoids().contains(new Point(i, j)) && (i != 14 && (j != 0 || j != 27))) {
+							&& !this.map.getVoids().contains(new Point(i, j))) {
 						freeCells.add(new Point(i, j));
 					}
 				}
@@ -405,8 +405,8 @@ public class GameController implements ActionListener, KeyListener {
 		this.pacman.setLives(1);
 		this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 		this.pacman.setPosition(new Point(18, 13));
-		for(GhostModel ghost : this.ghosts){
-			ghost.setPosition(new Point(13, 12+i));
+		for (GhostModel ghost : this.ghosts) {
+			ghost.setPosition(new Point(13, 12 + i));
 			i++;
 		}
 		for (Clock c : this.clocks) {

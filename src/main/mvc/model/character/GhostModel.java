@@ -84,7 +84,7 @@ public abstract class GhostModel extends CharacterModel {
   }
 
   public static boolean checkCell(Point cell, ItemModel[][] map) {
-    if (map[cell.x][cell.y] instanceof WallModel) {
+    if (map[cell.x][cell.y] instanceof WallModel || (cell.x == 14 && (cell.y == 0 || cell.y == 27))) {
       return false;
     }
     return true;
