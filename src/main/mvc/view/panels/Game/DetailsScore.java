@@ -19,9 +19,10 @@ import java.awt.image.BufferedImage;
  * It contains the timer, the number of fruits eaten and the number of monsters eaten.
  */
 public class DetailsScore extends JPanel {
-    JLabel timerlabel;
-    JLabel fruitslabel;
-    JLabel monsterslabel;
+    private JLabel timerlabel;
+    private JLabel fruitslabel;
+    private JLabel monsterslabel;
+    private LifeRemaining lifeRemaining;
     /**
      * Constructor of the DetailsScore class.
      * It creates the JPanel and add the components.
@@ -35,7 +36,7 @@ public class DetailsScore extends JPanel {
         timerlabel.setForeground(Color.WHITE);
         timerlabel.setBorder(BorderFactory.createEmptyBorder(15,0,0,0));
 
-        fruitslabel = new JLabel("Fruits eatean : 0");
+        fruitslabel = new JLabel("Fruits eaten : 0");
         fruitslabel.setFont(new Font("Arial", Font.BOLD, 15));
         fruitslabel.setForeground(Color.WHITE);
         fruitslabel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
@@ -67,7 +68,7 @@ public class DetailsScore extends JPanel {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-        LifeRemaining lifeRemaining = new LifeRemaining(numberOfLife);
+        lifeRemaining = new LifeRemaining(numberOfLife);
         panelLifeRemainingSOUTH.add(lifeRemaining);
         add(panelLifeRemainingSOUTH, BorderLayout.SOUTH);
     }
@@ -96,5 +97,9 @@ public class DetailsScore extends JPanel {
     public void setMonsterslabel(int monsters){
         this.monsterslabel.setText("Monsters eaten : " + monsters);
         this.repaint();
+    }
+
+    public LifeRemaining getLifeRemaining() {
+        return this.lifeRemaining;
     }
 }

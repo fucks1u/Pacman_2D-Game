@@ -23,7 +23,11 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteDot = null;
     private BufferedImage spritePacman = null;
     private BufferedImage spriteBigDot = null;
-    private BufferedImage spriteGhost = null;
+    private BufferedImage spriteGhostInky = null; 
+    private BufferedImage spriteGhostBlinky = null;
+    private BufferedImage spriteGhostPinky = null;
+    private BufferedImage spriteGhostClyde = null;
+    private BufferedImage spriteGhostVulnerable = null;
     private BufferedImage spriteCherry = null;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
@@ -45,8 +49,12 @@ public class GamePanel extends JPanel {
             spriteDot = ImageIO.read(new File("src/main/resources/img/dotitem.png"));
             spriteBigDot = ImageIO.read(new File("src/main/resources/img/dot.png"));
             spritePacman = ImageIO.read(new File("src/main/resources/img/pacman.png"));
-            spriteGhost = ImageIO.read(new File("src/main/resources/img/ghost3.png"));
             spriteCherry = ImageIO.read(new File("src/main/resources/img/cherry.png"));
+            spriteGhostInky = ImageIO.read(new File("src/main/resources/img/inky.png"));
+            spriteGhostBlinky = ImageIO.read(new File("src/main/resources/img/blinky.png"));
+            spriteGhostPinky = ImageIO.read(new File("src/main/resources/img/pinky.png"));
+            spriteGhostClyde = ImageIO.read(new File("src/main/resources/img/clyde.png"));
+            spriteGhostVulnerable = ImageIO.read(new File("src/main/resources/img/vulnerable.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -75,17 +83,35 @@ public class GamePanel extends JPanel {
                         g2d.drawImage(spriteBigDot, x+4, y+4, 11, 11, this);
                         break;
                     case 'f':
-                    g2d.drawImage(spriteCherry, x+4, y+4, 16, 16, this);
-                    break;
+                        g2d.drawImage(spriteCherry, x+4, y+4, 16, 16, this);
+                        break;
                     default:
                         break;
                 }
             }
         }
         for (GhostModel ghost : this.ghost) {
-            g2d.drawImage(spriteGhost, ghost.getPosition().x*19, ghost.getPosition().y*19, 19, 19, this);
+            if(ghost.isVulnerable()) {
+                g2d.drawImage(spriteGhostVulnerable, ghost.getPosition().x*19, ghost.getPosition().y*19-3, 23, 23, this);
+                continue;
+            } else {
+                switch(ghost.getName()){
+                    case "Inky":
+                        g2d.drawImage(spriteGhostInky, ghost.getPosition().x*19, ghost.getPosition().y*19-3, 23, 23, this);
+                        break;
+                    case "Blinky":
+                        g2d.drawImage(spriteGhostBlinky, ghost.getPosition().x*19, ghost.getPosition().y*19-3, 23, 23, this);
+                        break;
+                    case "Pinky":
+                        g2d.drawImage(spriteGhostPinky, ghost.getPosition().x*19, ghost.getPosition().y*19-3, 23, 23, this);
+                        break;
+                    case "Clyde":
+                        g2d.drawImage(spriteGhostClyde, ghost.getPosition().x*19, ghost.getPosition().y*19-3, 23, 23, this);
+                        break;
+                }
+            }
         }
-        g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 19, 19, this);
+        g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 22, 22, this);
     }
 
     public void setMap(ItemModel[][] map) {
