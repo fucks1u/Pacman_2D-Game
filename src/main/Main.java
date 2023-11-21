@@ -25,8 +25,8 @@ public class Main {
                 new InkyModel(new Point(13, 14)),
                 new PinkyModel(new Point(13, 15)));
 
-        MenuFrame menu = new MenuFrame(level1.getMap(),pacman,ghost);
-        GameController game = new GameController(level1,menu,pacman,ghost);
+        MenuFrame menu = new MenuFrame(level1.getMap(), pacman, ghost);
+        GameController game = new GameController(level1, menu, pacman, ghost);
         game.game();
     }
 
