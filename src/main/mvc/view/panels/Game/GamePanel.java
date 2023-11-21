@@ -145,7 +145,10 @@ public class GamePanel extends JPanel {
         int x = pacman.getPosition().x*19;
         int y = pacman.getPosition().y*19;
 
-        if(pacman.getDirection() == null) return;
+        if(pacman.getDirection() == null) {
+            g2d.fillArc(x, y, 19, 19, angleBouche, 360 - 2 * angleBouche);
+            return;
+        }
         switch (pacman.getDirection()) {
             case UP:
                 g2d.rotate(Math.toRadians(-90), x+11.5, y+13);
