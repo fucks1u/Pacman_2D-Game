@@ -60,8 +60,8 @@ public class GameController implements ActionListener, KeyListener {
 	private nextDirection next;
 
 	// TODO : Javadoc
-	// TODO : Set name of the player
-	// TODO : Display mob + fruit eated
+	//TODO : Add rotation to pacman
+	//TODO : Fix timer (timer reach 100 seconds)
 
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
 
