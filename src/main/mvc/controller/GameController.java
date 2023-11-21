@@ -37,6 +37,9 @@ import src.main.mvc.view.frames.MenuFrame;
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
 	private int highscore = 0;
+	private int nbFruits = 1;
+	private int monstersEated = 1;
+
 	private MapModel map;
 	private PacmanModel pacman;
 	private List<GhostModel> ghosts;
@@ -44,7 +47,6 @@ public class GameController implements ActionListener, KeyListener {
 	private List<Clock> clocks;
 	private MenuFrame mainframe;
 	private boolean isStarted;
-	private int nbFruits;
 	private boolean first;
 
 	private enum nextDirection {
@@ -130,6 +132,9 @@ public class GameController implements ActionListener, KeyListener {
 						pacman.move();
 						// System.out.printf("[GCtrl] Pacman: [x=%d, y=%d]%n", (int)
 						if (map.getCell(pacman.getPosition()) != null) {
+							if(map.getCell(pacman.getPosition()) instanceof FruitModel){
+								this.mainframe.getPanelHud().getDetailsScore().setFruitslabel(this.nbFruits++);
+							}
 							this.score += map.getCell(pacman.getPosition()).getScore();
 							if (map.getCell(pacman.getPosition()) instanceof BigDotModel) {
 								vulnerabilityTimer.reset();
@@ -287,8 +292,10 @@ public class GameController implements ActionListener, KeyListener {
 							+ basePositions.get(ghost.getName()));
 
 					this.score += 500;
+					this.mainframe.getPanelHud().getDetailsScore().setMonsterslabel(this.monstersEated++);
 				} else {
 					this.pacman.setLives(this.pacman.getLives() - 1);
+					this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 					System.out.printf("[GCtrl] %s touched %s, he now have %d lives.%n", pacman.getClass().getSimpleName(),
 							ghost.getClass().getSimpleName(), pacman.getLives());
 				}
@@ -380,14 +387,19 @@ public class GameController implements ActionListener, KeyListener {
 	 */
 	public void reset(){
 		this.score = 0;
+		this.nbFruits = 0;
+		this.monstersEated = 0;
+		int i = 0;
+		this.isStarted = false;
+
 		if(this.highscore != 0){
 			this.mainframe.getPanelHud().updateHighscore(this.highscore);
 		}
+
 		this.mainframe.getPanelHud().updateScore(this.score);
 		this.pacman.setLives(1);
+		this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 		this.pacman.setPosition(new Point(18, 13));
-		this.isStarted = false;
-		int i = 0;
 		for(GhostModel ghost : this.ghosts){
 			ghost.setPosition(new Point(13, 12+i));
 			i++;

@@ -51,6 +51,10 @@ public class HudPanel extends JPanel {
         this.scorePanel.setHighscore(highscore);
     }
 
+    public void updateLife(int life) {
+        this.detailsScore.getLifeRemaining().updateLife(life);
+    }
+
     public DetailsScore getDetailsScore() {
         return this.detailsScore;
     }
