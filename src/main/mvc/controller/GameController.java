@@ -125,7 +125,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
 
-				if (moveTimer.getMs() >= 90) {
+				if (moveTimer.getMs() >= 120) {
 					moveTimer.reset();
 
 					checkNextPosition(next);
@@ -400,13 +400,15 @@ public class GameController implements ActionListener, KeyListener {
 		if (this.highscore != 0) {
 			this.mainframe.getPanelHud().updateHighscore(this.highscore);
 		}
-
+		this.mainframe.getPanelHud().getDetailsScore().setFruitslabel(this.nbFruits);
+		this.mainframe.getPanelHud().getDetailsScore().setMonsterslabel(this.monstersEated);
 		this.mainframe.getPanelHud().updateScore(this.score);
 		this.pacman.setLives(1);
 		this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 		this.pacman.setPosition(new Point(18, 13));
-		for (GhostModel ghost : this.ghosts) {
-			ghost.setPosition(new Point(13, 12 + i));
+		for(GhostModel ghost : this.ghosts){
+			ghost.setPosition(new Point(13, 12+i));
+			ghost.setVulnerable(false);
 			i++;
 		}
 		for (Clock c : this.clocks) {
