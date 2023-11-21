@@ -73,6 +73,10 @@ public class DetailsScore extends JPanel {
         add(panelLifeRemainingSOUTH, BorderLayout.SOUTH);
     }
 
+    /**
+     * This method updates the timer of the game.
+     * @param timer The timer of the game.
+     */
     public void setTimerlabel(Clock timer) {
         long min;
         long sec;
@@ -97,16 +101,28 @@ public class DetailsScore extends JPanel {
         this.repaint();
     }
 
+    /**
+     * This method updates the number of fruits eaten.
+     * @param fruits The number of fruits eaten.
+     */
     public void setFruitslabel(int fruits){
         this.fruitslabel.setText("Fruits eaten : " + fruits);
         this.repaint();
     }
 
+    /**
+     * This method updates the number of monsters eaten.
+     * @param monsters The number of monsters eaten.
+     */
     public void setMonsterslabel(int monsters){
         this.monsterslabel.setText("Monsters eaten : " + monsters);
         this.repaint();
     }
 
+    /**
+     * This method returns the JPanel containing the number of life remaining.
+     * @return The JPanel of life remaining.
+     */
     public LifeRemaining getLifeRemaining() {
         return this.lifeRemaining;
     }
