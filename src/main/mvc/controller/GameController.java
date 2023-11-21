@@ -57,9 +57,9 @@ public class GameController implements ActionListener, KeyListener {
 	private String namePlayer;
 	private nextDirection next;
 
-	//TODO : Javadoc
-	//TODO : Set name of the player
-	//TODO : Display mob + fruit eated
+	// TODO : Javadoc
+	// TODO : Set name of the player
+	// TODO : Display mob + fruit eated
 
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
 
@@ -116,7 +116,7 @@ public class GameController implements ActionListener, KeyListener {
 				fps++;
 			}
 			if (isStarted) {
-                if(first) {
+				if (first) {
 					gametimer = new Clock();
 					this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
 					first = false;
@@ -150,10 +150,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					 this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					 this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					 inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					 this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
 				if (GhostModel.isVulnerable() && vulnerabilityTimer.getSec() >= 10) {
@@ -186,26 +186,26 @@ public class GameController implements ActionListener, KeyListener {
 		 * End condition :
 		 * If the player has no more lives or if there is no more dots on the map.
 		 */
-		if(pacman.getLives() <= 0 || map.getDot() <= 0){
+		if (pacman.getLives() <= 0 || map.getDot() <= 0) {
 			this.isStarted = false;
 			boolean response;
 			mainframe.getContentPane().removeAll();
-			if(pacman.getLives() <= 0){
+			if (pacman.getLives() <= 0) {
 				response = mainframe.displayGameOver("lose");
 			} else {
 				response = mainframe.displayGameOver("win");
 			}
 			removeListeners(mainframe.getPanelGame().getComponents());
 			Object selectedValue = mainframe.getOptionPane().getValue();
-			if(selectedValue == null){
+			if (selectedValue == null) {
 				mainframe.getContentPane().removeAll();
 				mainframe.displayMenu();
 				addListeners(mainframe.getButtonsPanel().getComponents());
 			} else if (selectedValue.equals("Yes")) {
-				if(!response){
+				if (!response) {
 					String name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 							JOptionPane.QUESTION_MESSAGE);
-					while(name == null) {
+					while (name == null) {
 						name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 								JOptionPane.QUESTION_MESSAGE);
 					}
@@ -313,7 +313,7 @@ public class GameController implements ActionListener, KeyListener {
 			for (int i = 0; i < map.length; i++) {
 				for (int j = 0; j < map[i].length; j++) {
 					if (map[i][j] == null && !spawn.contains(new Point(i, j))
-							&& !this.map.getVoids().contains(new Point(i, j))) {
+							&& !this.map.getVoids().contains(new Point(i, j)) && (i != 14 && (j != 0 || j != 27))) {
 						freeCells.add(new Point(i, j));
 					}
 				}
@@ -378,9 +378,9 @@ public class GameController implements ActionListener, KeyListener {
 	 * This method is to reset all the variables of the game.
 	 * It is used when the player wants to play again.
 	 */
-	public void reset(){
+	public void reset() {
 		this.score = 0;
-		if(this.highscore != 0){
+		if (this.highscore != 0) {
 			this.mainframe.getPanelHud().updateHighscore(this.highscore);
 		}
 		this.mainframe.getPanelHud().updateScore(this.score);
@@ -388,11 +388,11 @@ public class GameController implements ActionListener, KeyListener {
 		this.pacman.setPosition(new Point(18, 13));
 		this.isStarted = false;
 		int i = 0;
-		for(GhostModel ghost : this.ghosts){
-			ghost.setPosition(new Point(13, 12+i));
+		for (GhostModel ghost : this.ghosts) {
+			ghost.setPosition(new Point(13, 12 + i));
 			i++;
 		}
-		for(Clock c : this.clocks){
+		for (Clock c : this.clocks) {
 			c.reset();
 		}
 		this.map = new Level1();
@@ -429,7 +429,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
 					JOptionPane.showMessageDialog(mainframe, String.format(
-									"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
+							"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
 							"Error", JOptionPane.ERROR_MESSAGE);
 					name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 							JOptionPane.QUESTION_MESSAGE);
@@ -455,14 +455,19 @@ public class GameController implements ActionListener, KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent keyEvent) {}
+	public void keyTyped(KeyEvent keyEvent) {
+	}
+
 	@Override
-	public void keyPressed(KeyEvent keyEvent) {}
+	public void keyPressed(KeyEvent keyEvent) {
+	}
 
 	/**
-	 * This method processes the user inputs and updates the direction of the Pacman.
+	 * This method processes the user inputs and updates the direction of the
+	 * Pacman.
 	 * Z,Q,S,D and the arrow keys are used to move the Pacman.
 	 * Left, Right, Up, Down are used to move the Pacman.
+	 * 
 	 * @param keyEvent the event to be processed
 	 */
 	@Override
@@ -518,14 +523,15 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method updates the score of a player in the file leaderboard.txt.
 	 * It updates the score of the player if it is higher than the previous one.
-	 * @param name The name of the player.
+	 * 
+	 * @param name  The name of the player.
 	 * @param score The score of the player.
 	 */
 	public void updateScore(String name, int score) {
-		try{
+		try {
 			List<String> lines = readFile("src/main/resources/leaderboard.txt");
 
-			if(containtName(lines, name)) {
+			if (containtName(lines, name)) {
 				updateScore(lines, name, score);
 			} else {
 				addNewPlayer(lines, name, score);
@@ -540,9 +546,10 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method reads the file leaderboard.txt and returns the lines of the file.
 	 * It returns a List of String with the lines of the file.
+	 * 
 	 * @param file The file to read.
 	 * @return A List of String with the lines of the file.
-	 * @throws IOException   If the file doesn't exist.
+	 * @throws IOException If the file doesn't exist.
 	 */
 	private List<String> readFile(String file) throws IOException {
 		List<String> lines = new ArrayList<>();
@@ -560,8 +567,9 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method adds a new player in the file leaderboard.txt.
 	 * It adds the name and the score of the player in the file.
+	 * 
 	 * @param lines The lines of the file leaderboard.txt.
-	 * @param name The name of the player.
+	 * @param name  The name of the player.
 	 * @param score The score of the player.
 	 */
 	private void addNewPlayer(List<String> lines, String name, int score) {
@@ -569,10 +577,12 @@ public class GameController implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * This method checks if the file leaderboard.txt contains the name of the player.
+	 * This method checks if the file leaderboard.txt contains the name of the
+	 * player.
 	 * It returns true if the file contains the name of the player, false otherwise.
+	 * 
 	 * @param lines The lines of the file leaderboard.txt.
-	 * @param name The name of the player.
+	 * @param name  The name of the player.
 	 * @return true if the file contains the name of the player, false otherwise.
 	 */
 	private boolean containtName(List<String> lines, String name) {
@@ -587,8 +597,9 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method updates the score of a player in the file leaderboard.txt.
 	 * It updates the score of the player if it is higher than the previous one.
-	 * @param lines The lines of the file leaderboard.txt.
-	 * @param name The name of the player.
+	 * 
+	 * @param lines    The lines of the file leaderboard.txt.
+	 * @param name     The name of the player.
 	 * @param newScore The new score of the player.
 	 */
 	private void updateScore(List<String> lines, String name, int newScore) {
@@ -607,9 +618,11 @@ public class GameController implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * This method sorts the lines of the file leaderboard.txt and writes them in the file.
+	 * This method sorts the lines of the file leaderboard.txt and writes them in
+	 * the file.
 	 * It sorts the lines by score.
-	 * @param file The file to write in.
+	 * 
+	 * @param file  The file to write in.
 	 * @param lines The lines to write in the file.
 	 * @throws IOException If the file doesn't exist.
 	 */
@@ -627,7 +640,8 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method formats a line to write in the file leaderboard.txt.
 	 * It returns a String with the name and the score of the player.
-	 * @param name Name of the player.
+	 * 
+	 * @param name  Name of the player.
 	 * @param score Score of the player.
 	 * @return A String with the name and the score of the player.
 	 */
@@ -635,8 +649,8 @@ public class GameController implements ActionListener, KeyListener {
 		return name + ":" + score;
 	}
 
-	private String getScore(String name){
-		try{
+	private String getScore(String name) {
+		try {
 			List<String> lines = readFile("src/main/resources/leaderboard.txt");
 			for (String line : lines) {
 				if (line.startsWith(name + ":")) {
