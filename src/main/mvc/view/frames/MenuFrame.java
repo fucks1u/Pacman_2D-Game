@@ -198,10 +198,13 @@ public class MenuFrame extends JFrame {
             }
     }
 
-
+    /**
+     * This method displays the interface when the game is over.
+     * @param state The state of the game.
+     * @return true if the player wants to play again, false otherwise.
+     */
     public boolean displayGameOver(String state) {
         this.optionPane = new JOptionPane();
-        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de texte
         JPanel customPanel = new JPanel(new BorderLayout());
         JLabel winLabel = new JLabel(state.toUpperCase());
         JLabel retry = new JLabel("Retry ?");
@@ -234,24 +237,41 @@ public class MenuFrame extends JFrame {
     }
 
     /**
-     * This method is used to know which button is clicked.
-     * It is used to know which action to do.
+     * This method returns the buttons panel.
+     * @return the buttons panel.
      */
     public ButtonsMenuPanel getButtonsPanel() {
         return this.panelbuttons;
     }
 
+    /**
+     * This method returns a jpanel containing the new player button.
+     * @return a jpanel containing the new player button.
+     */
     public ButtonNewPlayer getNewPlayerPanel() {
         return this.panelnewplayer;
     }
 
+    /**
+     * This method returns the game panel.
+     * @return the game panel.
+     */
     public GamePanel getPanelGame() {
         return this.panelgame;
     }
 
+    /**
+     * This method returns the HUD panel.
+     * @return the HUD panel.
+     */
     public HudPanel getPanelHud() {
         return this.panelhud;
     }
+
+    /**
+     * This method returns the joption pane of the game over.
+     * @return the joption pane of the game over.
+     */
     public JOptionPane getOptionPane(){
         return this.optionPane;
     }
