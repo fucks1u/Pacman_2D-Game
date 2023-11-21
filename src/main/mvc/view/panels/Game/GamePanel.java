@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
         this.map = map;
         this.pacman = pacman;
         this.ghost = ghost;
-        this.setPreferredSize(new Dimension(600, 590));
+        this.setPreferredSize(new Dimension(610, 590));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
         try {
