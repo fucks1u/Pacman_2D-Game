@@ -44,6 +44,10 @@ public class GamePanel extends JPanel {
 
     /**
      * Constructor of the GamePanel class.
+     * It creates the JPanel and add the components.
+     * It contains the map of the game.
+     * It contains the pacman.
+     * It contains the ghosts.
      */
     public GamePanel(ItemModel[][] map, PacmanModel pacman, List<GhostModel> ghost) {
         this.map = map;
@@ -139,6 +143,11 @@ public class GamePanel extends JPanel {
         dessinerPacman(g, mouthOpen ? pacmanMouthAngle : 0);
     }
 
+    /**
+     * This method draws the pacman and animate it.
+     * @param g the <code>Graphics</code> object to protect
+     * @param angleBouche the angle of the mouth of pacman
+     */
     private void dessinerPacman(Graphics g, int angleBouche) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.YELLOW);
@@ -165,6 +174,11 @@ public class GamePanel extends JPanel {
         g2d.rotate(Math.toRadians(0), x, y);
     }
 
+    /**
+     * This method sets the map.
+     * It used when the user launch a new game after a game over.
+     * @param map the map of the game.
+     */
     public void setMap(ItemModel[][] map) {
         this.map = map;
         this.repaint();
