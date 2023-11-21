@@ -5,6 +5,8 @@ import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.ItemModel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +31,13 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteGhostClyde = null;
     private BufferedImage spriteGhostVulnerable = null;
     private BufferedImage spriteCherry = null;
+    private BufferedImage spriteVoid = null;
+    private int i = 0;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
+    private int pacmanMouthAngle = 45;
+    private boolean boucheOuverte = true;
+
 
 
 
@@ -46,6 +53,7 @@ public class GamePanel extends JPanel {
         this.setVisible(true);
         try {
             spriteWall = ImageIO.read(new File("src/main/resources/img/wall.png"));
+            spriteVoid = ImageIO.read(new File("src/main/resources/img/void.png"));
             spriteDot = ImageIO.read(new File("src/main/resources/img/dotitem.png"));
             spriteBigDot = ImageIO.read(new File("src/main/resources/img/dot.png"));
             spritePacman = ImageIO.read(new File("src/main/resources/img/pacman.png"));
@@ -58,6 +66,14 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boucheOuverte = !boucheOuverte;
+                repaint();
+            }
+        });
+        timer.start();
     }
 
     @Override
@@ -111,8 +127,38 @@ public class GamePanel extends JPanel {
                 }
             }
         }
-        g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 22, 22, this);
+//        g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19-2, 21, 21, this);
+        dessinerPacman(g, boucheOuverte ? pacmanMouthAngle : 0);
     }
+
+    private void dessinerPacman(Graphics g, int angleBouche) {
+        // Dessinez Pac-Man avec la bouche ouverte ou fermée
+        g.setColor(Color.YELLOW);
+        g.fillArc(this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 19, 19, angleBouche, 360 - 2 * angleBouche);
+    }
+
+//    private void dessinerPacman(Graphics g, int angleBouche) {
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.setColor(Color.YELLOW);
+//        int x = pacman.getPosition().x*19;
+//        int y = pacman.getPosition().y*19;
+//
+//        if(pacman.getDirection() == null) return;
+//        switch (pacman.getDirection()) {
+//            case UP:
+//                g2d.rotate(Math.toRadians(-90), x, y);
+//                break;
+//            case LEFT:
+//                g2d.rotate(Math.toRadians(180), x, y);
+//                break;
+//            case DOWN:
+//                g2d.rotate(Math.toRadians(90), x+17, y);
+//                break;
+//        }
+//
+//        g2d.fillArc(x, y, 19, 19, angleBouche, 360 - 2 * angleBouche);
+//        g2d.rotate(Math.toRadians(0), x, y);
+//    }
 
     public void setMap(ItemModel[][] map) {
         this.map = map;
