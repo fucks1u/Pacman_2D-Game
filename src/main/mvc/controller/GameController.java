@@ -36,6 +36,10 @@ import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
 
+/**
+ * This class is the controller of the game.
+ * It contains the game loop and the methods to update at different state in the game.
+ */
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
 	private int highscore = 0;
@@ -204,10 +208,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
+//					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+//					this.ghosts.get(1).move(this.pacman.getPosition(), map);
+//					inky.move(this.pacman.getPosition(), map, ghostsPositions);
+//					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
 				}
 
 				if (vulnerabilityTimer.getSec() >= 6) {
@@ -263,8 +267,20 @@ public class GameController implements ActionListener, KeyListener {
 			boolean response;
 			mainframe.getContentPane().removeAll();
 			if (pacman.getLives() <= 0) {
+				try{
+					audio.stop();
+					audio.setSoundDead();
+				} catch (Exception e){
+					System.out.println(e.getMessage());
+				}
 				response = mainframe.displayGameOver("lose");
 			} else {
+				try{
+					audio.stop();
+					audio.setSoundVictory();
+				} catch (Exception e){
+					System.out.println(e.getMessage());
+				}
 				response = mainframe.displayGameOver("win");
 			}
 			removeListeners(mainframe.getPanelGame().getComponents());

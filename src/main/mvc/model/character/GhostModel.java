@@ -38,7 +38,7 @@ public abstract class GhostModel extends CharacterModel {
   /**
    * Sets the vulnerability status of the ghost.
    * 
-   * @param vuln the vulnerability status to set
+   * @param vulnerable the vulnerability status to set
    */
   public void setVulnerable(boolean vulnerable) {
     this.vulnerable = vulnerable;
@@ -56,7 +56,8 @@ public abstract class GhostModel extends CharacterModel {
   /**
    * Moves the ghost depending on the Pacman position.
    * 
-   * @param pacman the Pacman model to determine the Ghost movement.
+   * @param target the Pacman model to determine the Ghost movement.
+   * @param map the map containing the cells.
    */
   public abstract void move(java.awt.Point target, MapModel map);
 

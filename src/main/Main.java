@@ -15,6 +15,17 @@ import java.awt.Point;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Main class of the project.
+ * It contains the main method.
+ * It creates :
+ * - the map
+ * - the pacman
+ * - a list of ghosts
+ * - a JFrame to display the game
+ * - a GameController to control the game
+ * It calls the method game() from the GameController to launch the game loop.
+ */
 public class Main {
     public static void main(String[] args) {
         Level1 level1 = new Level1();
@@ -30,6 +41,10 @@ public class Main {
         game.game();
     }
 
+    /**
+     * Method to print the map in the console.
+     * @param map the map to print.
+     */
     public static void printMap(ItemModel[][] map) {
         for (int i = 0; i < 31; i++) {
             System.out.printf("%n");

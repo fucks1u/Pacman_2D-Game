@@ -214,8 +214,6 @@ public class MenuFrame extends JFrame {
      */
     public boolean displayGameOver(String state) {
         this.optionPane = new JOptionPane();
-        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de
-        // texte
         JPanel customPanel = new JPanel(new BorderLayout());
         JLabel winLabel = new JLabel(state.toUpperCase());
         JLabel retry = new JLabel("Retry ?");

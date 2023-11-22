@@ -28,7 +28,7 @@ public class CreditMenuPanel extends JPanel {
         this.difficultyDropdown = new DifficultyDropdownMenuPanel();
         this.add(difficultyDropdown);
         this.add(label);
-        label.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 38, 0, 0));
         this.difficultyDropdown.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 290));
     }
 
