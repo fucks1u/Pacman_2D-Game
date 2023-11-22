@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import src.main.mvc.model.character.ghost.ClydeModel;
 
-// TODO: add move() test when implemented
 
 public class ClydeModelTest {
   ClydeModel clyde = new ClydeModel(new Point(10, 10));

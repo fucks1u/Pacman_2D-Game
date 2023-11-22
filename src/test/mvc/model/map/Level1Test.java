@@ -11,7 +11,6 @@ import src.main.mvc.model.map.Level1;
  * This class contains unit tests for the {@link Level1Test} class.
  */
 public class Level1Test {
-  // TODO: complete map factory tests
   Level1 level = new Level1();
 
   @Test
