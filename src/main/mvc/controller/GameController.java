@@ -47,6 +47,7 @@ public class GameController implements ActionListener, KeyListener {
 	private MenuFrame mainframe;
 	private boolean isStarted;
 	private boolean first;
+
 	private enum nextDirection {
 		UP,
 		DOWN,
@@ -75,9 +76,10 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This constructor creates the GameController.
-	 * @param map The map of the game.
+	 * 
+	 * @param map       The map of the game.
 	 * @param mainframe The JFrame of the game.
-	 * @param pacman The Pacman of the game.
+	 * @param pacman    The Pacman of the game.
 	 * @param ghostlist The list of the ghosts in the game.
 	 */
 
@@ -142,8 +144,8 @@ public class GameController implements ActionListener, KeyListener {
 			gameDifficulty = getDifficulty();
 
 			/**
-			 *  The game is started once the player presses a key.
-			 *  It only starts the game if the player goes in a valid direction.
+			 * The game is started once the player presses a key.
+			 * It only starts the game if the player goes in a valid direction.
 			 */
 			if (isStarted) {
 				if (first) {
@@ -153,7 +155,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
 
-				if (moveTimer.getMs() >= 130) {
+				if (moveTimer.getMs() >= 90) {
 					moveTimer.reset();
 
 					checkNextPosition(next);
@@ -176,25 +178,28 @@ public class GameController implements ActionListener, KeyListener {
 				}
 
 				/**
-				 * Ghosts move every 140ms.
+				 * Ghosts move every 120/140/160ms (depending on the difficulty).
 				 * If the ghost is vulnerable, it moves to get far from Pacman.
 				 */
 				if (ghosttimer.getMs() >= gameDifficulty.value) {
 					ghosttimer.reset();
 
 					InkyModel inky = (InkyModel) this.ghosts.get(2);
+					// InkyModel inky2 = (InkyModel) this.ghosts.get(0);
+					// InkyModel inky3 = (InkyModel) this.ghosts.get(1);
+					InkyModel inky4 = (InkyModel) this.ghosts.get(3);
 					List<Point> ghostsPositions = new ArrayList<>();
 					for (GhostModel ghost : this.ghosts) {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					/**
-					 * Creation of the 4 ghosts.
-					 */
+					// inky2.move(this.pacman.getPosition(), map, ghostsPositions);
+					// inky3.move(this.pacman.getPosition(), map, ghostsPositions);
+					inky4.move(this.pacman.getPosition(), map, ghostsPositions);
 					this.ghosts.get(0).move(this.pacman.getPosition(), map);
 					this.ghosts.get(1).move(this.pacman.getPosition(), map);
 					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
 				if (vulnerabilityTimer.getSec() >= 10) {
@@ -377,6 +382,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method adds listeners to the components.
+	 * 
 	 * @param cmp The components to add listeners.
 	 */
 	public void addListeners(Component[] cmp) {
@@ -387,6 +393,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method removes listeners to the components.
+	 * 
 	 * @param cmp The components to remove listeners.
 	 */
 	public void removeListeners(Component[] cmp) {
@@ -397,6 +404,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method checks if the next position of the Pacman is valid.
+	 * 
 	 * @param nextdirection The next direction of the Pacman.
 	 */
 	public void checkNextPosition(nextDirection nextdirection) {
@@ -453,8 +461,8 @@ public class GameController implements ActionListener, KeyListener {
 		this.pacman.setLives(1);
 		this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 		this.pacman.setPosition(new Point(18, 13));
-		for(GhostModel ghost : this.ghosts){
-			ghost.setPosition(new Point(13, 12+i));
+		for (GhostModel ghost : this.ghosts) {
+			ghost.setPosition(new Point(13, 12 + i));
 			ghost.setVulnerable(false);
 			i++;
 		}
@@ -467,6 +475,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method processes the user inputs on Menu panel.
+	 * 
 	 * @param actionEvent the event to be processed
 	 */
 	@Override
@@ -734,6 +743,11 @@ public class GameController implements ActionListener, KeyListener {
 		return null;
 	}
 
+	/**
+	 * Return enum value based on player difficulty choice.
+	 * 
+	 * @return difficulty enum value
+	 */
 	private difficulty getDifficulty() {
 		switch (this.mainframe.getCreditPanel().getCreditPanelDifficulty()) {
 			case "Easy":

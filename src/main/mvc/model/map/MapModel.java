@@ -84,6 +84,11 @@ public abstract class MapModel {
     return spawn;
   }
 
+  /**
+   * Retrieves the list of points representing the ghost spawn locations on the map.
+   *
+   * @return The list of points representing the ghost spawn locations.
+   */
   public List<Point> getGhostSpawn() {
     List<Point> spawn = new ArrayList<>();
     for (int i = 11; i < 17; i++) {
@@ -147,14 +152,33 @@ public abstract class MapModel {
       this.voids = voids;
     }
 
+    /**
+     * Adds teleporters to the map model.
+     * Teleporters are pairs of points that allow entities to instantly move from one point to another.
+     * 
+     * @param p1 the first point of the teleporter
+     * @param p2 the second point of the teleporter
+     */
     public void addTeleporters(Point p1, Point p2) {
       teleporters.put(p1, p2);
       teleporters.put(p2, p1);
     }
 
+    /**
+     * Checks if a given point is a teleporter.
+     *
+     * @param p the point to check
+     * @return true if the point is a teleporter, false otherwise
+     */
     public boolean isTeleporter(Point p) {
       return teleporters.containsKey(p);
     }
+    /**
+     * Retrieves the teleporter associated with the given point.
+     *
+     * @param p the point for which to retrieve the teleporter
+     * @return the teleporter associated with the given point
+     */
     public Point getTeleporter(Point p) {
       return teleporters.get(p);
     }

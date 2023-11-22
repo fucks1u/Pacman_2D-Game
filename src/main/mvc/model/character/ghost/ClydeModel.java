@@ -1,11 +1,8 @@
 package src.main.mvc.model.character.ghost;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import src.main.mvc.model.character.GhostModel;
-import src.main.mvc.model.item.ItemModel;
-import src.main.mvc.model.item.WallModel;
 import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Astar.Point;
 import src.main.mvc.utils.Astar;

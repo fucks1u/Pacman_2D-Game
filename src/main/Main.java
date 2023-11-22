@@ -22,8 +22,12 @@ public class Main {
         List<GhostModel> ghost = Arrays.asList(
                 new BlinkyModel(new Point(13, 12)),
                 new ClydeModel(new Point(13, 13)),
+                // new InkyModel(new Point(13, 12)),
+                // new InkyModel(new Point(13, 13)),
                 new InkyModel(new Point(13, 14)),
-                new PinkyModel(new Point(13, 15)));
+                new InkyModel(new Point(13, 15))
+                // new PinkyModel(new Point(13, 15))
+                );
 
         MenuFrame menu = new MenuFrame(level1.getMap(), pacman, ghost);
         GameController game = new GameController(level1, menu, pacman, ghost);

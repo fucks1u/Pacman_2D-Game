@@ -41,6 +41,11 @@ public class PacmanModel extends CharacterModel {
   }
 
 
+  /**
+   * Sets the direction of the Pacman character.
+   * 
+   * @param direction The direction to set (UP, DOWN, LEFT, RIGHT).
+   */
   public void setDirection(directions direction) {
     switch (direction) {
       case UP:
@@ -58,10 +63,18 @@ public class PacmanModel extends CharacterModel {
     }
   }
 
+  /**
+   * Gets the direction of the Pacman character.
+   *
+   * @return The direction of the Pacman character.
+   */
   public directions getDirection() {
     return this.direction;
   }
 
+  /**
+   * Moves the Pacman character in the current direction.
+   */
   public void move() {
     switch (this.direction) {
       case UP:
