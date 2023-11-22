@@ -30,7 +30,7 @@ import src.main.mvc.model.item.BigDotModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.model.item.WallModel;
-import src.main.mvc.model.item.fruit.CherryModel;
+import src.main.mvc.model.item.fruit.*;
 import src.main.mvc.model.map.Level1;
 import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
@@ -82,7 +82,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This constructor creates the GameController.
-	 * 
+	 *
 	 * @param map       The map of the game.
 	 * @param mainframe The JFrame of the game.
 	 * @param pacman    The Pacman of the game.
@@ -102,9 +102,9 @@ public class GameController implements ActionListener, KeyListener {
 		for (Component c : mainframe.getButtonsPanel().getComponents())
 			((JButton) c).addActionListener(this);
 		this.fruits = Arrays.asList(
-				new CherryModel(70),
-				new CherryModel(140),
-				new CherryModel(210));
+				new KeyModel(210),
+				new StrawberryModel(140),
+				new CherryModel(70));
 	}
 
 	/**
@@ -207,7 +207,6 @@ public class GameController implements ActionListener, KeyListener {
 					for (GhostModel ghost : this.ghosts) {
 						ghostsPositions.add(ghost.getPosition());
 					}
-
 					this.ghosts.get(0).move(this.pacman.getPosition(), map);
 					this.ghosts.get(1).move(this.pacman.getPosition(), map);
 					inky.move(this.pacman.getPosition(), map, ghostsPositions);
@@ -418,7 +417,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method adds listeners to the components.
-	 * 
+	 *
 	 * @param cmp The components to add listeners.
 	 */
 	public void addListeners(Component[] cmp) {
@@ -429,7 +428,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method removes listeners to the components.
-	 * 
+	 *
 	 * @param cmp The components to remove listeners.
 	 */
 	public void removeListeners(Component[] cmp) {
@@ -440,7 +439,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method checks if the next position of the Pacman is valid.
-	 * 
+	 *
 	 * @param nextdirection The next direction of the Pacman.
 	 */
 	public void checkNextPosition(nextDirection nextdirection) {
@@ -511,7 +510,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * This method processes the user inputs on Menu panel.
-	 * 
+	 *
 	 * @param actionEvent the event to be processed
 	 */
 	@Override
@@ -544,7 +543,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
 					JOptionPane.showMessageDialog(mainframe, String.format(
-							"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
+									"Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."),
 							"Error", JOptionPane.ERROR_MESSAGE);
 					name = JOptionPane.showInputDialog(mainframe, "What's your name?", "New Player",
 							JOptionPane.QUESTION_MESSAGE);
@@ -582,7 +581,7 @@ public class GameController implements ActionListener, KeyListener {
 	 * Pacman.
 	 * Z,Q,S,D and the arrow keys are used to move the Pacman.
 	 * Left, Right, Up, Down are used to move the Pacman.
-	 * 
+	 *
 	 * @param keyEvent the event to be processed
 	 */
 	@Override
@@ -644,7 +643,7 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method updates the score of a player in the file leaderboard.txt.
 	 * It updates the score of the player if it is higher than the previous one.
-	 * 
+	 *
 	 * @param name  The name of the player.
 	 * @param score The score of the player.
 	 */
@@ -667,7 +666,7 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method reads the file leaderboard.txt and returns the lines of the file.
 	 * It returns a List of String with the lines of the file.
-	 * 
+	 *
 	 * @param file The file to read.
 	 * @return A List of String with the lines of the file.
 	 * @throws IOException If the file doesn't exist.
@@ -688,7 +687,7 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method adds a new player in the file leaderboard.txt.
 	 * It adds the name and the score of the player in the file.
-	 * 
+	 *
 	 * @param lines The lines of the file leaderboard.txt.
 	 * @param name  The name of the player.
 	 * @param score The score of the player.
@@ -701,7 +700,7 @@ public class GameController implements ActionListener, KeyListener {
 	 * This method checks if the file leaderboard.txt contains the name of the
 	 * player.
 	 * It returns true if the file contains the name of the player, false otherwise.
-	 * 
+	 *
 	 * @param lines The lines of the file leaderboard.txt.
 	 * @param name  The name of the player.
 	 * @return true if the file contains the name of the player, false otherwise.
@@ -718,7 +717,7 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method updates the score of a player in the file leaderboard.txt.
 	 * It updates the score of the player if it is higher than the previous one.
-	 * 
+	 *
 	 * @param lines    The lines of the file leaderboard.txt.
 	 * @param name     The name of the player.
 	 * @param newScore The new score of the player.
@@ -742,7 +741,7 @@ public class GameController implements ActionListener, KeyListener {
 	 * This method sorts the lines of the file leaderboard.txt and writes them in
 	 * the file.
 	 * It sorts the lines by score.
-	 * 
+	 *
 	 * @param file  The file to write in.
 	 * @param lines The lines to write in the file.
 	 * @throws IOException If the file doesn't exist.
@@ -761,7 +760,7 @@ public class GameController implements ActionListener, KeyListener {
 	/**
 	 * This method formats a line to write in the file leaderboard.txt.
 	 * It returns a String with the name and the score of the player.
-	 * 
+	 *
 	 * @param name  Name of the player.
 	 * @param score Score of the player.
 	 * @return A String with the name and the score of the player.
@@ -772,7 +771,7 @@ public class GameController implements ActionListener, KeyListener {
 
 	/**
 	 * Return enum value based on player difficulty choice.
-	 * 
+	 *
 	 * @return difficulty enum value
 	 */
 	private difficulty getDifficulty() {
