@@ -1,34 +1,34 @@
 # Pac-man Game
 ## 2D Game (T-JAV-501-TLS_3)
 
-## Introduction
+## Introduction 📜
 Welcome to the classic Pac-Man game version **EPITECH** ! Get ready for a nostalgic journey as 
 you navigate through mazes, gobble up dots, and evade our original ghosts.
 This timeless arcade experience has been recreated to bring the excitement and challenge of the original Pac-Man
 to your fingertips.
 
-## Commands
+## Commands 🕹️
 
-### Installation
+### Installation 📥
 
 ```bash
 git clone git@github.com:EpitechMscProPromo2026/T-JAV-501-TLS_3.git
 cd T-JAV-501-TLS_3
 ```
 
-### Run
+### Run 🏃
 
 ```bash
 bash ./run.sh
 ```
 
-### Lint
+### Lint 🧹
 
 ```bash
 bash ./lint.sh
 ```
 
-## Team
+## Team 👨‍👩‍👧‍👦
 
 - Ariirau FUCKS
 - Thomas LOUBAT
@@ -41,22 +41,25 @@ bash ./lint.sh
 Pac-man the iconic yellow character who eats dots and fruits while running away from ghosts.
 The goal of the game is to eat all the dots in the maze while avoiding ghosts or eat them once pac-man take a big dot.
 
-### Presentation of ghosts
+### Presentation of ghosts 👾👻
 Each ghost has a different behavior:
 #### Blinky
-//TODO: description <br>
+
+Blinky is a ghost who only tries to touch you. In summary, he takes the shortest route to touch you. <br>
 ![Blinky](src/main/resources/img/blinky.png)
 #### Pinky
-//TODO : description <br>
+Pinky sees the other ghosts as obstacles and therefore tries to ambush Pacman between him and the other ghosts.<br>
 ![Blinky](src/main/resources/img/pinky.png)
 #### Inky
-//TODO : description <br>
+Same as Pinky, Inky sees the other ghosts as obstacles and therefore tries to ambush Pacman between him and the other ghosts. <br>
 ![Blinky](src/main/resources/img/inky.png)
 #### Clyde
-//TODO : description <br>
+Chase pacman until you have 10 squares between them and run away when pacman tries to close the distance. <br>
 ![Blinky](src/main/resources/img/clyde.png)
 
-## Features
+#### Algorithm
+The algorithm used to find the shortest path is the [A* algorithm](https://fr.wikipedia.org/wiki/Algorithme_A*). <br>
+## Features 💡⚡
 
 | Feature                                                      | Status  |
 |--------------------------------------------------------------|---------|
@@ -90,10 +93,13 @@ Each ghost has a different behavior:
 | Display game over                                            | ✅       |
 | Display victory                                              | ✅       |
 
-## How to play
+## How to play 🎮
 
-### Start screen
+You can move pacman with the arrow keys. ⬅️ ⬆️ ⬇️ ➡️<br>
+Also with the keys : Z,Q,S,D. ⌨️<br>
+
+### Start screen 🖵
 ![Start screen](src/main/resources/menu.png)
 
-### Game screen
+### Game screen 🖵
 ![Game screen](src/main/resources/game.png)
