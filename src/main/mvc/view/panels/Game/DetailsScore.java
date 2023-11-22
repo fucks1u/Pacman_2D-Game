@@ -64,7 +64,7 @@ public class DetailsScore extends JPanel {
         panelLifeRemainingSOUTH.setPreferredSize(new Dimension(200, 50));
         panelLifeRemainingSOUTH.setBackground(Color.BLACK);
         try {
-            BufferedImage cherryPict = ImageIO.read(new File("src/main/resources/img/cherry.png"));
+            BufferedImage cherryPict = ImageIO.read(new File("src/main/resources/img/fruits/cherry.png"));
             JLabel cherryLabel = new JLabel(new ImageIcon(cherryPict));
             panelLifeRemainingSOUTH.add(cherryLabel);
             cherryLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 22));

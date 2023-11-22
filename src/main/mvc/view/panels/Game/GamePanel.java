@@ -34,6 +34,13 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteGhostClyde = null;
     private BufferedImage spriteGhostVulnerable = null;
     private BufferedImage spriteCherry = null;
+    private BufferedImage spriteStrawberry = null;
+    private BufferedImage spriteOrange = null;
+    private BufferedImage spriteApple = null;
+    private BufferedImage spriteMelon = null;
+    private BufferedImage spriteKey = null;
+    private BufferedImage spriteFlag = null;
+    private BufferedImage spriteBell = null;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
     private int pacmanMouthAngle = 45;
@@ -54,15 +61,27 @@ public class GamePanel extends JPanel {
         this.setBackground(Color.BLACK);
         this.setVisible(true);
         try {
+            //sprite for the map
             spriteWall = ImageIO.read(new File("src/main/resources/img/wall.png"));
             spriteDot = ImageIO.read(new File("src/main/resources/img/dotitem.png"));
             spriteBigDot = ImageIO.read(new File("src/main/resources/img/dot.png"));
-            spriteCherry = ImageIO.read(new File("src/main/resources/img/cherry.png"));
-            spriteGhostInky = ImageIO.read(new File("src/main/resources/img/inky.png"));
-            spriteGhostBlinky = ImageIO.read(new File("src/main/resources/img/blinky.png"));
-            spriteGhostPinky = ImageIO.read(new File("src/main/resources/img/pinky.png"));
-            spriteGhostClyde = ImageIO.read(new File("src/main/resources/img/clyde.png"));
-            spriteGhostVulnerable = ImageIO.read(new File("src/main/resources/img/vulnerable.png"));
+
+            //sprite for the ghosts
+            spriteGhostInky = ImageIO.read(new File("src/main/resources/img/ghosts/inky.png"));
+            spriteGhostBlinky = ImageIO.read(new File("src/main/resources/img/ghosts/blinky.png"));
+            spriteGhostPinky = ImageIO.read(new File("src/main/resources/img/ghosts/pinky.png"));
+            spriteGhostClyde = ImageIO.read(new File("src/main/resources/img/ghosts/clyde.png"));
+            spriteGhostVulnerable = ImageIO.read(new File("src/main/resources/img/ghosts/vulnerable.png"));
+
+            //sprite for fruits
+            spriteApple = ImageIO.read(new File("src/main/resources/img/fruits/apple.png"));
+            spriteBell = ImageIO.read(new File("src/main/resources/img/fruits/bell.png"));
+            spriteCherry = ImageIO.read(new File("src/main/resources/img/fruits/cherry.png"));
+            spriteFlag = ImageIO.read(new File("src/main/resources/img/fruits/flag.png"));
+            spriteKey = ImageIO.read(new File("src/main/resources/img/fruits/key.png"));
+            spriteMelon = ImageIO.read(new File("src/main/resources/img/fruits/melon.png"));
+            spriteOrange = ImageIO.read(new File("src/main/resources/img/fruits/orange.png"));
+            spriteStrawberry = ImageIO.read(new File("src/main/resources/img/fruits/strawberry.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +103,7 @@ public class GamePanel extends JPanel {
      * It draws the map.
      * It draws the pacman and animate it.
      * It draws the ghosts.
-     * 
+     *
      * @param g the <code>Graphics</code> object to protect
      */
     @Override
@@ -99,22 +118,44 @@ public class GamePanel extends JPanel {
                 int y = j * 19;
                 if (map[i][j] == null)
                     continue;
-                switch (map[i][j].getClass().getName().split("\\.")[5].charAt(0)) {
-                    case 'W':
+                switch (extractModelName(map[i][j].getClass().getName())) {
+                    case "WallModel":
                         g2d.drawImage(spriteWall, x, y, 19, 19, this);
                         break;
-                    case 'D':
+                    case "DotModel":
                         g2d.drawImage(spriteDot, x + 5, y + 5, 10, 10, this);
                         break;
-                    case 'B':
+                    case "BigDotModel":
                         g2d.drawImage(spriteBigDot, x + 4, y + 4, 11, 11, this);
                         break;
-                    case 'f':
+                    case "AppleModel":
+                        g2d.drawImage(spriteApple, x, y, 20, 20, this);
+                        break;
+                    case "BellModel":
+                        g2d.drawImage(spriteBell, x, y, 18, 18, this);
+                        break;
+                    case "CherryModel":
                         g2d.drawImage(spriteCherry, x + 4, y + 4, 16, 16, this);
+                        break;
+                    case "FlagshipModel":
+                        g2d.drawImage(spriteFlag, x, y, 22, 22, this);
+                        break;
+                    case "KeyModel":
+                        g2d.drawImage(spriteKey, x-2, y, 22, 22, this);
+                        break;
+                    case "MelonModel":
+                        g2d.drawImage(spriteMelon, x, y, 18, 18, this);
+                        break;
+                    case "OrangeModel":
+                        g2d.drawImage(spriteOrange, x-1, y, 22, 22, this);
+                        break;
+                    case "StrawberryModel":
+                        g2d.drawImage(spriteStrawberry, x, y, 22, 22, this);
                         break;
                     default:
                         break;
                 }
+
             }
         }
         for (GhostModel ghost : this.ghost) {
@@ -148,7 +189,7 @@ public class GamePanel extends JPanel {
 
     /**
      * This method draws the pacman and animate it.
-     * 
+     *
      * @param g           the <code>Graphics</code> object to protect
      * @param angleBouche the angle of the mouth of pacman
      */
@@ -183,11 +224,23 @@ public class GamePanel extends JPanel {
     /**
      * This method sets the map.
      * It used when the user launch a new game after a game over.
-     * 
+     *
      * @param map the map of the game.
      */
     public void setMap(ItemModel[][] map) {
         this.map = map;
         this.repaint();
+    }
+
+    /**
+     * This method is used to extract the name of the instance to draw.
+     * @param input the name of the instance.
+     * @return the name of the instance in the good format.
+     */
+    private static String extractModelName(String input) {
+        String[] parts = input.split("\\.");
+        String modelName = parts[parts.length - 1];
+
+        return modelName;
     }
 }
