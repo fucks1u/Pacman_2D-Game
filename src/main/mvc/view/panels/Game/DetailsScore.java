@@ -86,7 +86,7 @@ public class DetailsScore extends JPanel {
         }
         min = timer.getMin();
         sec = timer.getSec();
-        if(timer.getSec() % 60 == 0){
+        if(timer.getSec() % 60 == 0 && sec > 0){
             sec -= 60;
         }
         if (min < 10 && sec < 10)
