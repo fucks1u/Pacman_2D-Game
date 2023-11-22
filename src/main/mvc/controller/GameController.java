@@ -24,6 +24,7 @@ import java.awt.Component;
 import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.character.ghost.InkyModel;
+import src.main.mvc.model.character.ghost.PinkyModel;
 import src.main.mvc.model.item.BigDotModel;
 import src.main.mvc.model.item.FruitModel;
 import src.main.mvc.model.item.ItemModel;
@@ -185,21 +186,16 @@ public class GameController implements ActionListener, KeyListener {
 					ghosttimer.reset();
 
 					InkyModel inky = (InkyModel) this.ghosts.get(2);
-					// InkyModel inky2 = (InkyModel) this.ghosts.get(0);
-					// InkyModel inky3 = (InkyModel) this.ghosts.get(1);
-					InkyModel inky4 = (InkyModel) this.ghosts.get(3);
+					PinkyModel pinky = (PinkyModel) this.ghosts.get(3);
 					List<Point> ghostsPositions = new ArrayList<>();
 					for (GhostModel ghost : this.ghosts) {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					// inky2.move(this.pacman.getPosition(), map, ghostsPositions);
-					// inky3.move(this.pacman.getPosition(), map, ghostsPositions);
-					inky4.move(this.pacman.getPosition(), map, ghostsPositions);
 					this.ghosts.get(0).move(this.pacman.getPosition(), map);
 					this.ghosts.get(1).move(this.pacman.getPosition(), map);
 					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
+					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
 				}
 
 				if (vulnerabilityTimer.getSec() >= 10) {

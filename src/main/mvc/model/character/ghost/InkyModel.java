@@ -42,7 +42,7 @@ public class InkyModel extends GhostModel {
       if (this.vulnerable) {
         nextCell = GhostModel.moveBackward(start, nextCell, map);
       }
-      
+
       if (nextCell.x > currentPos.getX() && nextCell.y == currentPos.getY()) {
         moveRight();
       } else if (nextCell.x < currentPos.getX() && nextCell.y == currentPos.getY()) {
@@ -76,6 +76,9 @@ public class InkyModel extends GhostModel {
     List<Point> test = Astar.findPath(map, start, end);
     if (test != null) {
       Point nextCell = test.get(0);
+      if (this.vulnerable) {
+        nextCell = GhostModel.moveBackward(start, nextCell, map);
+      }
       if (nextCell.x > currentPos.getX() && nextCell.y == currentPos.getY()) {
         moveRight();
       } else if (nextCell.x < currentPos.getX() && nextCell.y == currentPos.getY()) {
