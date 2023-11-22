@@ -73,32 +73,56 @@ public class DetailsScore extends JPanel {
         add(panelLifeRemainingSOUTH, BorderLayout.SOUTH);
     }
 
+    /**
+     * This method updates the timer of the game.
+     * @param timer The timer of the game.
+     */
     public void setTimerlabel(Clock timer) {
+        long min;
+        long sec;
         if(timer == null) {
             this.timerlabel.setText("Timer : 00:00");
             return;
         }
-        if (timer.getMin() < 10 && timer.getSec() < 10)
-            this.timerlabel.setText("Timer : 0" + timer.getMin() + ":0" + timer.getSec());
-        else if (timer.getMin() < 10)
-            this.timerlabel.setText("Timer : 0" + timer.getMin() + ":" + timer.getSec());
-        else if (timer.getSec() < 10)
-            this.timerlabel.setText("Timer : " + timer.getMin() + ":0" + timer.getSec());
+        min = timer.getMin();
+        sec = timer.getSec();
+        if(timer.getSec() % 60 == 0){
+            sec -= 60;
+        }
+        System.out.println("min : " + min + " sec : " + sec);
+        if (min < 10 && sec < 10)
+            this.timerlabel.setText("Timer : 0" + min + ":0" + sec);
+        else if (min < 10)
+            this.timerlabel.setText("Timer : 0" + min + ":" + sec);
+        else if (sec < 10)
+            this.timerlabel.setText("Timer : " + min + ":0" + sec);
         else
-            this.timerlabel.setText("Timer : " + timer.getMin() + ":" + timer.getSec());
+            this.timerlabel.setText("Timer : " + min + ":" + sec);
         this.repaint();
     }
 
+    /**
+     * This method updates the number of fruits eaten.
+     * @param fruits The number of fruits eaten.
+     */
     public void setFruitslabel(int fruits){
         this.fruitslabel.setText("Fruits eaten : " + fruits);
         this.repaint();
     }
 
+    /**
+     * This method updates the number of monsters eaten.
+     * @param monsters The number of monsters eaten.
+     */
     public void setMonsterslabel(int monsters){
         this.monsterslabel.setText("Monsters eaten : " + monsters);
         this.repaint();
     }
 
+    /**
+     * This method returns the JPanel containing the number of life remaining.
+     * @return The JPanel of life remaining.
+     */
     public LifeRemaining getLifeRemaining() {
         return this.lifeRemaining;
     }

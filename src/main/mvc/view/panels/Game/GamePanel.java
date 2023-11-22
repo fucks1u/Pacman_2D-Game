@@ -4,13 +4,19 @@ import src.main.mvc.model.character.GhostModel;
 import src.main.mvc.model.character.PacmanModel;
 import src.main.mvc.model.item.ItemModel;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * This class is a JPanel to show the game.
@@ -21,7 +27,6 @@ public class GamePanel extends JPanel {
 
     private BufferedImage spriteWall = null;
     private BufferedImage spriteDot = null;
-    private BufferedImage spritePacman = null;
     private BufferedImage spriteBigDot = null;
     private BufferedImage spriteGhostInky = null; 
     private BufferedImage spriteGhostBlinky = null;
@@ -31,11 +36,18 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteCherry = null;
     private PacmanModel pacman;
     private List<GhostModel> ghost;
+    private int pacmanMouthAngle = 45;
+    private boolean mouthOpen = true;
+
 
 
 
     /**
      * Constructor of the GamePanel class.
+     * It creates the JPanel and add the components.
+     * It contains the map of the game.
+     * It contains the pacman.
+     * It contains the ghosts.
      */
     public GamePanel(ItemModel[][] map, PacmanModel pacman, List<GhostModel> ghost) {
         this.map = map;
@@ -48,7 +60,6 @@ public class GamePanel extends JPanel {
             spriteWall = ImageIO.read(new File("src/main/resources/img/wall.png"));
             spriteDot = ImageIO.read(new File("src/main/resources/img/dotitem.png"));
             spriteBigDot = ImageIO.read(new File("src/main/resources/img/dot.png"));
-            spritePacman = ImageIO.read(new File("src/main/resources/img/pacman.png"));
             spriteCherry = ImageIO.read(new File("src/main/resources/img/cherry.png"));
             spriteGhostInky = ImageIO.read(new File("src/main/resources/img/inky.png"));
             spriteGhostBlinky = ImageIO.read(new File("src/main/resources/img/blinky.png"));
@@ -58,8 +69,26 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        /**
+         * This timer is used to animate the mouth of pacman.
+         */
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mouthOpen = !mouthOpen;
+                repaint();
+            }
+        });
+        timer.start();
     }
 
+    /**
+     * This method paints the components.
+     * It draws the map.
+     * It draws the pacman and animate it.
+     * It draws the ghosts.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -71,7 +100,7 @@ public class GamePanel extends JPanel {
             for (int j = 0; j < map[i].length; j++) {
                 int x = i * 19;
                 int y = j * 19;
-                if(map[i][j] == null)  continue;
+                if(map[i][j] == null) continue;
                 switch(map[i][j].getClass().getName().split("\\.")[5].charAt(0)) {
                     case 'W':
                         g2d.drawImage(spriteWall, x, y, 19, 19, this);
@@ -111,9 +140,45 @@ public class GamePanel extends JPanel {
                 }
             }
         }
-        g2d.drawImage(spritePacman, this.pacman.getPosition().x*19, this.pacman.getPosition().y*19, 22, 22, this);
+        dessinerPacman(g, mouthOpen ? pacmanMouthAngle : 0);
     }
 
+    /**
+     * This method draws the pacman and animate it.
+     * @param g the <code>Graphics</code> object to protect
+     * @param angleBouche the angle of the mouth of pacman
+     */
+    private void dessinerPacman(Graphics g, int angleBouche) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.YELLOW);
+        int x = pacman.getPosition().x*19;
+        int y = pacman.getPosition().y*19;
+
+        if(pacman.getDirection() == null) {
+            g2d.fillArc(x, y, 19, 19, angleBouche, 360 - 2 * angleBouche);
+            return;
+        }
+        switch (pacman.getDirection()) {
+            case UP:
+                g2d.rotate(Math.toRadians(-90), x+11.5, y+13);
+                break;
+            case LEFT:
+                g2d.rotate(Math.toRadians(180), x+10, y+10);
+                break;
+            case DOWN:
+                g2d.rotate(Math.toRadians(90), x+10.5, y+9);
+                break;
+        }
+
+        g2d.fillArc(x, y, 19, 19, angleBouche, 360 - 2 * angleBouche);
+        g2d.rotate(Math.toRadians(0), x, y);
+    }
+
+    /**
+     * This method sets the map.
+     * It used when the user launch a new game after a game over.
+     * @param map the map of the game.
+     */
     public void setMap(ItemModel[][] map) {
         this.map = map;
         this.repaint();

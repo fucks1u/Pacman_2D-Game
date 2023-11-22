@@ -39,7 +39,6 @@ public class GameController implements ActionListener, KeyListener {
 	private int highscore = 0;
 	private int nbFruits = 1;
 	private int monstersEated = 1;
-
 	private MapModel map;
 	private PacmanModel pacman;
 	private List<GhostModel> ghosts;
@@ -48,7 +47,6 @@ public class GameController implements ActionListener, KeyListener {
 	private MenuFrame mainframe;
 	private boolean isStarted;
 	private boolean first;
-
 	private enum nextDirection {
 		UP,
 		DOWN,
@@ -75,12 +73,15 @@ public class GameController implements ActionListener, KeyListener {
 	private String namePlayer;
 	private nextDirection next;
 
-	// TODO : Javadoc
-	// TODO : Set name of the player
-	// TODO : Display mob + fruit eated
+	/**
+	 * This constructor creates the GameController.
+	 * @param map The map of the game.
+	 * @param mainframe The JFrame of the game.
+	 * @param pacman The Pacman of the game.
+	 * @param ghostlist The list of the ghosts in the game.
+	 */
 
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
-
 		this.map = map;
 		this.mainframe = mainframe;
 		this.pacman = pacman;
@@ -126,6 +127,9 @@ public class GameController implements ActionListener, KeyListener {
 			basePositions.put(ghost.getName(), new Point((int) position.getX(), (int) position.getY()));
 		}
 
+		/**
+		 * Game loop
+		 */
 		while (pacman.getLives() > 0 && map.getDot() > 0) {
 			if (fpsTimer.getSec() >= 1) {
 				System.out.printf("[GCtrl] FPS: %d, Time: %d, Score: %d%n", fps, pacmanTimer.getSec(), this.score);
@@ -137,6 +141,10 @@ public class GameController implements ActionListener, KeyListener {
 
 			gameDifficulty = getDifficulty();
 
+			/**
+			 *  The game is started once the player presses a key.
+			 *  It only starts the game if the player goes in a valid direction.
+			 */
 			if (isStarted) {
 				if (first) {
 					gametimer = new Clock();
@@ -145,7 +153,7 @@ public class GameController implements ActionListener, KeyListener {
 				}
 				this.mainframe.getPanelHud().getDetailsScore().setTimerlabel(gametimer);
 
-				if (moveTimer.getMs() >= 90) {
+				if (moveTimer.getMs() >= 130) {
 					moveTimer.reset();
 
 					checkNextPosition(next);
@@ -167,6 +175,10 @@ public class GameController implements ActionListener, KeyListener {
 					}
 				}
 
+				/**
+				 * Ghosts move every 140ms.
+				 * If the ghost is vulnerable, it moves to get far from Pacman.
+				 */
 				if (ghosttimer.getMs() >= gameDifficulty.value) {
 					ghosttimer.reset();
 
@@ -176,6 +188,9 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
+					/**
+					 * Creation of the 4 ghosts.
+					 */
 					this.ghosts.get(0).move(this.pacman.getPosition(), map);
 					this.ghosts.get(1).move(this.pacman.getPosition(), map);
 					inky.move(this.pacman.getPosition(), map, ghostsPositions);
@@ -360,18 +375,30 @@ public class GameController implements ActionListener, KeyListener {
 		}
 	}
 
+	/**
+	 * This method adds listeners to the components.
+	 * @param cmp The components to add listeners.
+	 */
 	public void addListeners(Component[] cmp) {
 		for (Component c : cmp) {
 			((JButton) c).addActionListener(this);
 		}
 	}
 
+	/**
+	 * This method removes listeners to the components.
+	 * @param cmp The components to remove listeners.
+	 */
 	public void removeListeners(Component[] cmp) {
 		for (Component c : cmp) {
 			((JButton) c).removeActionListener(this);
 		}
 	}
 
+	/**
+	 * This method checks if the next position of the Pacman is valid.
+	 * @param nextdirection The next direction of the Pacman.
+	 */
 	public void checkNextPosition(nextDirection nextdirection) {
 		if (map.isTeleporter(pacman.getPosition())) {
 			this.pacman.setPosition(map.getTeleporter(pacman.getPosition()));
@@ -420,13 +447,15 @@ public class GameController implements ActionListener, KeyListener {
 		if (this.highscore != 0) {
 			this.mainframe.getPanelHud().updateHighscore(this.highscore);
 		}
-
+		this.mainframe.getPanelHud().getDetailsScore().setFruitslabel(this.nbFruits);
+		this.mainframe.getPanelHud().getDetailsScore().setMonsterslabel(this.monstersEated);
 		this.mainframe.getPanelHud().updateScore(this.score);
 		this.pacman.setLives(1);
 		this.mainframe.getPanelHud().updateLife(this.pacman.getLives());
 		this.pacman.setPosition(new Point(18, 13));
-		for (GhostModel ghost : this.ghosts) {
-			ghost.setPosition(new Point(13, 12 + i));
+		for(GhostModel ghost : this.ghosts){
+			ghost.setPosition(new Point(13, 12+i));
+			ghost.setVulnerable(false);
 			i++;
 		}
 		for (Clock c : this.clocks) {
@@ -436,6 +465,10 @@ public class GameController implements ActionListener, KeyListener {
 		this.mainframe.getPanelGame().setMap(this.map.getMap());
 	}
 
+	/**
+	 * This method processes the user inputs on Menu panel.
+	 * @param actionEvent the event to be processed
+	 */
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		String key = actionEvent.getActionCommand();

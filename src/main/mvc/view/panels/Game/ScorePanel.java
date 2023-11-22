@@ -41,11 +41,19 @@ public class ScorePanel extends JPanel {
         this.add(this.highscorelabel);
     }
 
+    /**
+     * This method updates the score of the game.
+     * @param score the score of the game.
+     */
     public void setScore(int score){
         this.scorelabel.setText("Score : " + score);
         this.repaint();
     }
 
+    /**
+     * This method updates the highest score of the game.
+     * @param highscore the highest score of the game.
+     */
     public void setHighscore(int highscore){
         this.highscorelabel.setText("Highest Score : " + highscore);
         this.repaint();
