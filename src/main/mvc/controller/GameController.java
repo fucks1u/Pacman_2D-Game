@@ -36,7 +36,10 @@ import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
 
-
+/**
+ * This class is the controller of the game.
+ * It contains the game loop and the methods to update at different state in the game.
+ */
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
 	private int highscore = 0;

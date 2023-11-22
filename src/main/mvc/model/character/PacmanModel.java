@@ -9,7 +9,10 @@ public class PacmanModel extends CharacterModel {
   private int lives;
   private directions direction;
 
-
+  /**
+   * Enum to represent the direction of the Pacman character.
+   * It can be UP, DOWN, LEFT or RIGHT.
+   */
   public enum directions {
     UP,
     DOWN,
