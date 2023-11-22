@@ -89,7 +89,6 @@ public class DetailsScore extends JPanel {
         if(timer.getSec() % 60 == 0){
             sec -= 60;
         }
-        System.out.println("min : " + min + " sec : " + sec);
         if (min < 10 && sec < 10)
             this.timerlabel.setText("Timer : 0" + min + ":0" + sec);
         else if (min < 10)
