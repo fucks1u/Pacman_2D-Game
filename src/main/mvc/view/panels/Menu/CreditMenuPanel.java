@@ -32,6 +32,11 @@ public class CreditMenuPanel extends JPanel {
         this.difficultyDropdown.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 290));
     }
 
+    /**
+     * Retrieves the difficulty selected in the credit panel.
+     *
+     * @return The difficulty selected as a String.
+     */
     public String getCreditPanelDifficulty() {
         return this.difficultyDropdown.getDifficulty();
     }
