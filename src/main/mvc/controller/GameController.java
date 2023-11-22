@@ -56,6 +56,22 @@ public class GameController implements ActionListener, KeyListener {
 		RIGHT
 	}
 
+	private enum difficulty {
+		EASY(160),
+		MEDIUM(140),
+		HARD(120);
+
+		private final int value;
+
+		difficulty(final int newValue) {
+			value = newValue;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
 	private String namePlayer;
 	private nextDirection next;
 
@@ -95,6 +111,7 @@ public class GameController implements ActionListener, KeyListener {
 		Clock fpsTimer = new Clock();
 		Clock moveTimer = new Clock();
 		Clock gametimer = null;
+		difficulty gameDifficulty = null;
 		clocks.add(ghosttimer);
 		clocks.add(pacmanTimer);
 		clocks.add(fruitTimer);
@@ -117,6 +134,9 @@ public class GameController implements ActionListener, KeyListener {
 			} else {
 				fps++;
 			}
+
+			gameDifficulty = getDifficulty();
+
 			if (isStarted) {
 				if (first) {
 					gametimer = new Clock();
@@ -147,7 +167,7 @@ public class GameController implements ActionListener, KeyListener {
 					}
 				}
 
-				if (ghosttimer.getMs() >= 140) {
+				if (ghosttimer.getMs() >= gameDifficulty.value) {
 					ghosttimer.reset();
 
 					InkyModel inky = (InkyModel) this.ghosts.get(2);
@@ -202,10 +222,10 @@ public class GameController implements ActionListener, KeyListener {
 			mainframe.getContentPane().removeAll();
 			if (pacman.getLives() <= 0) {
 				response = mainframe.displayGameOver("lose");
-				System.out.println("[GCtrl] Game won.");
+				System.out.println("[GCtrl] Game lost.");
 			} else {
 				response = mainframe.displayGameOver("win");
-				System.out.println("[GCtrl] Game lost.");
+				System.out.println("[GCtrl] Game won.");
 			}
 			removeListeners(mainframe.getPanelGame().getComponents());
 			Object selectedValue = mainframe.getOptionPane().getValue();
@@ -679,5 +699,18 @@ public class GameController implements ActionListener, KeyListener {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private difficulty getDifficulty() {
+		switch (this.mainframe.getCreditPanel().getCreditPanelDifficulty()) {
+			case "Easy":
+				return difficulty.EASY;
+			case "Medium":
+				return difficulty.MEDIUM;
+			case "Hard":
+				return difficulty.HARD;
+			default:
+				return null;
+		}
 	}
 }

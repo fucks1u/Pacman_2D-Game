@@ -14,13 +14,8 @@ import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -41,8 +36,8 @@ public class MenuFrame extends JFrame {
     private GamePanel panelgame;
     private HudPanel panelhud;
     private JOptionPane optionPane;
+    private CreditMenuPanel creditMenuPanel;
     private PacmanModel pacman;
-
 
     /**
      * This constructor creates the JFrame.
@@ -51,7 +46,7 @@ public class MenuFrame extends JFrame {
      */
     public MenuFrame(ItemModel[][] map, PacmanModel pacman, List<GhostModel> ghost) {
         super("Pacman Game");
-        panelgame = new GamePanel(map,pacman,ghost);
+        panelgame = new GamePanel(map, pacman, ghost);
         this.pacman = pacman;
         panelhud = new HudPanel(pacman.getLives());
         displayMenu();
@@ -63,17 +58,17 @@ public class MenuFrame extends JFrame {
      * The interface when you launch the game.
      */
     public void displayMenu() {
-        //create JPanel to add all the components.
+        // create JPanel to add all the components.
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
         mainpanel.setBackground(Color.BLACK);
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        //JPanel for the title -> "PAC-MAN".
+        // JPanel for the title -> "PAC-MAN".
         TitleMenuPanel paneltitle = new TitleMenuPanel();
         paneltitle.setPreferredSize(new Dimension(800, 180));
 
-        //JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
+        // JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
         SubtitleMenuPanel subtitlepanel = new SubtitleMenuPanel();
         subtitlepanel.setPreferredSize(new Dimension(600, 50));
 
@@ -82,14 +77,15 @@ public class MenuFrame extends JFrame {
         buttonspanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
         this.panelbuttons = buttonspanel;
 
-        CreditMenuPanel creditpanel = new CreditMenuPanel();
-        creditpanel.setPreferredSize(new Dimension(800, 185));
-        creditpanel.setBorder(BorderFactory.createEmptyBorder(160, 420, 0, 0));
+        this.creditMenuPanel = new CreditMenuPanel();
+        this.creditMenuPanel.setPreferredSize(new Dimension(800, 185));
+        this.creditMenuPanel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
 
+        
         mainpanel.add(paneltitle);
         mainpanel.add(subtitlepanel);
         mainpanel.add(buttonspanel);
-        mainpanel.add(creditpanel);
+        mainpanel.add(creditMenuPanel);
 
         add(mainpanel);
         setSize(800, 800);
@@ -170,38 +166,38 @@ public class MenuFrame extends JFrame {
         File file = new File("src/main/resources/leaderboard.txt");
 
         if (file.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line = reader.readLine();
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = reader.readLine();
 
-                    if (line != null) {
-                        try {
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-                            bw.write("\n" + name + ":0");
-                            bw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-                            bw.write(name + ":0");
-                            bw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                if (line != null) {
+                    try {
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                        bw.write("\n" + name + ":0");
+                        bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
+                } else {
+                    try {
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                        bw.write(name + ":0");
+                        bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else {
-                System.out.println("pas de fichier");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
+        } else {
+            System.out.println("pas de fichier");
+        }
     }
-
 
     public boolean displayGameOver(String state) {
         this.optionPane = new JOptionPane();
-        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de texte
+        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de
+        // texte
         JPanel customPanel = new JPanel(new BorderLayout());
         JLabel winLabel = new JLabel(state.toUpperCase());
         JLabel retry = new JLabel("Retry ?");
@@ -217,16 +213,16 @@ public class MenuFrame extends JFrame {
         customPanel.add(checkbox, BorderLayout.WEST);
         customPanel.add(retry, BorderLayout.SOUTH);
 
-        Object[] options = {"Yes", "No"};
+        Object[] options = { "Yes", "No" };
 
-        optionPane.setMessage(new Object[]{customPanel});
+        optionPane.setMessage(new Object[] { customPanel });
         optionPane.setOptions(options);
 
-        JDialog dialog = optionPane.createDialog("You "+state.toUpperCase()+" !");
+        JDialog dialog = optionPane.createDialog("You " + state.toUpperCase() + " !");
         dialog.setResizable(false);
 
         dialog.setVisible(true);
-        if(checkbox.isSelected()){
+        if (checkbox.isSelected()) {
             return true;
         } else {
             return false;
@@ -252,7 +248,12 @@ public class MenuFrame extends JFrame {
     public HudPanel getPanelHud() {
         return this.panelhud;
     }
-    public JOptionPane getOptionPane(){
+
+    public JOptionPane getOptionPane() {
         return this.optionPane;
+    }
+
+    public CreditMenuPanel getCreditPanel() {
+        return this.creditMenuPanel;
     }
 }
