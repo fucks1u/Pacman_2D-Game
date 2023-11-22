@@ -14,7 +14,6 @@ import java.awt.geom.GeneralPath;
  */
 public class ArrowButton extends JButton {
     private final String arrow;
-
     private enum Direction {UP, DOWN, LEFT, RIGHT}
 
     ;
@@ -72,7 +71,6 @@ public class ArrowButton extends JButton {
             default:
                 break;
         }
-
         g2d.setColor(Color.BLACK);
         g2d.fill(path);
         g2d.dispose();

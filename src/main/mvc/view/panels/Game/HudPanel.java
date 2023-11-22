@@ -10,6 +10,9 @@ import javax.swing.BoxLayout;
  * It contains some panels to create a main panel.
  */
 public class HudPanel extends JPanel {
+    private ScorePanel scorePanel;
+    private DetailsScore detailsScore;
+    private CommandsGamePanel commandsPanel;
     /**
      * Constructor of the HudPanel class.
      * It creates the JPanel and add the components.
@@ -18,17 +21,49 @@ public class HudPanel extends JPanel {
      * It contains the score of the game.
      * It contains the life of the player.
      */
-    public HudPanel() {
+    public HudPanel(int numberOfLife) {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        JPanel panelCommands = new CommandsGamePanel();
-        JPanel panelScore = new ScorePanel(0, 0);
-        JPanel panelLife = new DetailsScore(3);
+        this.commandsPanel = new CommandsGamePanel();
+        this.scorePanel = new ScorePanel();
+        this.detailsScore = new DetailsScore(numberOfLife);
 
-        this.add(panelCommands);
-        this.add(panelScore);
-        this.add(panelLife);
+        this.add(commandsPanel);
+        this.add(scorePanel);
+        this.add(detailsScore);
 
         this.setBackground(Color.BLACK);
         this.setPreferredSize(new Dimension(800, 170));
+    }
+
+    /**
+     * This method updates the score of the game.
+     * @param score the score of the game.
+     */
+    public void updateScore(int score) {
+        this.scorePanel.setScore(score);
+    }
+
+    /**
+     * This method updates the highscore of the game.
+     * @param highscore the highscore of the game.
+     */
+    public void updateHighscore(int highscore) {
+        this.scorePanel.setHighscore(highscore);
+    }
+
+    /**
+     * This method updates the life of the player.
+     * @param life the life of the player.
+     */
+    public void updateLife(int life) {
+        this.detailsScore.getLifeRemaining().updateLife(life);
+    }
+
+    /**
+     * This method return the details score panel.
+     * @return the details score panel.
+     */
+    public DetailsScore getDetailsScore() {
+        return this.detailsScore;
     }
 }

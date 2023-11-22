@@ -3,7 +3,8 @@ package src.main.mvc.model.character;
 import java.awt.Point;
 
 /**
- * An abstract class representing a character in a 2D space with a position and movement methods.
+ * An abstract class representing a character in a 2D space with a position and
+ * movement methods.
  */
 public abstract class CharacterModel {
   private Point position;
@@ -45,5 +46,14 @@ public abstract class CharacterModel {
    */
   public void moveRight() {
     this.position.setLocation(this.position.getX() + 1, this.position.getY());
+  }
+
+  /**
+   * Sets the position of the character.
+   * 
+   * @param position the position to set
+   */
+  public void setPosition(Point position) {
+    this.position.setLocation(position.getX(), position.getY());
   }
 }

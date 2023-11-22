@@ -2,6 +2,7 @@ package src.main.mvc.model.map;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import src.main.mvc.model.item.BigDotModel;
@@ -16,6 +17,8 @@ import src.main.mvc.model.item.WallModel;
  */
 public abstract class MapModel {
   private ItemModel[][] map;
+  private List<Point> voids = new ArrayList<>();
+  private HashMap<Point, Point> teleporters = new HashMap<>();
 
   public MapModel(ItemModel[][] map) {
     this.map = map;
@@ -81,6 +84,16 @@ public abstract class MapModel {
     return spawn;
   }
 
+  public List<Point> getGhostSpawn() {
+    List<Point> spawn = new ArrayList<>();
+    for (int i = 11; i < 17; i++) {
+      for (int j = 11; j < 17; j++) {
+        spawn.add(new Point(i, j));
+      }
+    }
+    return spawn;
+  }
+
   /**
    * Checks if a given position is accessible on the map.
    * 
@@ -115,4 +128,34 @@ public abstract class MapModel {
     }
     return k;
   }
+
+    /**
+     * Returns a list of points representing the voids on the map.
+     *
+     * @return a list of points representing the voids on the map
+     */
+    public List<Point> getVoids() {
+      return voids;
+    }
+
+    /**
+     * Sets the voids on the map.
+     *
+     * @param voids the voids to set
+     */
+    public void setVoids(List<Point> voids) {
+      this.voids = voids;
+    }
+
+    public void addTeleporters(Point p1, Point p2) {
+      teleporters.put(p1, p2);
+      teleporters.put(p2, p1);
+    }
+
+    public boolean isTeleporter(Point p) {
+      return teleporters.containsKey(p);
+    }
+    public Point getTeleporter(Point p) {
+      return teleporters.get(p);
+    }
 }

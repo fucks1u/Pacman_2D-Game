@@ -1,5 +1,8 @@
 package src.main.mvc.view.frames;
 
+import src.main.mvc.model.character.GhostModel;
+import src.main.mvc.model.character.PacmanModel;
+import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.view.panels.Game.GamePanel;
 import src.main.mvc.view.panels.Game.HudPanel;
 import src.main.mvc.view.panels.Menu.ButtonsMenuPanel;
@@ -10,40 +13,55 @@ import src.main.mvc.view.panels.Score.ButtonNewPlayer;
 import src.main.mvc.view.panels.Score.LeaderboardPanel;
 import src.main.mvc.view.panels.Score.ScorePanel;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This class is a JFrame that contains the menu of the game.
  * It contains the title and the subtitle of the game and buttons.
  * The interface when you launch the game.
  */
-public class MenuFrame extends JFrame implements ActionListener {
+public class MenuFrame extends JFrame {
+
+    private ButtonsMenuPanel panelbuttons;
+    private ButtonNewPlayer panelnewplayer;
+    private GamePanel panelgame;
+    private HudPanel panelhud;
+    private JOptionPane optionPane;
+    private CreditMenuPanel creditMenuPanel;
+    private PacmanModel pacman;
+
     /**
      * This constructor creates the JFrame.
      * It calls the method displayMenu().
      * Call displayMenu to show the default Menu.
      */
-    public MenuFrame() {
+    public MenuFrame(ItemModel[][] map, PacmanModel pacman, List<GhostModel> ghost) {
         super("Pacman Game");
+        panelgame = new GamePanel(map, pacman, ghost);
+        this.pacman = pacman;
+        panelhud = new HudPanel(pacman.getLives());
         displayMenu();
     }
 
@@ -53,35 +71,33 @@ public class MenuFrame extends JFrame implements ActionListener {
      * The interface when you launch the game.
      */
     public void displayMenu() {
-        //create JPanel to add all the components.
+        // create JPanel to add all the components.
         JPanel mainpanel = new JPanel();
         mainpanel.setLayout(new FlowLayout());
+        mainpanel.setBackground(Color.BLACK);
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        //JPanel for the title -> "PAC-MAN".
-        JPanel paneltitle = new TitleMenuPanel();
+        // JPanel for the title -> "PAC-MAN".
+        TitleMenuPanel paneltitle = new TitleMenuPanel();
         paneltitle.setPreferredSize(new Dimension(800, 180));
 
-        //JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
-        JPanel subtitlepanel = new SubtitleMenuPanel();
+        // JPanel for the subtitle -> "EPITECH SPECIAL EDITION".
+        SubtitleMenuPanel subtitlepanel = new SubtitleMenuPanel();
         subtitlepanel.setPreferredSize(new Dimension(600, 50));
 
-        JPanel buttonspanel = new ButtonsMenuPanel();
+        ButtonsMenuPanel buttonspanel = new ButtonsMenuPanel();
         buttonspanel.setPreferredSize(new Dimension(400, 350));
         buttonspanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        for (Component c : buttonspanel.getComponents()) {
-            ((JButton) c).addActionListener(this);
-        }
+        this.panelbuttons = buttonspanel;
 
-        JPanel creditpanel = new CreditMenuPanel();
-        creditpanel.setPreferredSize(new Dimension(800, 185));
-        creditpanel.setBorder(BorderFactory.createEmptyBorder(160, 420, 0, 0));
+        this.creditMenuPanel = new CreditMenuPanel();
+        this.creditMenuPanel.setPreferredSize(new Dimension(800, 185));
+        this.creditMenuPanel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
 
         mainpanel.add(paneltitle);
         mainpanel.add(subtitlepanel);
-        mainpanel.setBackground(Color.BLACK);
         mainpanel.add(buttonspanel);
-        mainpanel.add(creditpanel);
+        mainpanel.add(creditMenuPanel);
 
         add(mainpanel);
         setSize(800, 800);
@@ -101,10 +117,11 @@ public class MenuFrame extends JFrame implements ActionListener {
         JPanel mainpanel = new JPanel(new FlowLayout());
         ((FlowLayout) mainpanel.getLayout()).setVgap(0);
 
-        mainpanel.add(new GamePanel());
-        mainpanel.add(new HudPanel());
+        mainpanel.add(panelgame);
+        mainpanel.add(panelhud);
 
         add(mainpanel);
+        mainpanel.setBackground(Color.BLACK);
         setSize(800, 800);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,9 +146,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         JScrollPane scroll = new JScrollPane(leaderboardPanel);
         ButtonNewPlayer buttonnewplayer = new ButtonNewPlayer();
-        for (Component c : buttonnewplayer.getComponents()) {
-            ((JButton) c).addActionListener(this);
-        }
+        this.panelnewplayer = buttonnewplayer;
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(mainpanel, BorderLayout.NORTH);
@@ -163,84 +178,121 @@ public class MenuFrame extends JFrame implements ActionListener {
         File file = new File("src/main/resources/leaderboard.txt");
 
         if (file.exists()) {
-            if (file.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line = reader.readLine();
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = reader.readLine();
 
-                    if (line != null) {
-                        try {
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-                            bw.write("\n" + name + ":0");
-                            bw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-                            bw.write(name + ":0");
-                            bw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                if (line != null) {
+                    try {
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                        bw.write("\n" + name + ":0");
+                        bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
+                } else {
+                    try {
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+                        bw.write(name + ":0");
+                        bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else {
-                System.out.println("pas de fichier");
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
             }
+        } else {
+            System.out.println("pas de fichier");
         }
     }
 
+    /**
+     * This method displays the interface when the game is over.
+     * 
+     * @param state The state of the game.
+     * @return true if the player wants to play again, false otherwise.
+     */
+    public boolean displayGameOver(String state) {
+        this.optionPane = new JOptionPane();
+        // Création du panel personnalisé avec le message "WIN" en rouge et un champ de
+        // texte
+        JPanel customPanel = new JPanel(new BorderLayout());
+        JLabel winLabel = new JLabel(state.toUpperCase());
+        JLabel retry = new JLabel("Retry ?");
+        JCheckBox checkbox = new JCheckBox("Invited player ?");
+        winLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
+        winLabel.setForeground(Color.RED);
+        winLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        retry.setHorizontalAlignment(SwingConstants.CENTER);
+        retry.setBorder(new EmptyBorder(20, 0, 0, 0));
+        winLabel.setFont(new Font("Arial", Font.BOLD, 30));
+
+        customPanel.add(winLabel, BorderLayout.NORTH);
+        customPanel.add(checkbox, BorderLayout.WEST);
+        customPanel.add(retry, BorderLayout.SOUTH);
+
+        Object[] options = { "Yes", "No" };
+
+        optionPane.setMessage(new Object[] { customPanel });
+        optionPane.setOptions(options);
+
+        JDialog dialog = optionPane.createDialog("You " + state.toUpperCase() + " !");
+        dialog.setResizable(false);
+
+        dialog.setVisible(true);
+        if (checkbox.isSelected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
-     * This method is used to know which button is clicked.
-     * It is used to know which action to do.
+     * This method returns the buttons panel.
+     * 
+     * @return the buttons panel.
      */
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        String key = actionEvent.getActionCommand();
+    public ButtonsMenuPanel getButtonsPanel() {
+        return this.panelbuttons;
+    }
 
-        switch (key) {
-            case "New Player":
-                String name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                if (name == null) {
-                    this.getContentPane().removeAll();
-                    this.displayScore();
-                    break;
-                }
-                while (name.isEmpty() || name.length() > 25 || name.charAt(0) == ' ' || name.matches(".*[.,;:?!/].*")) {
-                    JOptionPane.showMessageDialog(this, String.format("Your name must :%n - have between 1 and 25 caracters %n - not begin with a space %n - not contains special characters(.,;:?!/)."), "Error", JOptionPane.ERROR_MESSAGE);
-                    name = JOptionPane.showInputDialog(this, "What's your name?", "New Player", JOptionPane.QUESTION_MESSAGE);
-                    if (name == null) {
-                        this.getContentPane().removeAll();
-                        this.displayScore();
-                        break;
-                    }
-                }
-                this.addPlayer(name);
-                this.getContentPane().removeAll();
-                this.displayScore();
-                break;
+    /**
+     * This method returns a jpanel containing the new player button.
+     * 
+     * @return a jpanel containing the new player button.
+     */
+    public ButtonNewPlayer getNewPlayerPanel() {
+        return this.panelnewplayer;
+    }
 
-            case "Back":
-                this.getContentPane().removeAll();
-                this.displayMenu();
-                break;
-            case "Play":
-                this.getContentPane().removeAll();
-                this.displayGame();
-                break;
-            case "Score":
-                this.getContentPane().removeAll();
-                this.displayScore();
-                break;
-            case "Quit":
-                System.exit(0);
-                break;
-            default:
-                break;
-        }
+    /**
+     * This method returns the game panel.
+     * 
+     * @return the game panel.
+     */
+    public GamePanel getPanelGame() {
+        return this.panelgame;
+    }
+
+    /**
+     * This method returns the HUD panel.
+     * 
+     * @return the HUD panel.
+     */
+    public HudPanel getPanelHud() {
+        return this.panelhud;
+    }
+
+    /**
+     * This method returns the joption pane of the game over.
+     * 
+     * @return the joption pane of the game over.
+     */
+    public JOptionPane getOptionPane() {
+        return this.optionPane;
+    }
+
+    public CreditMenuPanel getCreditPanel() {
+        return this.creditMenuPanel;
     }
 }

@@ -32,7 +32,6 @@ public class LifeRemaining extends JPanel {
                 add(heartLabel);
                 Timer timer = new Timer(700, new ActionListener() {
                     private boolean isVisible = true;
-
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
                         isVisible = !isVisible;
@@ -61,7 +60,6 @@ public class LifeRemaining extends JPanel {
                 add(heartLabel);
                 Timer timer = new Timer(700, new ActionListener() {
                     private boolean isVisible = true;
-
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
                         isVisible = !isVisible;
