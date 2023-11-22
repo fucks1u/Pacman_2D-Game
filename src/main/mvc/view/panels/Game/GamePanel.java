@@ -28,7 +28,7 @@ public class GamePanel extends JPanel {
     private BufferedImage spriteWall = null;
     private BufferedImage spriteDot = null;
     private BufferedImage spriteBigDot = null;
-    private BufferedImage spriteGhostInky = null; 
+    private BufferedImage spriteGhostInky = null;
     private BufferedImage spriteGhostBlinky = null;
     private BufferedImage spriteGhostPinky = null;
     private BufferedImage spriteGhostClyde = null;
