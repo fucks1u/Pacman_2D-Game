@@ -4,6 +4,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -21,7 +22,11 @@ public class ButtonNewPlayer extends JPanel {
         this.setLayout(null);
 
         JButton back = new JButton("Back");
+        back.setBackground(Color.DARK_GRAY);
+        back.setForeground(Color.YELLOW);
         JButton button = new JButton("New Player");
+        button.setBackground(Color.DARK_GRAY);
+        button.setForeground(Color.YELLOW);
 
         button.setPreferredSize(new java.awt.Dimension(200, 50));
         button.setFont(new Font("Arial", Font.BOLD, 16));

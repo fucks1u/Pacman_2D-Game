@@ -1,6 +1,8 @@
 package src.main.mvc.view.panels.Menu;
 
 import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Font;
@@ -20,12 +22,21 @@ public class ButtonsMenuPanel extends JPanel {
     public ButtonsMenuPanel() {
         JButton buttonPlay = new JButton("Play");
         buttonPlay.setFont(new Font("Arial", Font.PLAIN, 40));
+        buttonPlay.setBackground(Color.DARK_GRAY);
+        buttonPlay.setForeground(Color.YELLOW);
+        buttonPlay.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 1));
 
         JButton buttonScore = new JButton("Score");
         buttonScore.setFont(new Font("Arial", Font.PLAIN, 40));
+        buttonScore.setBackground(Color.DARK_GRAY);
+        buttonScore.setForeground(Color.YELLOW);
+        buttonScore.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 1));
 
         JButton buttonQuit = new JButton("Quit");
         buttonQuit.setFont(new Font("Arial", Font.PLAIN, 40));
+        buttonQuit.setBackground(Color.DARK_GRAY);
+        buttonQuit.setForeground(Color.YELLOW);
+        buttonQuit.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 1));
 
         this.setLayout(new GridLayout(3, 1, 0, 10));
         this.add(buttonPlay);

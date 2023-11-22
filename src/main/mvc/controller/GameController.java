@@ -181,7 +181,7 @@ public class GameController implements ActionListener, KeyListener {
 				 * Ghosts move every 120/140/160ms (depending on the difficulty).
 				 * If the ghost is vulnerable, it moves to get far from Pacman.
 				 */
-				if (ghosttimer.getMs() >= gameDifficulty.value) {
+				if (ghosttimer.getMs() >= gameDifficulty.getValue()) {
 					ghosttimer.reset();
 
 					InkyModel inky = (InkyModel) this.ghosts.get(2);

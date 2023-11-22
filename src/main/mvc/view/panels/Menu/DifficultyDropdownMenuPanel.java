@@ -28,6 +28,10 @@ public class DifficultyDropdownMenuPanel extends JPanel {
     comboBox.addItem("Medium");
     comboBox.addItem("Hard");
     comboBox.setSelectedIndex(1);
+    comboBox.setBackground(Color.DARK_GRAY);
+    comboBox.setForeground(Color.YELLOW);
+    comboBox.setForeground(Color.YELLOW);
+
     this.add(comboBox);
     this.setBackground(Color.BLACK);
   }

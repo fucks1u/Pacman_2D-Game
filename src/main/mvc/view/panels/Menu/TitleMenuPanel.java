@@ -26,7 +26,7 @@ public class TitleMenuPanel extends JPanel {
         label.setBorder(BorderFactory.createEmptyBorder(17, 10, 10, 10));
         this.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
 
-        this.setBackground(Color.RED);
+        this.setBackground(Color.BLACK);
 
         label.setFont(customFont.deriveFont(120f));
 

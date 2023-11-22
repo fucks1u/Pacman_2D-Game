@@ -17,7 +17,7 @@ public class SubtitleMenuPanel extends JPanel {
         label.setFont(new Font("Arial", Font.BOLD, 35));
         label.setForeground(Color.YELLOW);
 
-        this.setBackground(Color.RED);
+        this.setBackground(Color.BLACK);
         this.add(label);
     }
 }
