@@ -207,10 +207,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-					this.ghosts.get(0).move(this.pacman.getPosition(), map);
-					this.ghosts.get(1).move(this.pacman.getPosition(), map);
-					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
+//					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+//					this.ghosts.get(1).move(this.pacman.getPosition(), map);
+//					inky.move(this.pacman.getPosition(), map, ghostsPositions);
+//					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
 				}
 
 				if (vulnerabilityTimer.getSec() >= 6) {
@@ -256,18 +256,24 @@ public class GameController implements ActionListener, KeyListener {
 		 * If the player has no more lives or if there is no more dots on the map.
 		 */
 		if (pacman.getLives() <= 0 || map.getDot() <= 0) {
-			try{
-				audio.stop();
-				audio.setSoundDead();
-			} catch (Exception e){
-				System.out.println(e.getMessage());
-			}
 			this.isStarted = false;
 			boolean response;
 			mainframe.getContentPane().removeAll();
 			if (pacman.getLives() <= 0) {
+				try{
+					audio.stop();
+					audio.setSoundDead();
+				} catch (Exception e){
+					System.out.println(e.getMessage());
+				}
 				response = mainframe.displayGameOver("lose");
 			} else {
+				try{
+					audio.stop();
+					audio.setSoundVictory();
+				} catch (Exception e){
+					System.out.println(e.getMessage());
+				}
 				response = mainframe.displayGameOver("win");
 			}
 			removeListeners(mainframe.getPanelGame().getComponents());

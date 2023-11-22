@@ -18,6 +18,7 @@ public class AudioController {
     File soundFileGameOver;
     File soundFilePacman;
     File soundGhostVulnerable;
+    File soundVictory;
     Clip clip;
     AudioInputStream audioInputStream;
 
@@ -29,6 +30,7 @@ public class AudioController {
         soundFileGameOver = new File("src/main/resources/audio/pacman_dead.wav");
         soundFilePacman = new File("src/main/resources/audio/pacman_waka-waka-cut.wav");
         soundGhostVulnerable = new File("src/main/resources/audio/ghost_vulnerable.wav");
+        soundVictory = new File("src/main/resources/audio/victory_sound.wav");
     }
 
     /**
@@ -78,6 +80,20 @@ public class AudioController {
             audioInputStream = AudioSystem.getAudioInputStream(soundGhostVulnerable);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Method to set the sound when the player wins.
+     */
+    public void setSoundVictory(){
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(soundVictory);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
