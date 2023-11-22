@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -37,7 +36,6 @@ import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
 
-import static java.lang.Thread.sleep;
 
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
@@ -76,7 +74,6 @@ public class GameController implements ActionListener, KeyListener {
 		}
 	}
 
-	private String namePlayer;
 	private nextDirection next;
 
 	/**
@@ -761,21 +758,6 @@ public class GameController implements ActionListener, KeyListener {
 	 */
 	private String formatLine(String name, int score) {
 		return name + ":" + score;
-	}
-
-	private String getScore(String name) {
-		try {
-			List<String> lines = readFile("src/main/resources/leaderboard.txt");
-			for (String line : lines) {
-				if (line.startsWith(name + ":")) {
-					String[] elements = line.split(":");
-					return elements[1];
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	/**

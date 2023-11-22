@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import src.main.mvc.model.character.ghost.BlinkyModel;
 
-// TODO: add move() test when implemented
-
 public class BlinkyModelTest {
   BlinkyModel blinky = new BlinkyModel(new Point(10, 10));
 
