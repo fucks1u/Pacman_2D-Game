@@ -10,11 +10,15 @@ import java.awt.geom.GeneralPath;
 /**
  * This class is a JButton to create an arrow.
  * It paints an arrow on each direction.
+ * 
  * @see JButton
  */
 public class ArrowButton extends JButton {
     private final String arrow;
-    private enum Direction {UP, DOWN, LEFT, RIGHT}
+
+    private enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
 
     ;
 
@@ -22,6 +26,7 @@ public class ArrowButton extends JButton {
      * Constructor of the ArrowButton class.
      * It set the size of the button.
      * It set the direction of the arrow.
+     * 
      * @param arrow Direction of the arrow.
      */
     public ArrowButton(String arrow) {
@@ -31,6 +36,7 @@ public class ArrowButton extends JButton {
 
     /**
      * This method paints an arrow for each direction.
+     * 
      * @param g Graphics object to paint.
      */
     @Override

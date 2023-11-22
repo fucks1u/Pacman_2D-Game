@@ -1,6 +1,5 @@
 package src.main.mvc.view.panels.Score;
 
-
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -31,7 +30,8 @@ public class LeaderboardPanel extends JPanel {
     /**
      * This method adds the players to the leaderboard.
      * It reads the file leaderboard.txt and displays the players.
-     * The first player is displayed in red, the second in cyan, the third in orange and the others in pink.
+     * The first player is displayed in red, the second in cyan, the third in orange
+     * and the others in pink.
      */
     public void addPlayer() {
         try {

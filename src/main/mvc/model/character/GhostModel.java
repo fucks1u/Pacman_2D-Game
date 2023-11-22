@@ -87,7 +87,7 @@ public abstract class GhostModel extends CharacterModel {
    * Checks if a cell is valid for a ghost to move into.
    * 
    * @param cell The cell to check.
-   * @param map The map containing the cells.
+   * @param map  The map containing the cells.
    * @return true if the cell is valid, false otherwise.
    */
   public static boolean checkCell(Point cell, ItemModel[][] map) {
@@ -101,7 +101,7 @@ public abstract class GhostModel extends CharacterModel {
    * Returns a list of available neighboring cells for a given cell on the map.
    *
    * @param cell The cell for which to find available neighboring cells.
-   * @param map The map containing the cells.
+   * @param map  The map containing the cells.
    * @return A list of available neighboring cells.
    */
   public static List<Point> getAvailableCell(Point cell, ItemModel[][] map) {

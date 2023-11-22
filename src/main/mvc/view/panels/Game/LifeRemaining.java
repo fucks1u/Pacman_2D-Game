@@ -22,6 +22,7 @@ public class LifeRemaining extends JPanel {
      * It creates the JPanel and add the components.
      * It contains the number of life remaining.
      * Each heart icon is a JLabel, it all blinks.
+     * 
      * @param numberOfLife Number of life remaining.
      */
     public LifeRemaining(int numberOfLife) {
@@ -32,6 +33,7 @@ public class LifeRemaining extends JPanel {
                 add(heartLabel);
                 Timer timer = new Timer(700, new ActionListener() {
                     private boolean isVisible = true;
+
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
                         isVisible = !isVisible;
@@ -49,6 +51,7 @@ public class LifeRemaining extends JPanel {
 
     /**
      * This method updates the number of life remaining.
+     * 
      * @param numberOfLife
      */
     public void updateLife(int numberOfLife) {
@@ -60,6 +63,7 @@ public class LifeRemaining extends JPanel {
                 add(heartLabel);
                 Timer timer = new Timer(700, new ActionListener() {
                     private boolean isVisible = true;
+
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
                         isVisible = !isVisible;

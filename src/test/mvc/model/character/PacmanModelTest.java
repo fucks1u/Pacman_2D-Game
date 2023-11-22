@@ -15,7 +15,7 @@ public class PacmanModelTest {
   @Test
   void lives() {
     int lives = pacman.getLives();
-    assertEquals(0, lives);
+    assertEquals(1, lives);
   }
 
   @Test

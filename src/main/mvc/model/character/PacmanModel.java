@@ -9,7 +9,6 @@ public class PacmanModel extends CharacterModel {
   private int lives;
   private directions direction;
 
-
   public enum directions {
     UP,
     DOWN,
@@ -39,7 +38,6 @@ public class PacmanModel extends CharacterModel {
   public void setLives(int lives) {
     this.lives = lives;
   }
-
 
   /**
    * Sets the direction of the Pacman character.
