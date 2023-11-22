@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import java.awt.Component;
@@ -34,6 +36,8 @@ import src.main.mvc.model.map.MapModel;
 import src.main.mvc.utils.Clock;
 import src.main.mvc.view.frames.MenuFrame;
 
+import static java.lang.Thread.sleep;
+
 public class GameController implements ActionListener, KeyListener {
 	private int score = 0;
 	private int highscore = 0;
@@ -47,7 +51,7 @@ public class GameController implements ActionListener, KeyListener {
 	private MenuFrame mainframe;
 	private boolean isStarted;
 	private boolean first;
-
+	private AudioController audio;
 	private enum nextDirection {
 		UP,
 		DOWN,
@@ -84,6 +88,8 @@ public class GameController implements ActionListener, KeyListener {
 	 */
 
 	public GameController(MapModel map, MenuFrame mainframe, PacmanModel pacman, List<GhostModel> ghostlist) {
+		audio = new AudioController();
+		audio.setSoundGame();
 		this.map = map;
 		this.mainframe = mainframe;
 		this.pacman = pacman;
@@ -120,6 +126,8 @@ public class GameController implements ActionListener, KeyListener {
 		clocks.add(fruitTimer);
 		clocks.add(fpsTimer);
 		clocks.add(moveTimer);
+		audio.setSoundGame();
+		audio.play();
 		int fps = 0;
 		Clock vulnerabilityTimer = new Clock();
 		HashMap<String, Point> basePositions = new HashMap<>();
@@ -170,6 +178,13 @@ public class GameController implements ActionListener, KeyListener {
 								vulnerabilityTimer.reset();
 								for (GhostModel ghost : ghosts)
 									ghost.setVulnerable(true);
+								try {
+									audio.stop();
+									audio.setSoundGhostVulnerable();
+									audio.play();
+									audio.clip.loop(2);
+								} catch (Exception e) {
+								}
 							}
 							map.setCell(pacman.getPosition());
 							mainframe.getPanelHud().updateScore(this.score);
@@ -202,9 +217,17 @@ public class GameController implements ActionListener, KeyListener {
 					// this.ghosts.get(3).move(this.pacman.getPosition(), map);
 				}
 
-				if (vulnerabilityTimer.getSec() >= 10) {
+				if (vulnerabilityTimer.getSec() >= 6) {
 					for (GhostModel ghost : ghosts) {
 						if (ghost.isVulnerable()) {
+							try{
+							audio.stop();
+							audio.setSoundPacman();
+							audio.play();
+							audio.clip.loop(Clip.LOOP_CONTINUOUSLY);
+							} catch (Exception e){
+								System.out.println(e.getMessage());
+							}
 							ghost.setVulnerable(false);
 						}
 					}
@@ -237,15 +260,19 @@ public class GameController implements ActionListener, KeyListener {
 		 * If the player has no more lives or if there is no more dots on the map.
 		 */
 		if (pacman.getLives() <= 0 || map.getDot() <= 0) {
+			try{
+				audio.stop();
+				audio.setSoundDead();
+			} catch (Exception e){
+				System.out.println(e.getMessage());
+			}
 			this.isStarted = false;
 			boolean response;
 			mainframe.getContentPane().removeAll();
 			if (pacman.getLives() <= 0) {
 				response = mainframe.displayGameOver("lose");
-				System.out.println("[GCtrl] Game lost.");
 			} else {
 				response = mainframe.displayGameOver("win");
-				System.out.println("[GCtrl] Game won.");
 			}
 			removeListeners(mainframe.getPanelGame().getComponents());
 			Object selectedValue = mainframe.getOptionPane().getValue();
@@ -595,6 +622,12 @@ public class GameController implements ActionListener, KeyListener {
 				break;
 			default:
 				break;
+		}
+		if(!isStarted){
+			audio.clip.stop();
+			audio.setSoundPacman();
+			audio.clip.start();
+			audio.clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 		this.isStarted = true;
 	}
