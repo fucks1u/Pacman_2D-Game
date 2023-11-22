@@ -207,10 +207,10 @@ public class GameController implements ActionListener, KeyListener {
 						ghostsPositions.add(ghost.getPosition());
 					}
 
-//					this.ghosts.get(0).move(this.pacman.getPosition(), map);
-//					this.ghosts.get(1).move(this.pacman.getPosition(), map);
-//					inky.move(this.pacman.getPosition(), map, ghostsPositions);
-//					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
+					this.ghosts.get(0).move(this.pacman.getPosition(), map);
+					this.ghosts.get(1).move(this.pacman.getPosition(), map);
+					inky.move(this.pacman.getPosition(), map, ghostsPositions);
+					pinky.move(this.pacman.getPosition(), map, ghostsPositions);
 				}
 
 				if (vulnerabilityTimer.getSec() >= 6) {
