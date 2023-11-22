@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import src.main.mvc.model.character.ghost.InkyModel;
 
-
 public class InkyModelTest {
   InkyModel inky = new InkyModel(new Point(10, 10));
 

@@ -13,6 +13,7 @@ public class HudPanel extends JPanel {
     private ScorePanel scorePanel;
     private DetailsScore detailsScore;
     private CommandsGamePanel commandsPanel;
+
     /**
      * Constructor of the HudPanel class.
      * It creates the JPanel and add the components.
@@ -37,6 +38,7 @@ public class HudPanel extends JPanel {
 
     /**
      * This method updates the score of the game.
+     * 
      * @param score the score of the game.
      */
     public void updateScore(int score) {
@@ -45,6 +47,7 @@ public class HudPanel extends JPanel {
 
     /**
      * This method updates the highscore of the game.
+     * 
      * @param highscore the highscore of the game.
      */
     public void updateHighscore(int highscore) {
@@ -53,6 +56,7 @@ public class HudPanel extends JPanel {
 
     /**
      * This method updates the life of the player.
+     * 
      * @param life the life of the player.
      */
     public void updateLife(int life) {
@@ -61,6 +65,7 @@ public class HudPanel extends JPanel {
 
     /**
      * This method return the details score panel.
+     * 
      * @return the details score panel.
      */
     public DetailsScore getDetailsScore() {

@@ -2,7 +2,6 @@ package src.main.mvc.model.item;
 
 import java.awt.Point;
 
-
 /**
  * This class represents a FruitModel, which is an abstract class that extends
  * ItemModel.

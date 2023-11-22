@@ -4,7 +4,8 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 /**
- * A class representing a clock that can measure elapsed time in minutes, seconds, and milliseconds.
+ * A class representing a clock that can measure elapsed time in minutes,
+ * seconds, and milliseconds.
  */
 public class Clock {
   private LocalTime timer;

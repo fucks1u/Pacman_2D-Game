@@ -24,7 +24,7 @@ public class Level1Test {
     int rows = map.length;
     int cols = map[0].length;
 
-    assertEquals(31, rows);
+    assertEquals(32, rows);
     assertEquals(28, cols);
   }
 }

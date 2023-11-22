@@ -54,6 +54,7 @@ public class GameController implements ActionListener, KeyListener {
 	private boolean isStarted;
 	private boolean first;
 	private AudioController audio;
+
 	private enum nextDirection {
 		UP,
 		DOWN,
@@ -216,12 +217,12 @@ public class GameController implements ActionListener, KeyListener {
 				if (vulnerabilityTimer.getSec() >= 6) {
 					for (GhostModel ghost : ghosts) {
 						if (ghost.isVulnerable()) {
-							try{
-							audio.stop();
-							audio.setSoundPacman();
-							audio.play();
-							audio.clip.loop(Clip.LOOP_CONTINUOUSLY);
-							} catch (Exception e){
+							try {
+								audio.stop();
+								audio.setSoundPacman();
+								audio.play();
+								audio.clip.loop(Clip.LOOP_CONTINUOUSLY);
+							} catch (Exception e) {
 								System.out.println(e.getMessage());
 							}
 							ghost.setVulnerable(false);
@@ -256,6 +257,12 @@ public class GameController implements ActionListener, KeyListener {
 		 * If the player has no more lives or if there is no more dots on the map.
 		 */
 		if (pacman.getLives() <= 0 || map.getDot() <= 0) {
+			try {
+				audio.stop();
+				audio.setSoundDead();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 			this.isStarted = false;
 			boolean response;
 			mainframe.getContentPane().removeAll();
@@ -625,7 +632,7 @@ public class GameController implements ActionListener, KeyListener {
 			default:
 				break;
 		}
-		if(!isStarted){
+		if (!isStarted) {
 			audio.clip.stop();
 			audio.setSoundPacman();
 			audio.clip.start();

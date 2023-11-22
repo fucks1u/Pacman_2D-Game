@@ -28,16 +28,19 @@ public class CommandsGamePanel extends JPanel {
         buttonUp.setForeground(Color.YELLOW);
         buttonUp.setEnabled(false);
         buttonUp.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
         JButton buttonLeft = new ArrowButton("left");
         buttonLeft.setBackground(Color.DARK_GRAY);
         buttonLeft.setForeground(Color.YELLOW);
         buttonLeft.setEnabled(false);
         buttonLeft.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
         JButton buttonRight = new ArrowButton("right");
         buttonRight.setBackground(Color.DARK_GRAY);
         buttonRight.setForeground(Color.YELLOW);
         buttonRight.setEnabled(false);
         buttonRight.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
         JButton buttonDown = new ArrowButton("down");
         buttonDown.setBackground(Color.DARK_GRAY);
         buttonDown.setForeground(Color.YELLOW);

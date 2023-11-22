@@ -40,7 +40,7 @@ public class BlinkyModel extends GhostModel {
       if (this.vulnerable) {
         nextCell = GhostModel.moveBackward(start, nextCell, map);
       }
-      
+
       if (nextCell.x > currentPos.getX() && nextCell.y == currentPos.getY()) {
         moveRight();
       } else if (nextCell.x < currentPos.getX() && nextCell.y == currentPos.getY()) {

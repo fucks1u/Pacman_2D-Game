@@ -25,7 +25,7 @@ public class AudioController {
     /**
      * Constructor of the class AudioController
      */
-    public AudioController(){
+    public AudioController() {
         soundFileGame = new File("src/main/resources/audio/pacman_song.wav");
         soundFileGameOver = new File("src/main/resources/audio/pacman_dead.wav");
         soundFilePacman = new File("src/main/resources/audio/pacman_waka-waka-cut.wav");
@@ -62,7 +62,7 @@ public class AudioController {
     /**
      * Method to set the sound when the pacman is moving.
      */
-    public void setSoundPacman(){
+    public void setSoundPacman() {
         try {
             audioInputStream = AudioSystem.getAudioInputStream(soundFilePacman);
             clip = AudioSystem.getClip();
@@ -75,7 +75,7 @@ public class AudioController {
     /**
      * Method to set the sound when the ghost is vulnerable.
      */
-    public void setSoundGhostVulnerable(){
+    public void setSoundGhostVulnerable() {
         try {
             audioInputStream = AudioSystem.getAudioInputStream(soundGhostVulnerable);
             clip = AudioSystem.getClip();
@@ -102,15 +102,16 @@ public class AudioController {
     /**
      * Method to play the sound.
      */
-    public void play(){
+    public void play() {
         clip.start();
     }
 
     /**
      * Method to stop the sound.
+     * 
      * @throws IOException
      */
-    public void stop() throws IOException{
+    public void stop() throws IOException {
         clip.stop();
         clip.close();
         audioInputStream.close();

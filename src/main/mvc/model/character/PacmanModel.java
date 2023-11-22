@@ -43,7 +43,6 @@ public class PacmanModel extends CharacterModel {
     this.lives = lives;
   }
 
-
   /**
    * Sets the direction of the Pacman character.
    * 

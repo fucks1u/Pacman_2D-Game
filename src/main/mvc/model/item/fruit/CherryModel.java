@@ -10,7 +10,7 @@ public class CherryModel extends FruitModel {
   public CherryModel() {
     super(100, 70);
   }
-  
+
   public CherryModel(int spawnAt) {
     super(100, spawnAt);
   }

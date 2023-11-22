@@ -16,6 +16,7 @@ import java.awt.Component;
 public class ScorePanel extends JPanel {
     private JLabel scorelabel;
     JLabel highscorelabel;
+
     /**
      * Constructor of the ScorePanel class.
      * It creates the JPanel and add the components.
@@ -43,18 +44,20 @@ public class ScorePanel extends JPanel {
 
     /**
      * This method updates the score of the game.
+     * 
      * @param score the score of the game.
      */
-    public void setScore(int score){
+    public void setScore(int score) {
         this.scorelabel.setText("Score : " + score);
         this.repaint();
     }
 
     /**
      * This method updates the highest score of the game.
+     * 
      * @param highscore the highest score of the game.
      */
-    public void setHighscore(int highscore){
+    public void setHighscore(int highscore) {
         this.highscorelabel.setText("Highest Score : " + highscore);
         this.repaint();
     }
