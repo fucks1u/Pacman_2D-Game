@@ -3,7 +3,7 @@ package src.main.mvc.controller;
 import src.main.mvc.model.item.ItemModel;
 import src.main.mvc.utils.BadDimensionsException;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class MapFactoryController {
    * The schema is a 2D array of characters representing the map.
    * 'w' represents a wall, 'd' represents a dot, and 'D' represents a big dot.
    * Any other character is considered empty space.
-   * 
+   *
    * @param schema the 2D array of characters representing the map
    * @return a 2D array of ItemModel objects representing the map
    */

@@ -1,9 +1,7 @@
 package src.main.mvc.view.panels.Menu;
 
 import javax.swing.JPanel;
-
 import java.awt.Color;
-
 import javax.swing.JComboBox;
 
 /**
