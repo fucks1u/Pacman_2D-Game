@@ -46,16 +46,16 @@ Each ghost has a different behavior:
 #### Blinky
 
 Blinky is a ghost who only tries to touch you. In summary, he takes the shortest route to touch you. <br>
-![Blinky](src/main/resources/img/blinky.png)
+![Blinky](src/main/resources/img/ghosts/blinky.png)
 #### Pinky
 Pinky sees the other ghosts as obstacles and therefore tries to ambush Pacman between him and the other ghosts.<br>
-![Blinky](src/main/resources/img/pinky.png)
+![Blinky](src/main/resources/img/ghosts/pinky.png)
 #### Inky
 Same as Pinky, Inky sees the other ghosts as obstacles and therefore tries to ambush Pacman between him and the other ghosts. <br>
-![Blinky](src/main/resources/img/inky.png)
+![Blinky](src/main/resources/img/ghosts/inky.png)
 #### Clyde
 Chase pacman until you have 10 squares between them and run away when pacman tries to close the distance. <br>
-![Blinky](src/main/resources/img/clyde.png)
+![Blinky](src/main/resources/img/ghosts/clyde.png)
 
 #### Algorithm
 The algorithm used to find the shortest path is the [A* algorithm](https://fr.wikipedia.org/wiki/Algorithme_A*). <br>
